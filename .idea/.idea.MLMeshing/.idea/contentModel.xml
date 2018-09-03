@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2018.1/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_MLMeshing.1840443605.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="BubbleController.cs" t="Include" />
+        <e p="BubbleGunController.cs" t="Include" />
+        <e p="FingerTracking.cs" t="Include" />
+        <e p="magicleap" t="Include">
+          <e p="CoreComponents" t="Include">
+            <e p="BaseRaycast.cs" t="Include" />
+            <e p="BitMask.cs" t="Include" />
+            <e p="ComboRaycastController.cs" t="Include" />
+            <e p="ComboRaycastEyes.cs" t="Include" />
+            <e p="ComboRaycastHead.cs" t="Include" />
+            <e p="ControllerConnectionHandler.cs" t="Include" />
+            <e p="Editor" t="Include">
+              <e p="MLImageTrackerBehaviorEditor.cs" t="Include" />
+            </e>
+            <e p="HandTracking.cs" t="Include" />
+            <e p="HeadposeCanvas.cs" t="Include" />
+            <e p="MLPersistentPoint.cs" t="Include" />
+            <e p="PersistentPointsVisualizer.cs" t="Include" />
+            <e p="Planes.cs" t="Include" />
+            <e p="PrivilegeRequester.cs" t="Include" />
+            <e p="WorldRaycastController.cs" t="Include" />
+            <e p="WorldRaycastEyes.cs" t="Include" />
+            <e p="WorldRaycastHead.cs" t="Include" />
+          </e>
+          <e p="Examples" t="Include">
+            <e p="Documentation" t="Include">
+              <e p="Controller.txt" t="Include" />
+              <e p="DynamicPersistence.txt" t="Include" />
+              <e p="HandTracking.txt" t="Include" />
+              <e p="ImageCapture.txt" t="Include" />
+              <e p="ImageTracking.txt" t="Include" />
+              <e p="MCA.txt" t="Include" />
+              <e p="MediaPlayer.txt" t="Include" />
+              <e p="Meshing.txt" t="Include" />
+              <e p="Planes.txt" t="Include" />
+              <e p="Raycast.txt" t="Include" />
+              <e p="StaticPersistence.txt" t="Include" />
+              <e p="VideoCapture.txt" t="Include" />
+            </e>
+            <e p="Models" t="Include">
+              <e p="Controller" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="ControllerDepthMask.shader" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Plugins" t="Include">
+              <e p="Lumin" t="Include">
+                <e p="manifest.xml" t="Include" />
+              </e>
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Common" t="Include">
+                <e p="DestroyAfterTime.cs" t="Include" />
+                <e p="FaceCamera.cs" t="Include" />
+                <e p="FaceTargetPosition.cs" t="Include" />
+                <e p="PathAroundObject.cs" t="Include" />
+                <e p="TransformFollower.cs" t="Include" />
+              </e>
+              <e p="ControllerFeedbackExample.cs" t="Include" />
+              <e p="DynamicPersistenceExample.cs" t="Include" />
+              <e p="HandTrackingExample.cs" t="Include" />
+              <e p="ImageCaptureExample.cs" t="Include" />
+              <e p="ImageTrackingExample.cs" t="Include" />
+              <e p="MCAExample.cs" t="Include" />
+              <e p="MediaPlayerExample.cs" t="Include" />
+              <e p="MeshingExample.cs" t="Include" />
+              <e p="PlanesExample.cs" t="Include" />
+              <e p="RaycastExample.cs" t="Include" />
+              <e p="Utility" t="Include">
+                <e p="ControllerStatsText.cs" t="Include" />
+                <e p="ControllerStatusIndicator.cs" t="Include" />
+                <e p="ControllerStatusText.cs" t="Include" />
+                <e p="ControllerTransform.cs" t="Include" />
+                <e p="MediaPlayerButton.cs" t="Include" />
+                <e p="MediaPlayerSlider.cs" t="Include" />
+                <e p="MediaPlayerToggle.cs" t="Include" />
+                <e p="PlaceFromCamera.cs" t="Include" />
+                <e p="VirtualPointer.cs" t="Include" />
+              </e>
+              <e p="VideoCaptureExample.cs" t="Include" />
+              <e p="Visualizers" t="Include">
+                <e p="ControllerVisualizer.cs" t="Include" />
+                <e p="DeepSeaExplorerLauncher.cs" t="Include" />
+                <e p="DeepSpaceExplorerController.cs" t="Include" />
+                <e p="DeepSpaceExplorerLauncher.cs" t="Include" />
+                <e p="HandTrackingVisualizer.cs" t="Include" />
+                <e p="ImageCaptureVisualizer.cs" t="Include" />
+                <e p="ImageTrackingVisualizer.cs" t="Include" />
+                <e p="KeyPoseVisualizer.cs" t="Include" />
+                <e p="MasterMaterialController.cs" t="Include" />
+                <e p="MaterialBlendOffsetController.cs" t="Include" />
+                <e p="MaterialController.cs" t="Include" />
+                <e p="MaterialForegroundColorController.cs" t="Include" />
+                <e p="MaterialThresholdController.cs" t="Include" />
+                <e p="MaterialTilingController.cs" t="Include" />
+                <e p="MeshingVisualizer.cs" t="Include" />
+                <e p="PersistentPointNameSetter.cs" t="Include" />
+                <e p="PlaneVisualizer.cs" t="Include" />
+                <e p="RaycastVisualizer.cs" t="Include" />
+                <e p="VideoCaptureVisualizer.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Shaders" t="Include">
+              <e p="BasicWorldSpace.shader" t="Include" />
+              <e p="MeshWorldSpace.shader" t="Include" />
+              <e p="PlaneEdge.shader" t="Include" />
+              <e p="WorldVerticalWithFilter.shader" t="Include" />
+              <e p="WorldXZWithColor.shader" t="Include" />
+              <e p="WorldXZWithLerp.shader" t="Include" />
+            </e>
+          </e>
+          <e p="Libs" t="Include">
+            <e p="Editor" t="Include">
+              <e p="LuminUnityEditor.xml" t="Include" />
+            </e>
+            <e p="LuminUnity.xml" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="Editor" t="Include">
+              <e p="BuildMabuWindow.cs" t="Include" />
+              <e p="MLVersionMenuItem.cs" t="Include" />
+            </e>
+            <e p="MLVersion.cs" t="Include" />
+          </e>
+          <e p="Soundfield" t="Include">
+            <e p="Release Notes.txt" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="MLMeshing.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>

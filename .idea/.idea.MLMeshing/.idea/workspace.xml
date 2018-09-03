@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6a071546-6131-4ec7-8a4f-08eb1f197f86" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="BubbleGunController.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/BubbleGunController.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="815">
+              <caret line="97" column="35" selection-start-line="97" selection-start-column="35" selection-end-line="97" selection-end-column="35" />
+              <folding>
+                <marker date="1535756072064" expanded="false" signature="6:110" ph="..." />
+                <marker date="1535756072064" expanded="true" signature="160:4136" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="744:1033" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+                <marker date="1535756072064" expanded="true" signature="1097:1641" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="1179:1292" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="1417:1559" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="1559:1635" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="1647:2045" ph="/// Normalizes (and inverts) the trigger value from _minFireRate to _maxFireRate, so the fire rate increases as t ... " />
+                <marker date="1535756072064" expanded="true" signature="2092:2172" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="2205:2998" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="2220:2382" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+                <marker date="1535756072064" expanded="true" signature="2852:2919" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3061:3128" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3230:3435" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3321:3429" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3462:3693" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3721:3897" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="3916:4134" ph="{...}" />
+                <marker date="1535756072064" expanded="true" signature="4085:4128" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FingerTracking.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/FingerTracking.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="740">
+              <caret line="70" selection-start-line="70" selection-end-line="70" />
+              <folding>
+                <marker date="1535762884939" expanded="true" signature="6:84" ph="..." />
+                <marker date="1535762884939" expanded="true" signature="130:2676" ph="{...}" />
+                <marker date="1535762884939" expanded="true" signature="734:847" ph="{...}" />
+                <marker date="1535762884939" expanded="true" signature="789:841" ph="{...}" />
+                <marker date="1535762884939" expanded="true" signature="873:1940" ph="{...}" />
+                <marker date="1535762884939" expanded="true" signature="1971:2002" ph="{...}" />
+                <marker date="1535762884939" expanded="true" signature="2029:2673" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BubbleController.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/BubbleController.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+              <folding>
+                <marker date="1535321412061" expanded="false" signature="6:78" ph="..." />
+                <marker date="1535321412061" expanded="true" signature="125:923" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="253:357" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="409:522" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="468:516" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="571:665" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="629:659" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="689:853" ph="{...}" />
+                <marker date="1535321412061" expanded="true" signature="880:921" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerFeedbackExample.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/ControllerFeedbackExample.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="409">
+              <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
+              <folding>
+                <marker date="1535733972311" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+                <marker date="1535733972311" expanded="false" signature="407:477" ph="..." />
+                <marker date="1535733972311" expanded="true" signature="498:6976" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="505:634" ph="/// This class provides examples of how you can use haptics and LEDs ... " />
+                <marker date="1535733972311" expanded="true" signature="753:6974" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="768:927" ph="Private Variables" />
+                <marker date="1535733972311" expanded="true" signature="937:1461" ph="Const Variables" />
+                <marker date="1535733972311" expanded="true" signature="1471:2757" ph="Unity Methods" />
+                <marker date="1535733972311" expanded="true" signature="1501:1608" ph="/// Initialize variables, callbacks and check null references. ... " />
+                <marker date="1535733972311" expanded="true" signature="1629:2168" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="1783:1971" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="2178:2266" ph="/// Update controller input based feedback. ... " />
+                <marker date="1535733972311" expanded="true" signature="2288:2333" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="2343:2432" ph="/// Stop input api and unregister callbacks. ... " />
+                <marker date="1535733972311" expanded="true" signature="2457:2738" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="2502:2728" ph="{...}" />
+                <marker date="1535733972311" expanded="false" signature="2767:4447" ph="Private Methods" />
+                <marker date="1535733972311" expanded="true" signature="2799:2912" ph="/// Updates LED on the physical controller based on touch pad input. ... " />
+                <marker date="1535733972311" expanded="true" signature="2945:4428" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="3022:3074" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="3209:4259" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="3402:3475" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="3939:4245" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="4301:4418" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="4457:6968" ph="Event Handlers" />
+                <marker date="1535733972311" expanded="true" signature="4488:4720" ph="/// Handles the event for button down. ... " />
+                <marker date="1535733972311" expanded="true" signature="4811:5406" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="5043:5396" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="5416:5647" ph="/// Handles the event for button up. ... " />
+                <marker date="1535733972311" expanded="true" signature="5736:6204" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="5968:6194" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="6214:6445" ph="/// Handles the event for trigger down. ... " />
+                <marker date="1535733972311" expanded="true" signature="6518:6949" ph="{...}" />
+                <marker date="1535733972311" expanded="true" signature="6690:6939" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerConnectionHandler.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/ControllerConnectionHandler.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+              <folding>
+                <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+                <marker date="1532114133000" expanded="false" signature="407:433" ph="..." />
+                <marker date="1532114133000" expanded="true" signature="469:8059" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="476:924" ph="/// Class to automatically handle connection/disconnection events of an input device. By default, ... " />
+                <marker date="1532114133000" expanded="true" signature="992:8056" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="1007:1338" ph="Public Enum" />
+                <marker date="1532114133000" expanded="true" signature="1035:1131" ph="/// Flags to determine which input devices to allow ... " />
+                <marker date="1532114133000" expanded="true" signature="1192:1319" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="1348:1578" ph="Private Variables" />
+                <marker date="1532114133000" expanded="true" signature="1588:1829" ph="Public Variables" />
+                <marker date="1532114133000" expanded="true" signature="1621:1735" ph="/// Getter for the first allowed connected device, could return null. ... " />
+                <marker date="1532114133000" expanded="false" signature="1839:2356" ph="Public Events" />
+                <marker date="1532114133000" expanded="true" signature="1869:2099" ph="/// Invoked only when the current controller was invalid and a controller attempted to connect. ... " />
+                <marker date="1532114133000" expanded="true" signature="2180:2282" ph="/// Invoked only when the current controller disconnects. ... " />
+                <marker date="1532114133000" expanded="false" signature="2366:3575" ph="Unity Methods" />
+                <marker date="1532114133000" expanded="true" signature="2396:2536" ph="/// Starts the MLInput, initializes the first controller, and registers the connection handlers ... " />
+                <marker date="1532114133000" expanded="true" signature="2565:3244" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="2948:3138" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3254:3360" ph="/// Unregisters the connection handlers and stops the MLInput ... " />
+                <marker date="1532114133000" expanded="true" signature="3393:3556" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3438:3546" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="3585:5837" ph="Private Methods" />
+                <marker date="1532114133000" expanded="true" signature="3617:3717" ph="/// Registers the on connection/disconnection handlers. ... " />
+                <marker date="1532114133000" expanded="true" signature="3767:3941" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3951:4053" ph="/// Unregisters the on connection/disconnection handlers. ... " />
+                <marker date="1532114133000" expanded="true" signature="4105:4279" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4289:4483" ph="/// Gets the first input device that's connected and allowed ... " />
+                <marker date="1532114133000" expanded="true" signature="4535:4845" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4585:4810" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4721:4796" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4855:5133" ph="/// Checks if a controller exists, is connected, and is allowed. ... " />
+                <marker date="1532114133000" expanded="true" signature="5200:5818" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="5271:5329" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="5847:6446" ph="Public Methods" />
+                <marker date="1532114133000" expanded="true" signature="5878:6284" ph="/// Checks if the controller is set and connected. This method ... " />
+                <marker date="1532114133000" expanded="true" signature="6324:6427" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="6456:8050" ph="Event Handlers" />
+                <marker date="1532114133000" expanded="true" signature="6487:6820" ph="/// Handles the event when a controller connects. If the current controller ... " />
+                <marker date="1532114133000" expanded="true" signature="6888:7358" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="6936:7348" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7089:7182" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7234:7334" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7368:7643" ph="/// Handles the event when a controller disconnects. If the disconnected ... " />
+                <marker date="1532114133000" expanded="true" signature="7714:8031" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7811:8021" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7923:8007" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerStatsText.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Utility/ControllerStatsText.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="711">
+              <caret line="79" column="54" selection-start-line="79" selection-start-column="54" selection-end-line="79" selection-end-column="54" />
+              <folding>
+                <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+                <marker date="1532114133000" expanded="false" signature="407:533" ph="..." />
+                <marker date="1532114133000" expanded="true" signature="554:5327" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="561:668" ph="/// This provides textual state feedback for the connected controller. ... " />
+                <marker date="1532114133000" expanded="true" signature="795:5325" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="810:972" ph="Private Variables" />
+                <marker date="1532114133000" expanded="true" signature="982:5319" ph="Unity Methods" />
+                <marker date="1532114133000" expanded="true" signature="1012:1107" ph="/// Initializes component data and starts MLInput. ... " />
+                <marker date="1532114133000" expanded="true" signature="1128:1359" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="1369:1460" ph="/// Updates text with latest controller stats. ... " />
+                <marker date="1532114133000" expanded="true" signature="1482:5300" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="1558:5197" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="1739:3439" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3516:5055" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="5076:5183" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="5214:5290" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MLInputControllerTouchpadGesture.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/7e/843cff29/MLInputControllerTouchpadGesture.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="54" column="43" selection-start-line="54" selection-start-column="43" selection-end-line="54" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MLInputControllerTouchpadGestureType.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/ac/09de84cf/MLInputControllerTouchpadGestureType.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MeshingExample.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/MeshingExample.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1125">
+              <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
+              <folding>
+                <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+                <marker date="1532114133000" expanded="false" signature="443:509" ph="..." />
+                <marker date="1532114133000" expanded="true" signature="530:8929" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="537:732" ph="/// This represents all the runtime control over meshing component in order to best visualize the ... " />
+                <marker date="1532114133000" expanded="true" signature="780:8927" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="787:2151" ph="Private Variables" />
+                <marker date="1532114133000" expanded="true" signature="2153:5167" ph="Unity Methods" />
+                <marker date="1532114133000" expanded="true" signature="2183:2278" ph="/// Initializes component data and starts MLInput. ... " />
+                <marker date="1532114133000" expanded="true" signature="2299:4039" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="2386:2563" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="2605:2793" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="2837:3027" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3066:3251" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3289:3473" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="3514:3701" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4049:4162" ph="/// Set correct render mode for meshing and update meshing settings. ... " />
+                <marker date="1532114133000" expanded="true" signature="4183:4561" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4571:4666" ph="/// Update mesh polling center position to camera. ... " />
+                <marker date="1532114133000" expanded="true" signature="4688:4808" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="4818:4891" ph="/// Cleans up the component. ... " />
+                <marker date="1532114133000" expanded="true" signature="4916:5156" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="5169:5722" ph="Private Methods" />
+                <marker date="1532114133000" expanded="true" signature="5201:5279" ph="/// Updates examples status text. ... " />
+                <marker date="1532114133000" expanded="true" signature="5319:5711" ph="{...}" />
+                <marker date="1532114133000" expanded="false" signature="5724:8921" ph="Event Handlers" />
+                <marker date="1532114133000" expanded="true" signature="5755:6119" ph="/// Handles the event for button down. Changes render mode if bumper is pressed or ... " />
+                <marker date="1532114133000" expanded="true" signature="6205:6812" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="6273:6468" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="6527:6768" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="6822:7131" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+                <marker date="1532114133000" expanded="true" signature="7199:8047" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="7222:7388" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+                <marker date="1532114133000" expanded="true" signature="7818:7906" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="8057:8356" ph="/// Handles the event for touchpad gesture start. Changes level of detail ... " />
+                <marker date="1532114133000" expanded="true" signature="8462:8910" ph="{...}" />
+                <marker date="1532114133000" expanded="true" signature="8633:8900" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>MinimumNearClipDistance</find>
+      <find>clip</find>
+      <find>DefaultNearClipDistance</find>
+      <find>TRIGGER_DOWN_MIN_VALUE</find>
+      <find>min</find>
+      <find>trigg</find>
+      <find>.8</find>
+      <find>trigger</find>
+      <find>MINIMUM_NEAR_CLIP_DISTANCE</find>
+      <find>DEFAULT_NEAR_CLIP_DISTANCE</find>
+      <find>clipping</find>
+      <find>_nozzle.position</find>
+      <find>_audio</find>
+      <find>scroll</find>
+      <find>Left</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>nosPos</replace>
+      <replace>Right</replace>
+    </replaceStrings>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/HandTrackingExample.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/ce/430e1c2e/MLInputController.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/ac/09de84cf/MLInputControllerTouchpadGestureType.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/ControllerFeedbackExample.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/WorldRaycastController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Visualizers/ControllerVisualizer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/FingerTracking.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/HeadposeCanvas.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Utility/ControllerStatsText.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/7e/843cff29/MLInputControllerTouchpadGesture.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/fc/03c7301e/MLInput.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/ControllerConnectionHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Utility/ControllerTransform.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BubbleController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BubbleGunController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/MeshingExample.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/Scripts/Editor/BuildMabuWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/b1/528fd644/MagicLeapDevice.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/HandTracking.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/b1/528fd644/MagicLeapDevice.cs" />
+        <option value="$PROJECT_DIR$/Assets/BubbleController.cs" />
+        <option value="$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/ControllerFeedbackExample.cs" />
+        <option value="$PROJECT_DIR$/Assets/BubbleGunController.cs" />
+        <option value="$PROJECT_DIR$/Assets/FingerTracking.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="UnityExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="UnityExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="MLMeshing" type="483dac07:UnityExplorerNode$Root" />
+            </path>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="MLMeshing" type="483dac07:UnityExplorerNode$Root" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+            </path>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="MLMeshing" type="483dac07:UnityExplorerNode$Root" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+            </path>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="MLMeshing" type="483dac07:UnityExplorerNode$Root" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+            </path>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="MLMeshing" type="483dac07:UnityExplorerNode$Root" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+              <item name="" type="1045f7f1:UnityExplorerNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-hidden-items" value="false" />
+      </pane>
+      <pane id="SolutionExplorer">
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6a071546-6131-4ec7-8a4f-08eb1f197f86" name="Default" comment="" />
+      <created>1535198722586</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1535198722586</updated>
+      <workItem from="1535198724459" duration="17313000" />
+      <workItem from="1535732534842" duration="5681000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="22994000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15486111" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Errors In Solution" order="3" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Unity" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" order="7" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="NuGet" order="7" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.19181287" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="UnityProjectConfiguration" isUnityUI="true" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/BubbleController.cs</url>
+          <line>20</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/BubbleController.cs" initialLine="11">
+            <startOffsets>
+              <startOffset value="424" />
+            </startOffsets>
+            <endOffsets>
+              <endOffset value="467" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="3" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/BubbleGunController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+          <folding>
+            <marker date="1535756072064" expanded="false" signature="6:110" ph="..." />
+            <marker date="1535756072064" expanded="true" signature="160:4136" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="744:1033" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+            <marker date="1535756072064" expanded="true" signature="1097:1641" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1179:1292" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1417:1559" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1559:1635" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1647:2045" ph="/// Normalizes (and inverts) the trigger value from _minFireRate to _maxFireRate, so the fire rate increases as t ... " />
+            <marker date="1535756072064" expanded="true" signature="2092:2172" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="2205:2998" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="2220:2382" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+            <marker date="1535756072064" expanded="true" signature="2852:2919" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3061:3128" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3230:3435" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3321:3429" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3462:3693" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3721:3897" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3916:4134" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="4085:4128" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/FingerTracking.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+          <folding>
+            <marker date="1535762884939" expanded="true" signature="6:84" ph="..." />
+            <marker date="1535762884939" expanded="true" signature="130:2676" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="734:847" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="789:841" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="873:1940" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="1971:2002" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="2029:2673" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/BubbleController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+          <folding>
+            <marker date="1535321412061" expanded="false" signature="6:78" ph="..." />
+            <marker date="1535321412061" expanded="true" signature="125:923" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="253:357" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="409:522" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="468:516" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="571:665" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="629:659" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="689:853" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="880:921" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/ControllerFeedbackExample.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="172" column="110" selection-start-line="172" selection-start-column="110" selection-end-line="172" selection-end-column="110" />
+          <folding>
+            <marker date="1535733972311" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1535733972311" expanded="false" signature="407:477" ph="..." />
+            <marker date="1535733972311" expanded="true" signature="498:6976" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="505:634" ph="/// This class provides examples of how you can use haptics and LEDs ... " />
+            <marker date="1535733972311" expanded="true" signature="753:6974" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="768:927" ph="Private Variables" />
+            <marker date="1535733972311" expanded="true" signature="937:1461" ph="Const Variables" />
+            <marker date="1535733972311" expanded="true" signature="1471:2757" ph="Unity Methods" />
+            <marker date="1535733972311" expanded="true" signature="1501:1608" ph="/// Initialize variables, callbacks and check null references. ... " />
+            <marker date="1535733972311" expanded="true" signature="1629:2168" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="1783:1971" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2178:2266" ph="/// Update controller input based feedback. ... " />
+            <marker date="1535733972311" expanded="true" signature="2288:2333" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2343:2432" ph="/// Stop input api and unregister callbacks. ... " />
+            <marker date="1535733972311" expanded="true" signature="2457:2738" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2502:2728" ph="{...}" />
+            <marker date="1535733972311" expanded="false" signature="2767:4447" ph="Private Methods" />
+            <marker date="1535733972311" expanded="true" signature="2799:2912" ph="/// Updates LED on the physical controller based on touch pad input. ... " />
+            <marker date="1535733972311" expanded="true" signature="2945:4428" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3022:3074" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3209:4259" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3402:3475" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3939:4245" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="4301:4418" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="4457:6968" ph="Event Handlers" />
+            <marker date="1535733972311" expanded="true" signature="4488:4720" ph="/// Handles the event for button down. ... " />
+            <marker date="1535733972311" expanded="true" signature="4811:5406" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5043:5396" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5416:5647" ph="/// Handles the event for button up. ... " />
+            <marker date="1535733972311" expanded="true" signature="5736:6204" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5968:6194" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="6214:6445" ph="/// Handles the event for trigger down. ... " />
+            <marker date="1535733972311" expanded="true" signature="6518:6949" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="6690:6939" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/MeshingExample.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1125">
+          <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="443:509" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="530:8929" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="537:732" ph="/// This represents all the runtime control over meshing component in order to best visualize the ... " />
+            <marker date="1532114133000" expanded="true" signature="780:8927" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="787:2151" ph="Private Variables" />
+            <marker date="1532114133000" expanded="true" signature="2153:5167" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="2183:2278" ph="/// Initializes component data and starts MLInput. ... " />
+            <marker date="1532114133000" expanded="true" signature="2299:4039" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2386:2563" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2605:2793" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2837:3027" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3066:3251" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3289:3473" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3514:3701" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4049:4162" ph="/// Set correct render mode for meshing and update meshing settings. ... " />
+            <marker date="1532114133000" expanded="true" signature="4183:4561" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4571:4666" ph="/// Update mesh polling center position to camera. ... " />
+            <marker date="1532114133000" expanded="true" signature="4688:4808" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4818:4891" ph="/// Cleans up the component. ... " />
+            <marker date="1532114133000" expanded="true" signature="4916:5156" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5169:5722" ph="Private Methods" />
+            <marker date="1532114133000" expanded="true" signature="5201:5279" ph="/// Updates examples status text. ... " />
+            <marker date="1532114133000" expanded="true" signature="5319:5711" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5724:8921" ph="Event Handlers" />
+            <marker date="1532114133000" expanded="true" signature="5755:6119" ph="/// Handles the event for button down. Changes render mode if bumper is pressed or ... " />
+            <marker date="1532114133000" expanded="true" signature="6205:6812" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6273:6468" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6527:6768" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6822:7131" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+            <marker date="1532114133000" expanded="true" signature="7199:8047" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7222:7388" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+            <marker date="1532114133000" expanded="true" signature="7818:7906" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8057:8356" ph="/// Handles the event for touchpad gesture start. Changes level of detail ... " />
+            <marker date="1532114133000" expanded="true" signature="8462:8910" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8633:8900" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/HeadposeCanvas.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Libs/LuminUnity.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="6518" column="65" selection-start-line="6518" selection-start-column="65" selection-end-line="6518" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Visualizers/ControllerVisualizer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="268" column="8" lean-forward="true" selection-start-line="268" selection-start-column="8" selection-end-line="268" selection-end-column="8" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="407:477" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="498:12122" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="505:582" ph="/// Class to visualize controller inputs ... " />
+            <marker date="1532114133000" expanded="true" signature="696:12120" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="711:2101" ph="Private Variables" />
+            <marker date="1532114133000" expanded="false" signature="2111:5269" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="2141:2248" ph="/// Initialize variables, callbacks and check null references. ... " />
+            <marker date="1532114133000" expanded="true" signature="2269:4615" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2423:2606" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2641:2832" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2859:3042" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3070:3254" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3284:3470" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3502:3690" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3733:3932" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4625:4713" ph="/// Update controller input based feedback. ... " />
+            <marker date="1532114133000" expanded="true" signature="4735:4907" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4917:5006" ph="/// Stop input api and unregister callbacks. ... " />
+            <marker date="1532114133000" expanded="true" signature="5031:5250" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5076:5240" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5279:9923" ph="Private Methods" />
+            <marker date="1532114133000" expanded="true" signature="5311:5607" ph="/// Sets the visual pressure indicator for the appropriate button MeshRenderers. ... " />
+            <marker date="1532114133000" expanded="true" signature="5679:5850" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5747:5840" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5860:6043" ph="/// Update the touchpad's indicator: (location, directions, color). ... " />
+            <marker date="1532114133000" expanded="true" signature="6090:7267" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6167:6219" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6689:6997" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7014:7112" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7277:7378" ph="/// Update the rotation and visual color of the trigger. ... " />
+            <marker date="1532114133000" expanded="true" signature="7422:8092" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7499:7551" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8102:8371" ph="/// Attempt to get the Material of a GameObject. ... " />
+            <marker date="1532114133000" expanded="true" signature="8432:8595" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8605:8768" ph="/// Sets the color of all Materials. ... " />
+            <marker date="1532114133000" expanded="true" signature="8823:9028" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="9038:9148" ph="/// Coroutine to reset the home color back to the original color. ... " />
+            <marker date="1532114133000" expanded="true" signature="9195:9321" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="9331:9486" ph="/// Set object visibility to value. ... " />
+            <marker date="1532114133000" expanded="true" signature="9533:9904" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="9589:9641" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="9789:9852" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="9933:12114" ph="Event Handlers" />
+            <marker date="1532114133000" expanded="true" signature="9964:10196" ph="/// Handles the event for button down. ... " />
+            <marker date="1532114133000" expanded="true" signature="10287:10686" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="10519:10676" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="10696:10927" ph="/// Handles the event for button up. ... " />
+            <marker date="1532114133000" expanded="true" signature="11016:12095" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="11188:12085" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="11264:11439" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="11508:12071" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="11547:11935" ph="/* Note: HomeTap is NOT a button. It's a physical button on the controller. ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/ce/430e1c2e/MLInputController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1402">
+          <caret line="124" column="17" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Utility/ControllerTransform.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-654">
+          <caret line="38" column="8" lean-forward="true" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/fc/03c7301e/MLInput.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1875">
+          <caret line="129" column="24" selection-start-line="129" selection-start-column="24" selection-end-line="129" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/b1/528fd644/MagicLeapDevice.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1410">
+          <caret line="94" column="24" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/HandTrackingExample.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/MeshingExample.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1125">
+          <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="443:509" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="530:8929" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="537:732" ph="/// This represents all the runtime control over meshing component in order to best visualize the ... " />
+            <marker date="1532114133000" expanded="true" signature="780:8927" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="787:2151" ph="Private Variables" />
+            <marker date="1532114133000" expanded="true" signature="2153:5167" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="2183:2278" ph="/// Initializes component data and starts MLInput. ... " />
+            <marker date="1532114133000" expanded="true" signature="2299:4039" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2386:2563" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2605:2793" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2837:3027" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3066:3251" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3289:3473" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3514:3701" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4049:4162" ph="/// Set correct render mode for meshing and update meshing settings. ... " />
+            <marker date="1532114133000" expanded="true" signature="4183:4561" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4571:4666" ph="/// Update mesh polling center position to camera. ... " />
+            <marker date="1532114133000" expanded="true" signature="4688:4808" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4818:4891" ph="/// Cleans up the component. ... " />
+            <marker date="1532114133000" expanded="true" signature="4916:5156" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5169:5722" ph="Private Methods" />
+            <marker date="1532114133000" expanded="true" signature="5201:5279" ph="/// Updates examples status text. ... " />
+            <marker date="1532114133000" expanded="true" signature="5319:5711" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5724:8921" ph="Event Handlers" />
+            <marker date="1532114133000" expanded="true" signature="5755:6119" ph="/// Handles the event for button down. Changes render mode if bumper is pressed or ... " />
+            <marker date="1532114133000" expanded="true" signature="6205:6812" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6273:6468" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6527:6768" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6822:7131" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+            <marker date="1532114133000" expanded="true" signature="7199:8047" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7222:7388" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+            <marker date="1532114133000" expanded="true" signature="7818:7906" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8057:8356" ph="/// Handles the event for touchpad gesture start. Changes level of detail ... " />
+            <marker date="1532114133000" expanded="true" signature="8462:8910" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="8633:8900" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/ControllerFeedbackExample.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
+          <folding>
+            <marker date="1535733972311" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1535733972311" expanded="false" signature="407:477" ph="..." />
+            <marker date="1535733972311" expanded="true" signature="498:6976" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="505:634" ph="/// This class provides examples of how you can use haptics and LEDs ... " />
+            <marker date="1535733972311" expanded="true" signature="753:6974" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="768:927" ph="Private Variables" />
+            <marker date="1535733972311" expanded="true" signature="937:1461" ph="Const Variables" />
+            <marker date="1535733972311" expanded="true" signature="1471:2757" ph="Unity Methods" />
+            <marker date="1535733972311" expanded="true" signature="1501:1608" ph="/// Initialize variables, callbacks and check null references. ... " />
+            <marker date="1535733972311" expanded="true" signature="1629:2168" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="1783:1971" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2178:2266" ph="/// Update controller input based feedback. ... " />
+            <marker date="1535733972311" expanded="true" signature="2288:2333" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2343:2432" ph="/// Stop input api and unregister callbacks. ... " />
+            <marker date="1535733972311" expanded="true" signature="2457:2738" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="2502:2728" ph="{...}" />
+            <marker date="1535733972311" expanded="false" signature="2767:4447" ph="Private Methods" />
+            <marker date="1535733972311" expanded="true" signature="2799:2912" ph="/// Updates LED on the physical controller based on touch pad input. ... " />
+            <marker date="1535733972311" expanded="true" signature="2945:4428" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3022:3074" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3209:4259" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3402:3475" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="3939:4245" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="4301:4418" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="4457:6968" ph="Event Handlers" />
+            <marker date="1535733972311" expanded="true" signature="4488:4720" ph="/// Handles the event for button down. ... " />
+            <marker date="1535733972311" expanded="true" signature="4811:5406" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5043:5396" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5416:5647" ph="/// Handles the event for button up. ... " />
+            <marker date="1535733972311" expanded="true" signature="5736:6204" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="5968:6194" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="6214:6445" ph="/// Handles the event for trigger down. ... " />
+            <marker date="1535733972311" expanded="true" signature="6518:6949" ph="{...}" />
+            <marker date="1535733972311" expanded="true" signature="6690:6939" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/ControllerConnectionHandler.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="407:433" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="469:8059" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="476:924" ph="/// Class to automatically handle connection/disconnection events of an input device. By default, ... " />
+            <marker date="1532114133000" expanded="true" signature="992:8056" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="1007:1338" ph="Public Enum" />
+            <marker date="1532114133000" expanded="true" signature="1035:1131" ph="/// Flags to determine which input devices to allow ... " />
+            <marker date="1532114133000" expanded="true" signature="1192:1319" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="1348:1578" ph="Private Variables" />
+            <marker date="1532114133000" expanded="true" signature="1588:1829" ph="Public Variables" />
+            <marker date="1532114133000" expanded="true" signature="1621:1735" ph="/// Getter for the first allowed connected device, could return null. ... " />
+            <marker date="1532114133000" expanded="false" signature="1839:2356" ph="Public Events" />
+            <marker date="1532114133000" expanded="true" signature="1869:2099" ph="/// Invoked only when the current controller was invalid and a controller attempted to connect. ... " />
+            <marker date="1532114133000" expanded="true" signature="2180:2282" ph="/// Invoked only when the current controller disconnects. ... " />
+            <marker date="1532114133000" expanded="false" signature="2366:3575" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="2396:2536" ph="/// Starts the MLInput, initializes the first controller, and registers the connection handlers ... " />
+            <marker date="1532114133000" expanded="true" signature="2565:3244" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2948:3138" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3254:3360" ph="/// Unregisters the connection handlers and stops the MLInput ... " />
+            <marker date="1532114133000" expanded="true" signature="3393:3556" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3438:3546" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="3585:5837" ph="Private Methods" />
+            <marker date="1532114133000" expanded="true" signature="3617:3717" ph="/// Registers the on connection/disconnection handlers. ... " />
+            <marker date="1532114133000" expanded="true" signature="3767:3941" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3951:4053" ph="/// Unregisters the on connection/disconnection handlers. ... " />
+            <marker date="1532114133000" expanded="true" signature="4105:4279" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4289:4483" ph="/// Gets the first input device that's connected and allowed ... " />
+            <marker date="1532114133000" expanded="true" signature="4535:4845" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4585:4810" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4721:4796" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4855:5133" ph="/// Checks if a controller exists, is connected, and is allowed. ... " />
+            <marker date="1532114133000" expanded="true" signature="5200:5818" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5271:5329" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="5847:6446" ph="Public Methods" />
+            <marker date="1532114133000" expanded="true" signature="5878:6284" ph="/// Checks if the controller is set and connected. This method ... " />
+            <marker date="1532114133000" expanded="true" signature="6324:6427" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6456:8050" ph="Event Handlers" />
+            <marker date="1532114133000" expanded="true" signature="6487:6820" ph="/// Handles the event when a controller connects. If the current controller ... " />
+            <marker date="1532114133000" expanded="true" signature="6888:7358" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6936:7348" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7089:7182" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7234:7334" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7368:7643" ph="/// Handles the event when a controller disconnects. If the disconnected ... " />
+            <marker date="1532114133000" expanded="true" signature="7714:8031" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7811:8021" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="7923:8007" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/ac/09de84cf/MLInputControllerTouchpadGestureType.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E9CB70CC-8BC6-472D-89E0-CBD99DA4B568/7e/843cff29/MLInputControllerTouchpadGesture.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="54" column="43" selection-start-line="54" selection-start-column="43" selection-end-line="54" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/Examples/Scripts/Utility/ControllerStatsText.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="711">
+          <caret line="79" column="54" selection-start-line="79" selection-start-column="54" selection-end-line="79" selection-end-column="54" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="407:533" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="554:5327" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="561:668" ph="/// This provides textual state feedback for the connected controller. ... " />
+            <marker date="1532114133000" expanded="true" signature="795:5325" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="810:972" ph="Private Variables" />
+            <marker date="1532114133000" expanded="true" signature="982:5319" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="1012:1107" ph="/// Initializes component data and starts MLInput. ... " />
+            <marker date="1532114133000" expanded="true" signature="1128:1359" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1369:1460" ph="/// Updates text with latest controller stats. ... " />
+            <marker date="1532114133000" expanded="true" signature="1482:5300" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1558:5197" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1739:3439" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3516:5055" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5076:5183" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5214:5290" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/WorldRaycastController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="true" signature="455:2028" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="462:602" ph="/// Encapsulates an ML raycast against the physical world from the controller position and orientation. ... " />
+            <marker date="1532114133000" expanded="true" signature="656:2026" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="671:820" ph="Public Variables" />
+            <marker date="1532114133000" expanded="true" signature="830:1624" ph="Protected Properties" />
+            <marker date="1532114133000" expanded="true" signature="867:955" ph="/// Returns the position of the controller. ... " />
+            <marker date="1532114133000" expanded="true" signature="999:1107" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1025:1097" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1117:1206" ph="/// Returns the direction of the controller. ... " />
+            <marker date="1532114133000" expanded="true" signature="1251:1358" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1277:1348" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1368:1465" ph="/// returns the current up vector of the controller. ... " />
+            <marker date="1532114133000" expanded="true" signature="1503:1605" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1529:1595" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="1634:2020" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="1664:1734" ph="/// Initialize variables. ... " />
+            <marker date="1532114133000" expanded="true" signature="1755:2001" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1801:1991" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/MagicLeap/CoreComponents/HandTracking.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+          <folding>
+            <marker date="1532114133000" expanded="true" signature="0:399" ph="/* %BANNER_BEGIN% ... */" />
+            <marker date="1532114133000" expanded="false" signature="407:467" ph="..." />
+            <marker date="1532114133000" expanded="true" signature="503:6295" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="510:727" ph="/// KeyPoseTypes flags enumeration. This enumeration lists the MLHandKeyPose enumerations as Flags so that ... " />
+            <marker date="1532114133000" expanded="true" signature="768:1378" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="1384:1626" ph="/// Component used to communicate with the MLHands API and manage ... " />
+            <marker date="1532114133000" expanded="true" signature="1672:6293" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="1687:2114" ph="Private Variables" />
+            <marker date="1532114133000" expanded="false" signature="2124:2234" ph="Public Properties" />
+            <marker date="1532114133000" expanded="true" signature="2244:3643" ph="Unity Methods" />
+            <marker date="1532114133000" expanded="true" signature="2274:2438" ph="/// Initializes and finds references to all relevant components in the ... " />
+            <marker date="1532114133000" expanded="true" signature="2462:2930" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2549:2724" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="2940:3064" ph="/// Stops the communication to the MLHands API and unregisters required events. ... " />
+            <marker date="1532114133000" expanded="true" signature="3089:3347" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3134:3309" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3165:3251" ph="/* Disable all KeyPoses if MLHands was started ... */" />
+            <marker date="1532114133000" expanded="true" signature="3357:3452" ph="/// Update KeyPoses tracked if enum value changed. ... " />
+            <marker date="1532114133000" expanded="true" signature="3474:3624" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3543:3614" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="3653:4498" ph="Public Methods" />
+            <marker date="1532114133000" expanded="true" signature="3684:3832" ph="/// Adds KeyPose if it's not there already. ... " />
+            <marker date="1532114133000" expanded="true" signature="3885:4078" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="3952:4068" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4088:4230" ph="/// Removes KeyPose if it's there. ... " />
+            <marker date="1532114133000" expanded="true" signature="4286:4479" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="4353:4469" ph="{...}" />
+            <marker date="1532114133000" expanded="false" signature="4508:6287" ph="Private Methods" />
+            <marker date="1532114133000" expanded="true" signature="4540:4683" ph="/// Get the KeyPoses enabled. ... " />
+            <marker date="1532114133000" expanded="true" signature="4733:5343" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5013:5293" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5143:5279" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5353:5532" ph="/// Updates the list of KeyPoses internal to the magic leap device, ... " />
+            <marker date="1532114133000" expanded="true" signature="5598:6268" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="5779:5892" ph="{...}" />
+            <marker date="1532114133000" expanded="true" signature="6016:6258" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/BubbleController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+          <folding>
+            <marker date="1535321412061" expanded="false" signature="6:78" ph="..." />
+            <marker date="1535321412061" expanded="true" signature="125:923" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="253:357" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="409:522" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="468:516" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="571:665" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="629:659" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="689:853" ph="{...}" />
+            <marker date="1535321412061" expanded="true" signature="880:921" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/BubbleGunController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="815">
+          <caret line="97" column="35" selection-start-line="97" selection-start-column="35" selection-end-line="97" selection-end-column="35" />
+          <folding>
+            <marker date="1535756072064" expanded="false" signature="6:110" ph="..." />
+            <marker date="1535756072064" expanded="true" signature="160:4136" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="744:1033" ph="/// Handles the event for trigger down. Throws a ball in the direction of ... " />
+            <marker date="1535756072064" expanded="true" signature="1097:1641" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1179:1292" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1417:1559" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1559:1635" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="1647:2045" ph="/// Normalizes (and inverts) the trigger value from _minFireRate to _maxFireRate, so the fire rate increases as t ... " />
+            <marker date="1535756072064" expanded="true" signature="2092:2172" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="2205:2998" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="2220:2382" ph="/* TODO: Use pool object instead of instantiating new object on each trigger down. ... */" />
+            <marker date="1535756072064" expanded="true" signature="2852:2919" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3061:3128" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3230:3435" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3321:3429" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3462:3693" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3721:3897" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="3916:4134" ph="{...}" />
+            <marker date="1535756072064" expanded="true" signature="4085:4128" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/FingerTracking.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+          <folding>
+            <marker date="1535762884939" expanded="true" signature="6:84" ph="..." />
+            <marker date="1535762884939" expanded="true" signature="130:2676" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="734:847" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="789:841" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="873:1940" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="1971:2002" ph="{...}" />
+            <marker date="1535762884939" expanded="true" signature="2029:2673" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
