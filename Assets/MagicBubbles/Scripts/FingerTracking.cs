@@ -14,11 +14,16 @@ public class FingerTracking : MonoBehaviour {
     public Transform RightPinkyTip;
     public Transform RightCenter;
     public Transform RightWrist;
-    public enum HandPoses { Ok, Finger, Thumb, OpenHandBack, Fist, NoPose };
-    public HandPoses pose = HandPoses.NoPose;
 
     private MLHandKeyPose[] _gestures;
     private List<MeshRenderer> _renderes;
+    private SphereCollider _leftFingerCollider;
+    private MeshCollider _leftCenterCollider;
+    private SphereCollider _rightFingerCollider;
+    private MeshCollider _rightCenterCollider;
+
+    private const float CenterOffset = -0.05f;
+    private const float ConfidenceThreshold = 0.9f;
 
     public void ToogleTrackerVisibility(bool show)
     {
@@ -33,20 +38,28 @@ public class FingerTracking : MonoBehaviour {
 
         // seems you need at least one pose to track keypoints
         _gestures = new MLHandKeyPose[1];
-        _gestures[0] = MLHandKeyPose.Ok;
-        MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true, false);
+        _gestures[0] = MLHandKeyPose.Finger;
+        MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true);
 
-        _renderes = new List<MeshRenderer>();
-        _renderes.Add(LeftIndexTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(LeftThumbTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(LeftPinkyTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(LeftCenter.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(LeftWrist.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(RightIndexTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(RightThumbTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(RightPinkyTip.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(RightCenter.gameObject.GetComponent<MeshRenderer>());
-        _renderes.Add(RightWrist.gameObject.GetComponent<MeshRenderer>());
+        _renderes = new List<MeshRenderer>
+        {
+            LeftIndexTip.gameObject.GetComponent<MeshRenderer>(),
+            LeftThumbTip.gameObject.GetComponent<MeshRenderer>(),
+            LeftPinkyTip.gameObject.GetComponent<MeshRenderer>(),
+            LeftCenter.gameObject.GetComponent<MeshRenderer>(),
+            LeftWrist.gameObject.GetComponent<MeshRenderer>(),
+            RightIndexTip.gameObject.GetComponent<MeshRenderer>(),
+            RightThumbTip.gameObject.GetComponent<MeshRenderer>(),
+            RightPinkyTip.gameObject.GetComponent<MeshRenderer>(),
+            RightCenter.gameObject.GetComponent<MeshRenderer>(),
+            RightWrist.gameObject.GetComponent<MeshRenderer>()
+        };
+
+        _leftFingerCollider = LeftIndexTip.gameObject.GetComponent<SphereCollider>();
+        _leftCenterCollider = LeftCenter.gameObject.GetComponent<MeshCollider>();
+        _rightFingerCollider = RightIndexTip.gameObject.GetComponent<SphereCollider>();
+        _rightCenterCollider = RightCenter.gameObject.GetComponent<MeshCollider>();
+
     }
 
     private void OnDestroy() {
@@ -65,6 +78,21 @@ public class FingerTracking : MonoBehaviour {
         RightPinkyTip.position = MLHands.Right.Pinky.Tip.Position;
         RightCenter.position = MLHands.Right.Center;
         RightWrist.position = MLHands.Right.Wrist.Center.Position;
+
+        LeftCenter.LookAt(LeftWrist);
+        LeftCenter.position = Vector3.MoveTowards(LeftCenter.position, LeftWrist.position, CenterOffset);
+        RightCenter.LookAt(RightWrist);
+        RightCenter.position = Vector3.MoveTowards(RightCenter.position, RightWrist.position, CenterOffset);
+
+        var leftPoseConfident = MLHands.Left.KeyPoseConfidence > ConfidenceThreshold;
+        var leftPointing = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Finger) && leftPoseConfident;
+        _leftFingerCollider.enabled = leftPointing;
+        _leftCenterCollider.enabled = !leftPointing;
+
+        var rightPoseConfident = MLHands.Right.KeyPoseConfidence > ConfidenceThreshold;
+        var rightPointing = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Finger) && rightPoseConfident;
+        _rightFingerCollider.enabled = rightPointing;
+        _rightCenterCollider.enabled = !rightPointing;
     }
 
 }
