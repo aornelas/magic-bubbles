@@ -1,0 +1,8 @@
+<manifest xmlns:ml="magicleap" ml:developer_id="temporarycertificates" ml:package="com.magicleap.samples.meshing" ml:version_code="1" ml:version_name="">
+  <application ml:sdk_version="1.0" ml:visible_name="S-Meshing">
+    <uses-privilege ml:name="LowLatencyLightwear" />
+    <component ml:binary_name="bin/Player.elf" ml:name=".fullscreen" ml:type="Fullscreen" ml:visible_name="S-Meshing">
+      <icon ml:model_folder="Icon/Model" ml:portal_folder="Icon/Portal" />
+    </component>
+  </application>
+</manifest>
