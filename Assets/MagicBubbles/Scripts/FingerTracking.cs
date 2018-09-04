@@ -59,7 +59,6 @@ public class FingerTracking : MonoBehaviour {
         _leftCenterCollider = LeftCenter.gameObject.GetComponent<MeshCollider>();
         _rightFingerCollider = RightIndexTip.gameObject.GetComponent<SphereCollider>();
         _rightCenterCollider = RightCenter.gameObject.GetComponent<MeshCollider>();
-
     }
 
     private void OnDestroy() {
@@ -68,31 +67,37 @@ public class FingerTracking : MonoBehaviour {
 
     private void Update()
     {
-        LeftIndexTip.position = MLHands.Left.Index.Tip.Position;
-        LeftThumbTip.position = MLHands.Left.Thumb.Tip.Position;
-        LeftPinkyTip.position = MLHands.Left.Pinky.Tip.Position;
-        LeftCenter.position = MLHands.Left.Center;
-        LeftWrist.position = MLHands.Left.Wrist.Center.Position;
-        RightIndexTip.position = MLHands.Right.Index.Tip.Position;
-        RightThumbTip.position = MLHands.Right.Thumb.Tip.Position;
-        RightPinkyTip.position = MLHands.Right.Pinky.Tip.Position;
-        RightCenter.position = MLHands.Right.Center;
-        RightWrist.position = MLHands.Right.Wrist.Center.Position;
+        if (MLHands.Left.HandConfidence > ConfidenceThreshold) {
+            LeftIndexTip.position = MLHands.Left.Index.Tip.Position;
+            LeftThumbTip.position = MLHands.Left.Thumb.Tip.Position;
+            LeftPinkyTip.position = MLHands.Left.Pinky.Tip.Position;
+            LeftCenter.position = MLHands.Left.Center;
+            LeftWrist.position = MLHands.Left.Wrist.Center.Position;
+            LeftCenter.LookAt(LeftWrist);
+            LeftCenter.position = Vector3.MoveTowards(LeftCenter.position, LeftWrist.position, CenterOffset);
+        }
 
-        LeftCenter.LookAt(LeftWrist);
-        LeftCenter.position = Vector3.MoveTowards(LeftCenter.position, LeftWrist.position, CenterOffset);
-        RightCenter.LookAt(RightWrist);
-        RightCenter.position = Vector3.MoveTowards(RightCenter.position, RightWrist.position, CenterOffset);
+        if (MLHands.Right.HandConfidence > ConfidenceThreshold) {
+            RightIndexTip.position = MLHands.Right.Index.Tip.Position;
+            RightThumbTip.position = MLHands.Right.Thumb.Tip.Position;
+            RightPinkyTip.position = MLHands.Right.Pinky.Tip.Position;
+            RightCenter.position = MLHands.Right.Center;
+            RightWrist.position = MLHands.Right.Wrist.Center.Position;
+            RightCenter.LookAt(RightWrist);
+            RightCenter.position = Vector3.MoveTowards(RightCenter.position, RightWrist.position, CenterOffset);
+        }
 
         var leftPoseConfident = MLHands.Left.KeyPoseConfidence > ConfidenceThreshold;
         var leftPointing = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Finger) && leftPoseConfident;
         _leftFingerCollider.enabled = leftPointing;
         _leftCenterCollider.enabled = !leftPointing;
+        _renderes[0].material.color = leftPointing ? Color.red : Color.green;
 
         var rightPoseConfident = MLHands.Right.KeyPoseConfidence > ConfidenceThreshold;
         var rightPointing = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Finger) && rightPoseConfident;
         _rightFingerCollider.enabled = rightPointing;
         _rightCenterCollider.enabled = !rightPointing;
+        _renderes[5].material.color = rightPointing ? Color.red : Color.green;
     }
 
 }
