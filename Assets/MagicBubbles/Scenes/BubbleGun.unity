@@ -2031,6 +2031,7 @@ MonoBehaviour:
   _maxFireRate: 0.1
   MIN_BALL_SIZE: 0.05
   MAX_BALL_SIZE: 0.25
+  _debugOn: 1
 --- !u!4 &1317252551
 Transform:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class BubbleGunController : MonoBehaviour
     private AudioSource _audio;
     private bool _playingAudio = false;
     private float _nextFire = 0f;
-    private bool _debugOn = false;
+    public bool _debugOn = false;
 
     /// <summary>
     /// Handles the event for trigger down. Throws a ball in the direction of
@@ -107,6 +107,7 @@ public class BubbleGunController : MonoBehaviour
         MLInput.OnControllerTouchpadGestureEnd += OnTouchpadGestureEnd;
 
         _audio = _nozzle.GetComponent<AudioSource>();
+        _fingerTracking.ToogleTrackerVisibility(_debugOn);
     }
 
     private void Destroy()
