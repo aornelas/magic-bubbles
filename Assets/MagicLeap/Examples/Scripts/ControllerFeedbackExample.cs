@@ -170,7 +170,9 @@ namespace MagicLeap
             MLInputController controller = _controllerConnectionHandler.ConnectedController;
             if (controller != null && controller.Id == controllerId)
             {
-                MLInputControllerFeedbackIntensity intensity = (MLInputControllerFeedbackIntensity)((int)(0.1f));
+                // NOTE: Hardcoded to 0.1 since there was a bug that would make the controller vibrate max when
+                // trigger > 0.8 but < 1.0
+                MLInputControllerFeedbackIntensity intensity = (MLInputControllerFeedbackIntensity) 0.1f;
                 controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
             }
         }
