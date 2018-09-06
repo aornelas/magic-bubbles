@@ -8,6 +8,7 @@ public class BubbleGunController : MonoBehaviour
     public GameObject _shootingPrefab;
     public GameObject _nozzle;
     public FingerTracking _fingerTracking;
+    public EyeTracking _eyeTracking;
     public float _offset = 0.1f;
     public float _shootingForce = 300f;
     public float _triggerDownThreshold = 0.1f;
@@ -95,7 +96,7 @@ public class BubbleGunController : MonoBehaviour
     {
         if (gesture.Type.Equals(MLInputControllerTouchpadGestureType.RadialScroll)) {
             _debugOn = !_debugOn;
-            _fingerTracking.ToogleTrackerVisibility(_debugOn);
+            ToggleTrackerVisibility(_debugOn);
         }
     }
 
@@ -107,7 +108,13 @@ public class BubbleGunController : MonoBehaviour
         MLInput.OnControllerTouchpadGestureEnd += OnTouchpadGestureEnd;
 
         _audio = _nozzle.GetComponent<AudioSource>();
-        _fingerTracking.ToogleTrackerVisibility(_debugOn);
+        ToggleTrackerVisibility(_debugOn);
+    }
+
+    private void ToggleTrackerVisibility(bool show)
+    {
+        _fingerTracking.ToogleTrackerVisibility(show);
+        _eyeTracking.ToggleTrackerVisibility(show);
     }
 
     private void Destroy()
