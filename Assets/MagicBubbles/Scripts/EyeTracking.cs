@@ -6,6 +6,8 @@ public class EyeTracking : MonoBehaviour
     public Transform EyeGaze;
     private MeshRenderer _renderer;
 
+    private const float ConfidenceThreshold = 0.9f;
+
     private void Awake()
     {
         MLEyes.Start();
@@ -19,8 +21,10 @@ public class EyeTracking : MonoBehaviour
 
     private void Update()
     {
-        EyeGaze.position = MLEyes.FixationPoint;
-        EyeGaze.LookAt(gameObject.transform);
+        if (MLEyes.FixationConfidence > ConfidenceThreshold)
+            EyeGaze.position = MLEyes.FixationPoint;
+
+//        EyeGaze.LookAt(gameObject.transform);
     }
 
     private void OnDestroy()

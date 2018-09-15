@@ -32,23 +32,15 @@ public class BubbleGunController : MonoBehaviour
     /// <param name="button">The button that is being released.</param>
     private void OnTriggerDown(byte controller_id, float value)
     {
-        Debug.Log("Trigger Down = " + value);
-
         if (!_playingAudio) {
             _audio.pitch = 0.5f + value;
             _audio.Play();
             _playingAudio = true;
         }
 
-        Debug.Log("Time = " + Time.time);
-        Debug.Log("nextFire = " + _nextFire);
         if (Time.time > _nextFire) {
             _nextFire = Time.time + FireRate(value);
             ShootBubbles();
-            Debug.Log("nextFire = " + _nextFire);
-        }
-        else {
-            Debug.Log("waiting for next fire...");
         }
     }
 
