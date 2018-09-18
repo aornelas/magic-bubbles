@@ -20,7 +20,7 @@ namespace MagicLeap
     /// Class outputs to input UI.Text the most up to date gestures
     /// and confidence values for each of the hands.
     /// </summary>
-    [RequireComponent(typeof(HandTracking))]
+    [RequireComponent(typeof(UnityEngine.XR.MagicLeap.HandTracking))]
     public class HandTrackingExample : MonoBehaviour
     {
         #region Private Variables

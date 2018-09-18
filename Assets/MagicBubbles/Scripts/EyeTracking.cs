@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-public class EyeTracking : MonoBehaviour
+namespace MagicBubbles.Scripts
 {
-    public Transform EyeGaze;
-    private MeshRenderer _renderer;
-
-    private const float ConfidenceThreshold = 0.9f;
-
-    private void Awake()
+    public class EyeTracking : MonoBehaviour
     {
-        MLEyes.Start();
-        _renderer = EyeGaze.GetComponent<MeshRenderer>();
-    }
+        public Transform EyeGaze;
+        private MeshRenderer _renderer;
 
-    public void ToggleTrackerVisibility(bool show)
-    {
-        _renderer.enabled = show;
-    }
+        private const float ConfidenceThreshold = 0.9f;
 
-    private void Update()
-    {
-        if (MLEyes.IsStarted && MLEyes.FixationConfidence > ConfidenceThreshold)
-            EyeGaze.position = MLEyes.FixationPoint;
-    }
+        private void Awake()
+        {
+            MLEyes.Start();
+            _renderer = EyeGaze.GetComponent<MeshRenderer>();
+        }
 
-    private void OnDestroy()
-    {
-        if (MLEyes.IsStarted)
-            MLEyes.Stop();
+        public void ToggleTrackerVisibility(bool show)
+        {
+            _renderer.enabled = show;
+        }
+
+        private void Update()
+        {
+            if (MLEyes.IsStarted && MLEyes.FixationConfidence > ConfidenceThreshold)
+                EyeGaze.position = MLEyes.FixationPoint;
+        }
+
+        private void OnDestroy()
+        {
+            if (MLEyes.IsStarted)
+                MLEyes.Stop();
+        }
     }
 }
