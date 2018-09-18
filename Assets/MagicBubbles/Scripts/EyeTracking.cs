@@ -21,14 +21,13 @@ public class EyeTracking : MonoBehaviour
 
     private void Update()
     {
-        if (MLEyes.FixationConfidence > ConfidenceThreshold)
+        if (MLEyes.IsStarted && MLEyes.FixationConfidence > ConfidenceThreshold)
             EyeGaze.position = MLEyes.FixationPoint;
-
-//        EyeGaze.LookAt(gameObject.transform);
     }
 
     private void OnDestroy()
     {
-        MLEyes.Stop();
+        if (MLEyes.IsStarted)
+            MLEyes.Stop();
     }
 }

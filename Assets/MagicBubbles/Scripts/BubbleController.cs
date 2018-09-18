@@ -30,7 +30,7 @@ public class BubbleController : MonoBehaviour
         }
     }
 
-    private void Pop()
+    public void Pop()
     {
         _audio.pitch = 1 + (transform.localScale.x * -1 + 0.2f);
         _audio.Play();

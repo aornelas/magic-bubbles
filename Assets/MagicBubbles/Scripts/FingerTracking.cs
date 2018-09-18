@@ -4,6 +4,7 @@ using UnityEngine.XR.MagicLeap;
 
 public class FingerTracking : MonoBehaviour {
 
+    public TelekinesisController TelekinesisController;
     public Transform LeftIndexTip;
     public Transform LeftThumbTip;
     public Transform LeftPinkyTip;
@@ -34,11 +35,16 @@ public class FingerTracking : MonoBehaviour {
 
     private void Awake()
     {
-        MLHands.Start();
+        var result = MLHands.Start();
+        if (!result.IsOk) {
+            return;
+        }
 
-        // seems you need at least one pose to track keypoints
-        _gestures = new MLHandKeyPose[1];
+        _gestures = new MLHandKeyPose[3];
         _gestures[0] = MLHandKeyPose.Finger;
+        _gestures[1] = MLHandKeyPose.OpenHandBack;
+        _gestures[2] = MLHandKeyPose.Fist;
+
         MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true);
 
         _renderes = new List<MeshRenderer>
@@ -62,7 +68,8 @@ public class FingerTracking : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        MLHands.Stop();
+        if (MLHands.IsStarted)
+            MLHands.Stop();
     }
 
     private void Update()
@@ -89,15 +96,25 @@ public class FingerTracking : MonoBehaviour {
 
         var leftPoseConfident = MLHands.Left.KeyPoseConfidence > ConfidenceThreshold;
         var leftPointing = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Finger) && leftPoseConfident;
+        var leftOpen = MLHands.Left.KeyPose.Equals(MLHandKeyPose.OpenHandBack) && leftPoseConfident;
+        var leftFist = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Fist) && leftPoseConfident;
         _leftFingerCollider.enabled = leftPointing;
         _leftCenterCollider.enabled = !leftPointing;
         _renderes[0].material.color = leftPointing ? Color.red : Color.green;
+        _renderes[3].material.color = leftOpen ? Color.gray : Color.black;
 
         var rightPoseConfident = MLHands.Right.KeyPoseConfidence > ConfidenceThreshold;
         var rightPointing = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Finger) && rightPoseConfident;
+        var rightOpen = MLHands.Right.KeyPose.Equals(MLHandKeyPose.OpenHandBack) && rightPoseConfident;
+        var rightFist = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Fist) && rightPoseConfident;
         _rightFingerCollider.enabled = rightPointing;
         _rightCenterCollider.enabled = !rightPointing;
         _renderes[5].material.color = rightPointing ? Color.red : Color.green;
+        _renderes[8].material.color = rightOpen ? Color.gray : Color.black;
+
+        TelekinesisController.Holding = leftOpen || rightOpen;
+        if (leftFist || rightFist)
+            TelekinesisController.PopAllHeldBubbles();
     }
 
 }
