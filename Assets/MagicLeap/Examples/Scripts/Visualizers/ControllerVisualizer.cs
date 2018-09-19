@@ -70,7 +70,7 @@ namespace MagicLeap
 
             if (!_controllerConnectionHandler.enabled)
             {
-                Debug.LogError("Error ControllerVisualizer starting MLInput, disabling script.");
+                Debug.LogWarning("Error ControllerVisualizer starting MLInput, disabling script.");
                 enabled = false;
                 return;
             }

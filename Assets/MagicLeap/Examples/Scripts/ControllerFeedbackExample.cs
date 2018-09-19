@@ -51,7 +51,7 @@ namespace MagicLeap
 
             if (!_controllerConnectionHandler.enabled)
             {
-                Debug.LogError("Error ControllerFeedbackExample starting MLInput, disabling script.");
+                Debug.LogWarning("Error ControllerFeedbackExample starting MLInput, disabling script.");
                 enabled = false;
                 return;
             }

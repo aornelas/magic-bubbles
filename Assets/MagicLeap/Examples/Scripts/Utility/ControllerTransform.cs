@@ -46,7 +46,7 @@ namespace MagicLeap
 
             if (!_controllerConnectionHandler.enabled)
             {
-                Debug.LogError("Error ControllerTransform starting MLInput, disabling script.");
+                Debug.LogWarning("Error ControllerTransform starting MLInput, disabling script.");
                 enabled = false;
                 return;
             }

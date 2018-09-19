@@ -44,19 +44,6 @@ namespace MagicBubbles.Scripts
 
         private void Awake()
         {
-            var result = MLHands.Start();
-            if (!result.IsOk) {
-                return;
-            }
-
-            _gestures = new MLHandKeyPose[4];
-            _gestures[0] = MLHandKeyPose.Finger;
-            _gestures[1] = MLHandKeyPose.OpenHandBack;
-            _gestures[2] = MLHandKeyPose.Fist;
-            _gestures[3] = MLHandKeyPose.Pinch;
-
-            MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true);
-
             _renderes = new List<MeshRenderer>
             {
                 LeftIndexTip.gameObject.GetComponent<MeshRenderer>(),
@@ -71,6 +58,27 @@ namespace MagicBubbles.Scripts
                 RightWrist.gameObject.GetComponent<MeshRenderer>()
             };
 
+            if (!MagicLeapDevice.IsReady()) {
+                Debug.LogWarning("Disabling MagicBubbles.Scripts.HandTracking because MagicLeapDevice wasn't ready.");
+                enabled = false;
+                return;
+            }
+
+            var result = MLHands.Start();
+            if (!result.IsOk) {
+                Debug.LogWarning("Disabling MagicBubbles.Scripts.HandTracking because MLHands didn't start.");
+                enabled = false;
+                return;
+            }
+
+            _gestures = new MLHandKeyPose[4];
+            _gestures[0] = MLHandKeyPose.Finger;
+            _gestures[1] = MLHandKeyPose.OpenHandBack;
+            _gestures[2] = MLHandKeyPose.Fist;
+            _gestures[3] = MLHandKeyPose.Pinch;
+
+            MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true);
+
             _leftFingerCollider = LeftIndexTip.gameObject.GetComponent<SphereCollider>();
             _leftCenterCollider = LeftCenter.gameObject.GetComponent<MeshCollider>();
             _rightFingerCollider = RightIndexTip.gameObject.GetComponent<SphereCollider>();
@@ -84,6 +92,9 @@ namespace MagicBubbles.Scripts
 
         private void Update()
         {
+            if (!MLHands.IsStarted)
+                return;
+
             if (MLHands.Left.HandConfidence > ConfidenceThreshold) {
                 LeftIndexTip.position = MLHands.Left.Index.Tip.Position;
                 LeftThumbTip.position = MLHands.Left.Thumb.Tip.Position;
