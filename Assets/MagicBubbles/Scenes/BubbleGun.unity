@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EyeGaze: {fileID: 1088449287}
+  TelekinesisController: {fileID: 1088449292}
 --- !u!20 &46576054
 Camera:
   m_ObjectHideFlags: 0
@@ -1721,8 +1722,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1088449286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.576}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -2138,14 +2139,14 @@ MonoBehaviour:
   HandTracking: {fileID: 46576051}
   EyeTracking: {fileID: 46576053}
   Offset: 0.1
-  ShootingForce: 300
+  ShootingForce: 150
   TriggerDownThreshold: 0.1
   TriggerUpThreshold: 1
   MinFireRate: 0.8
   MaxFireRate: 0.1
   MinBallSize: 0.1
   MaxBallSize: 0.25
-  DebugOn: 1
+  DebugOn: 0
 --- !u!4 &1317252551
 Transform:
   m_ObjectHideFlags: 0

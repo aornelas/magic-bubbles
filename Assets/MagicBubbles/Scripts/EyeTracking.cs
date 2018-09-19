@@ -6,6 +6,7 @@ namespace MagicBubbles.Scripts
     public class EyeTracking : MonoBehaviour
     {
         public Transform EyeGaze;
+        public TelekinesisController TelekinesisController;
         private MeshRenderer _renderer;
 
         private const float ConfidenceThreshold = 0.9f;
@@ -40,6 +41,18 @@ namespace MagicBubbles.Scripts
         {
             if (MLEyes.IsStarted && MLEyes.FixationConfidence > ConfidenceThreshold)
                 EyeGaze.position = MLEyes.FixationPoint;
+
+            var raySource = MLEyes.IsStarted ? MLEyes.LeftEye.Center : Vector3.zero;
+            var rayDir = EyeGaze.position - raySource;
+            Debug.DrawRay(raySource, rayDir, Color.green);
+
+            RaycastHit hit;
+            if (Physics.Raycast(raySource, rayDir, out hit, 5))
+            {
+                if (hit.collider.CompareTag("Bubble")) {
+                    TelekinesisController.HoldBubble(hit.collider.gameObject);
+                }
+            }
         }
 
         private void OnDestroy()

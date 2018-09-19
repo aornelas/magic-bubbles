@@ -70,14 +70,19 @@ namespace MagicBubbles.Scripts
             }
         }
 
+        public void HoldBubble(GameObject bubbleGO)
+        {
+            Debug.Log("Holding another bubble");
+            var bubble = bubbleGO.GetComponent<Rigidbody>();
+            bubble.useGravity = false;
+            _frozenBubbles.Add(bubble);
+            _bubbleControllers.Add(bubbleGO.GetComponent<BubbleController>());
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (Holding) {
-                Debug.Log("Holding another bubble");
-                var bubble = other.gameObject.GetComponent<Rigidbody>();
-                bubble.useGravity = false;
-                _frozenBubbles.Add(bubble);
-                _bubbleControllers.Add(other.gameObject.GetComponent<BubbleController>());
+                HoldBubble(other.gameObject);
             }
 
             if (Inflating) {
