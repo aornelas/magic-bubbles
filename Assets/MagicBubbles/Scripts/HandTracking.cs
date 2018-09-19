@@ -28,6 +28,13 @@ namespace MagicBubbles.Scripts
         private const float CenterOffset = -0.05f;
         private const float ConfidenceThreshold = 0.9f;
 
+        public static float GetThumbIndexDistance(MLHand hand)
+        {
+            var thumb = hand.Thumb.Tip.Position;
+            var index = hand.Index.Tip.Position;
+            return Mathf.Abs(Vector3.Distance(thumb, index));
+        }
+
         public void ToogleTrackerVisibility(bool show)
         {
             foreach (var meshRenderer in _renderes) {
@@ -42,10 +49,11 @@ namespace MagicBubbles.Scripts
                 return;
             }
 
-            _gestures = new MLHandKeyPose[3];
+            _gestures = new MLHandKeyPose[4];
             _gestures[0] = MLHandKeyPose.Finger;
             _gestures[1] = MLHandKeyPose.OpenHandBack;
             _gestures[2] = MLHandKeyPose.Fist;
+            _gestures[3] = MLHandKeyPose.Pinch;
 
             MLHands.KeyPoseManager.EnableKeyPoses(_gestures, true);
 
@@ -100,23 +108,33 @@ namespace MagicBubbles.Scripts
             var leftPointing = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Finger) && leftPoseConfident;
             var leftOpen = MLHands.Left.KeyPose.Equals(MLHandKeyPose.OpenHandBack) && leftPoseConfident;
             var leftFist = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Fist) && leftPoseConfident;
+            var leftPinch = MLHands.Left.KeyPose.Equals(MLHandKeyPose.Pinch) && leftPoseConfident;
             _leftFingerCollider.enabled = leftPointing;
             _leftCenterCollider.enabled = !leftPointing;
             _renderes[0].material.color = leftPointing ? Color.red : Color.green;
-            _renderes[3].material.color = leftOpen ? Color.gray : Color.black;
+            _renderes[3].material.color = leftOpen ? Color.gray : leftPinch ? Color.blue : Color.black;
 
             var rightPoseConfident = MLHands.Right.KeyPoseConfidence > ConfidenceThreshold;
             var rightPointing = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Finger) && rightPoseConfident;
             var rightOpen = MLHands.Right.KeyPose.Equals(MLHandKeyPose.OpenHandBack) && rightPoseConfident;
             var rightFist = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Fist) && rightPoseConfident;
+            var rightPinch = MLHands.Right.KeyPose.Equals(MLHandKeyPose.Pinch) && rightPoseConfident;
             _rightFingerCollider.enabled = rightPointing;
             _rightCenterCollider.enabled = !rightPointing;
             _renderes[5].material.color = rightPointing ? Color.red : Color.green;
-            _renderes[8].material.color = rightOpen ? Color.gray : Color.black;
+            _renderes[8].material.color = rightOpen ? Color.gray : rightPinch ? Color.blue : Color.black;
 
             TelekinesisController.Holding = leftOpen || rightOpen;
             if (leftFist || rightFist)
                 TelekinesisController.PopAllHeldBubbles();
+            if (!TelekinesisController.Inflating && leftPinch)
+                TelekinesisController.StartInflatingBubble(MLHands.Left);
+            if (!TelekinesisController.Inflating && rightPinch)
+                TelekinesisController.StartInflatingBubble(MLHands.Right);
+            if (TelekinesisController.Inflating && leftOpen)
+                TelekinesisController.PopInflatingBubble(MLHands.Left);
+            if (TelekinesisController.Inflating && rightOpen)
+                TelekinesisController.PopInflatingBubble(MLHands.Right);
         }
 
     }

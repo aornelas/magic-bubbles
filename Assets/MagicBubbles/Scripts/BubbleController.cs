@@ -30,6 +30,11 @@ namespace MagicBubbles.Scripts
             }
         }
 
+        public void Inflate(float power)
+        {
+            transform.localScale *= power;
+        }
+
         public void Pop()
         {
             _audio.pitch = 1 + (transform.localScale.x * -1 + 0.2f);

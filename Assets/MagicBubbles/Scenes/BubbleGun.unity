@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851d718e1d3884df9bd8f2c00c3eadd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TelekinesisController: {fileID: 1088449292}
   LeftIndexTip: {fileID: 2073101160}
   LeftThumbTip: {fileID: 1566191079}
   LeftPinkyTip: {fileID: 268356771}
@@ -1706,6 +1707,7 @@ GameObject:
   - component: {fileID: 1088449289}
   - component: {fileID: 1088449288}
   - component: {fileID: 1088449291}
+  - component: {fileID: 1088449292}
   m_Layer: 0
   m_Name: EyeGaze
   m_TagString: Untagged
@@ -1721,7 +1723,7 @@ Transform:
   m_GameObject: {fileID: 1088449286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -1791,6 +1793,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd1f6050b2504731b51e42abe713812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1088449292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1088449286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc7230556df4bc28c70311c1292b2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Holding: 0
+  Inflating: 0
 --- !u!1 &1101600378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2129,20 +2144,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e411387a1eade4cf293bc87e032fb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootingPrefab: {fileID: 1366489111245894, guid: 6c995c620fe9a4c2db65acca50999fff,
+  ShootingPrefab: {fileID: 1366489111245894, guid: 6c995c620fe9a4c2db65acca50999fff,
     type: 2}
-  _nozzle: {fileID: 628534977}
-  _fingerTracking: {fileID: 46576051}
-  _eyeTracking: {fileID: 46576053}
-  _offset: 0.1
-  _shootingForce: 100
-  _triggerDownThreshold: 0.1
-  _triggerUpThreshold: 1
-  _minFireRate: 0.8
-  _maxFireRate: 0.1
-  MIN_BALL_SIZE: 0.05
-  MAX_BALL_SIZE: 0.25
-  _debugOn: 0
+  Nozzle: {fileID: 628534977}
+  HandTracking: {fileID: 46576051}
+  EyeTracking: {fileID: 46576053}
+  Offset: 0.1
+  ShootingForce: 300
+  TriggerDownThreshold: 0.1
+  TriggerUpThreshold: 1
+  MinFireRate: 0.8
+  MaxFireRate: 0.1
+  MinBallSize: 0.1
+  MaxBallSize: 0.25
+  DebugOn: 0
 --- !u!4 &1317252551
 Transform:
   m_ObjectHideFlags: 0
