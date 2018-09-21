@@ -60,18 +60,18 @@ namespace MagicBubbles.Scripts
         private void ShootBubbles()
         {
             // TODO: Use pool object instead of instantiating new object on each trigger down.
-            // Create the ball and necessary components and shoot it along raycast.
-            var ball = Instantiate(ShootingPrefab);
+            var bubble = Instantiate(ShootingPrefab);
 
-            ball.SetActive(true);
+            bubble.SetActive(true);
             var ballsize = Random.Range(MinBallSize, MaxBallSize);
-            ball.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
+            bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
+            bubble.GetComponent<BubbleController>().RecordOriginalSize();
             var nozPos = Nozzle.transform.position;
-            ball.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
+            bubble.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
 
-            var rigidBody = ball.GetComponent<Rigidbody>();
+            var rigidBody = bubble.GetComponent<Rigidbody>();
             if (rigidBody == null) {
-                rigidBody = ball.AddComponent<Rigidbody>();
+                rigidBody = bubble.AddComponent<Rigidbody>();
             }
 
             rigidBody.AddForce(Nozzle.transform.forward * ShootingForce);

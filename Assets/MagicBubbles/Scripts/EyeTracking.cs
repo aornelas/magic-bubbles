@@ -62,7 +62,7 @@ namespace MagicBubbles.Scripts
             if (Physics.Raycast(raySource, rayDir, out hit, 10))
             {
                 if (hit.collider.CompareTag("Bubble")) {
-                    TelekinesisController.HoldBubble(hit.collider.gameObject);
+                    TelekinesisController.GazedAtBubble(hit.collider.gameObject);
                 }
             }
         }

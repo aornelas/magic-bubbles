@@ -6,7 +6,9 @@ namespace MagicBubbles.Scripts
     {
 
         public float PopDelay = 7.0f;
+        public float InflateSpeed = 1.0f;
 
+        private Vector3 _originalScale;
         private AudioSource _audio;
         private MeshRenderer _mesh;
 
@@ -30,9 +32,19 @@ namespace MagicBubbles.Scripts
             }
         }
 
+        public void RecordOriginalSize()
+        {
+            _originalScale = transform.localScale;
+        }
+
         public void Inflate(float power)
         {
-            transform.localScale *= power;
+            if (power < 0.01f) return;
+
+            power *= 10;
+            var targetScale = new Vector3(_originalScale.x + power, _originalScale.y + power, _originalScale.z + power);
+            Debug.Log("Inflating bubble from " + _originalScale + " to " + targetScale);
+            transform.localScale = Vector3.Lerp (_originalScale, targetScale, InflateSpeed * Time.deltaTime);
         }
 
         public void Pop()

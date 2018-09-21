@@ -15,6 +15,8 @@ namespace MagicBubbles.Scripts
         private MLHand _inflatingHand;
         private BubbleController _inflatingBubble;
 
+        private const float ActionThreshold = 0.1f;
+
         public void PopAllHeldBubbles()
         {
             if (_bubbleControllers.Count > 0) {
@@ -29,6 +31,7 @@ namespace MagicBubbles.Scripts
         {
             Debug.Log("Started inflating with hand: " + (hand.Equals(MLHands.Left) ? "left" : "right"));
             Inflating = true;
+            Holding = true;
             _inflatingHand = hand;
         }
 
@@ -45,7 +48,20 @@ namespace MagicBubbles.Scripts
 
         private void ClearBubbleControllers()
         {
-            _bubbleControllers.Clear();
+            if (!Holding && !Inflating)
+                _bubbleControllers.Clear();
+        }
+
+        private void ReleaseBubbles()
+        {
+            if (!Holding && !Inflating) {
+                Debug.Log("Stopped holding");
+                foreach (var bubble in _frozenBubbles) {
+                    if (bubble != null)
+                        bubble.useGravity = true;
+                }
+                _frozenBubbles.Clear();
+            }
         }
 
         private void Start()
@@ -56,42 +72,36 @@ namespace MagicBubbles.Scripts
 
         private void Update()
         {
-            // TODO: Give some threshold to allow time between Holding and Inflating
             if (!Holding && !Inflating && _frozenBubbles.Count > 0) {
-                Debug.Log("Stopped holding");
-                foreach (var bubble in _frozenBubbles) {
-                    if (bubble != null)
-                        bubble.useGravity = true;
-                }
-                _frozenBubbles.Clear();
-
-                // Give some time to pop bubbles
-                Invoke("ClearBubbleControllers", 0.5f);
-            }
-        }
-
-        public void HoldBubble(GameObject bubbleGO)
-        {
-            Debug.Log("Holding another bubble");
-            var bubble = bubbleGO.GetComponent<Rigidbody>();
-            bubble.useGravity = false;
-            _frozenBubbles.Add(bubble);
-            _bubbleControllers.Add(bubbleGO.GetComponent<BubbleController>());
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (Holding) {
-                HoldBubble(other.gameObject);
+                // Give time to do other actions
+                Invoke("ReleaseBubbles", ActionThreshold);
+                Invoke("ClearBubbleControllers", ActionThreshold);
             }
 
             if (Inflating) {
-                if (_inflatingBubble == null)
-                    _inflatingBubble = other.gameObject.GetComponent<BubbleController>();
-                var power = HandTracking.GetThumbIndexDistance(_inflatingHand);
-                Debug.Log("inflation power: " + power);
-                _inflatingBubble.Inflate(power);
+                CancelInvoke();
+                if (_inflatingBubble != null) {
+                    var power = HandTracking.GetThumbIndexDistance(_inflatingHand);
+                    Debug.Log("inflation power: " + power);
+                    _inflatingBubble.Inflate(power);
+                }
             }
+        }
+
+        public void GazedAtBubble(GameObject bubbleGO)
+        {
+            if (Holding) {
+                var bubble = bubbleGO.GetComponent<Rigidbody>();
+                if (!_frozenBubbles.Contains(bubble)) {
+                    Debug.Log("Holding another bubble");
+                    bubble.useGravity = false;
+                    _frozenBubbles.Add(bubble);
+                    _bubbleControllers.Add(bubbleGO.GetComponent<BubbleController>());
+                }
+            }
+
+            if (Inflating && _inflatingBubble == null)
+                _inflatingBubble = bubbleGO.GetComponent<BubbleController>();
         }
     }
 }
