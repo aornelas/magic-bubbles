@@ -11,6 +11,7 @@ namespace MagicBubbles.Scripts
         private MeshRenderer _renderer;
         private LineRenderer _gazeRay;
 
+        // TODO: Test with 0.0f
         private const float ConfidenceThreshold = 0.9f;
         private const float GazeRayWidth = 0.01f;
 
@@ -53,7 +54,7 @@ namespace MagicBubbles.Scripts
                 EyeGaze.position = MLEyes.FixationPoint;
 
             var raySource = MLEyes.IsStarted
-                ? MLEyes.LeftEye.Center - MLEyes.RightEye.Center
+                ? (MLEyes.LeftEye.Center + MLEyes.RightEye.Center) / 2
                 : Vector3.zero + new Vector3(0, 0.1f, 0);
             var rayDir = EyeGaze.position - raySource;
             _gazeRay.SetPositions(new[] { raySource, EyeGaze.position });
