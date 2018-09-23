@@ -6,21 +6,19 @@ namespace MagicBubbles.Scripts
     public class EyeTracking : MonoBehaviour
     {
         public Transform EyeGaze;
-        public TelekinesisController TelekinesisController;
 
-        private MeshRenderer _renderer;
+        private TelekinesisController _telekinesis;
         private LineRenderer _gazeRay;
+        private MeshRenderer _gazeBall;
 
         // TODO: Test with 0.0f
         private const float ConfidenceThreshold = 0.9f;
-        private const float GazeRayWidth = 0.01f;
 
         private void Awake()
         {
-            _renderer = EyeGaze.GetComponent<MeshRenderer>();
-            _gazeRay = gameObject.AddComponent<LineRenderer>();
-            _gazeRay.startWidth = GazeRayWidth;
-            _gazeRay.endWidth = GazeRayWidth;
+            _telekinesis = EyeGaze.GetComponent<TelekinesisController>();
+            _gazeRay = EyeGaze.GetComponent<LineRenderer>();
+            _gazeBall = EyeGaze.GetComponentInChildren<MeshRenderer>();
 
             if (!MagicLeapDevice.IsReady()) {
                 Debug.LogWarning("Disabling MagicBubbles.Scripts.EyeTracking because MagicLeapDevice wasn't ready.");
@@ -35,17 +33,17 @@ namespace MagicBubbles.Scripts
 
         public void ToggleTrackerVisibility(bool show)
         {
-            if (_renderer == null) {
-                Debug.LogWarning("Ignoring null _renderer");
-                return;
-            }
-            _renderer.enabled = show;
-
             if (_gazeRay == null) {
                 Debug.LogWarning("Ignoring null _gazeRay");
                 return;
             }
             _gazeRay.enabled = show;
+
+            if (_gazeBall == null) {
+                Debug.LogWarning("Ignoring null _gazeBall");
+                return;
+            }
+            _gazeBall.enabled = show;
         }
 
         private void Update()
@@ -57,13 +55,14 @@ namespace MagicBubbles.Scripts
                 ? (MLEyes.LeftEye.Center + MLEyes.RightEye.Center) / 2
                 : Vector3.zero + new Vector3(0, 0.1f, 0);
             var rayDir = EyeGaze.position - raySource;
+            EyeGaze.LookAt(raySource);
             _gazeRay.SetPositions(new[] { raySource, EyeGaze.position });
 
             RaycastHit hit;
             if (Physics.Raycast(raySource, rayDir, out hit, 10))
             {
                 if (hit.collider.CompareTag("Bubble")) {
-                    TelekinesisController.GazedAtBubble(hit.collider.gameObject);
+                    _telekinesis.GazedAtBubble(hit.collider.gameObject);
                 }
             }
         }
