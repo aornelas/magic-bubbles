@@ -666,7 +666,7 @@ PlayerSettings:
     m_PrivateKeyPath: 
   luminIsChannelApp: 0
   luminVersion:
-    m_VersionCode: 3
+    m_VersionCode: 4
     m_VersionName: 
   luminPrivilege:
   - WorldReconstruction

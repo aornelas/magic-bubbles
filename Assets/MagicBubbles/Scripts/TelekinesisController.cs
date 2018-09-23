@@ -16,7 +16,7 @@ namespace MagicBubbles.Scripts
         private MLHand _inflatingHand;
         private BubbleController _inflatingBubble;
 
-        private const float ActionThreshold = 0.1f;
+        private const float ActionThreshold = 1.0f;
 
         public void PopAllHeldBubbles()
         {
@@ -83,9 +83,11 @@ namespace MagicBubbles.Scripts
                 CancelInvoke();
                 if (_inflatingBubble != null) {
                     var power = HandTracking.GetThumbIndexDistance(_inflatingHand);
-                    if (power == -1) power = SimulatedPower;
-                    Debug.Log("inflation power: " + power);
-                    _inflatingBubble.Inflate(power);
+                    if (power == HandTracking.NullHand) power = SimulatedPower;
+                    if (power != HandTracking.NotConfident) {
+                        Debug.Log("inflation power: " + power);
+                        _inflatingBubble.Inflate(power);
+                    }
                 }
             }
         }

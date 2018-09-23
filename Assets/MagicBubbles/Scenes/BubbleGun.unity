@@ -2118,7 +2118,7 @@ MonoBehaviour:
   MaxFireRate: 0.1
   MinBallSize: 0.1
   MaxBallSize: 0.25
-  DebugOn: 1
+  DebugOn: 0
 --- !u!4 &1317252551
 Transform:
   m_ObjectHideFlags: 0
@@ -2752,6 +2752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Holding: 0
   Inflating: 0
+  SimulatedPower: 0
 --- !u!4 &1714028298
 Transform:
   m_ObjectHideFlags: 0

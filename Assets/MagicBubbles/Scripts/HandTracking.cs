@@ -6,6 +6,9 @@ namespace MagicBubbles.Scripts
 {
     public class HandTracking : MonoBehaviour {
 
+        public static readonly float NullHand = -1;
+        public static readonly float NotConfident = -2;
+
         public TelekinesisController TelekinesisController;
         public Transform LeftIndexTip;
         public Transform LeftThumbTip;
@@ -30,7 +33,8 @@ namespace MagicBubbles.Scripts
 
         public static float GetThumbIndexDistance(MLHand hand)
         {
-            if (hand == null) return -1;
+            if (hand == null) return NullHand;
+            if (hand.HandConfidence < ConfidenceThreshold) return NotConfident;
 
             var thumb = hand.Thumb.Tip.Position;
             var index = hand.Index.Tip.Position;

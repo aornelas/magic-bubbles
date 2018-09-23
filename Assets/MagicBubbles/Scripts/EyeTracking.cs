@@ -11,9 +11,6 @@ namespace MagicBubbles.Scripts
         private LineRenderer _gazeRay;
         private MeshRenderer _gazeBall;
 
-        // TODO: Test with 0.0f
-        private const float ConfidenceThreshold = 0.9f;
-
         private void Awake()
         {
             _telekinesis = EyeGaze.GetComponent<TelekinesisController>();
@@ -48,7 +45,7 @@ namespace MagicBubbles.Scripts
 
         private void Update()
         {
-            if (MLEyes.IsStarted && MLEyes.FixationConfidence > ConfidenceThreshold)
+            if (MLEyes.IsStarted && !float.IsNaN(MLEyes.FixationPoint.x))
                 EyeGaze.position = MLEyes.FixationPoint;
 
             var raySource = MLEyes.IsStarted
