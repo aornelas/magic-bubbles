@@ -9,6 +9,7 @@ namespace MagicBubbles.Scripts
 
         public bool Holding;
         public bool Inflating;
+        public float SimulatedPower;
 
         private List<Rigidbody> _frozenBubbles;
         private List<BubbleController> _bubbleControllers;
@@ -82,6 +83,7 @@ namespace MagicBubbles.Scripts
                 CancelInvoke();
                 if (_inflatingBubble != null) {
                     var power = HandTracking.GetThumbIndexDistance(_inflatingHand);
+                    if (power == -1) power = SimulatedPower;
                     Debug.Log("inflation power: " + power);
                     _inflatingBubble.Inflate(power);
                 }

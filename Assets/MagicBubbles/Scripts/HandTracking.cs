@@ -30,6 +30,8 @@ namespace MagicBubbles.Scripts
 
         public static float GetThumbIndexDistance(MLHand hand)
         {
+            if (hand == null) return -1;
+
             var thumb = hand.Thumb.Tip.Position;
             var index = hand.Index.Tip.Position;
             return Mathf.Abs(Vector3.Distance(thumb, index));
