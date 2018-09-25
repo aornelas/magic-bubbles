@@ -141,7 +141,7 @@ namespace MagicBubbles.Scripts
             _renderes[5].material.color = rightPointing ? Color.red : Color.green;
             _renderes[8].material.color = rightOpen ? Color.gray : rightPinch ? Color.blue : Color.black;
 
-            TelekinesisController.Holding = leftOpen || rightOpen;
+            TelekinesisController.Holding = leftOpen || rightOpen || leftPinch || rightPinch;
             if (leftFist || rightFist)
                 TelekinesisController.PopAllHeldBubbles();
             if (!TelekinesisController.Inflating && leftPinch)

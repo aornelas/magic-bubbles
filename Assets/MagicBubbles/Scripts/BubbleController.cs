@@ -40,7 +40,7 @@ namespace MagicBubbles.Scripts
             if (power < 0.01f) return;
 
             var targetScale = new Vector3(_originalScale.x + power, _originalScale.y + power, _originalScale.z + power);
-            Debug.Log("Inflating bubble from " + _originalScale + " to " + targetScale);
+            Debug.Log("Inflating bubble from " + transform.localScale + " to " + targetScale + " with original scale of " + _originalScale);
             transform.localScale = targetScale;
         }
 
