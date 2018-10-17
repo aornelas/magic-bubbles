@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MagicLeap;
+using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
 namespace MagicBubbles.Scripts
@@ -16,6 +17,7 @@ namespace MagicBubbles.Scripts
         public float MinFireRate = 0.8f;
         public float MaxFireRate = 0.1f;
         public Color[] BubbleColors = { Color.gray };
+        public ControllerFeedbackExample Controller;
 
         public float MinBallSize = 0.1f;
         public float MaxBallSize = 0.25f;
@@ -125,6 +127,7 @@ namespace MagicBubbles.Scripts
             _bubbleColorIndex = (_bubbleColorIndex + indexDelta) % BubbleColors.Length;
             if (_bubbleColorIndex < 0) _bubbleColorIndex = BubbleColors.Length - 1;
             _nozzleMaterial.color = BubbleColors[_bubbleColorIndex];
+            Controller.Buzz();
         }
 
         private void Awake()

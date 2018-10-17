@@ -127,6 +127,14 @@ namespace MagicLeap
         }
         #endregion
 
+        public void Buzz()
+        {
+            if (_controllerConnectionHandler == null) return;
+            MLInputController controller = _controllerConnectionHandler.ConnectedController;
+            if (controller == null) return;
+            controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.ForceDwell, MLInputControllerFeedbackIntensity.Medium);
+        }
+
         #region Event Handlers
         /// <summary>
         /// Handles the event for button down.
