@@ -15,10 +15,13 @@ namespace MagicBubbles.Scripts
         public float TriggerUpThreshold = 1.0f;
         public float MinFireRate = 0.8f;
         public float MaxFireRate = 0.1f;
+        public Color[] BubbleColors = { Color.gray };
 
         public float MinBallSize = 0.1f;
         public float MaxBallSize = 0.25f;
 
+        private int _bubbleColorIndex = -1;
+        private Material _nozzleMaterial;
         private AudioSource _audio;
         private bool _playingAudio;
         private float _nextFire;
@@ -62,6 +65,11 @@ namespace MagicBubbles.Scripts
             // TODO: Use pool object instead of instantiating new object on each trigger down.
             var bubble = Instantiate(ShootingPrefab);
 
+            // Update bubble color to match nozzle
+            var color = Nozzle.GetComponent<MeshRenderer>().material.color;
+            color.a = 0.2f;
+            bubble.GetComponent<MeshRenderer>().material.color = color;
+
             bubble.SetActive(true);
             var ballsize = Random.Range(MinBallSize, MaxBallSize);
             bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
@@ -90,8 +98,34 @@ namespace MagicBubbles.Scripts
                 DebugOn = !DebugOn;
                 ToggleTrackerVisibility(DebugOn);
             }
+
+            if (gesture.Type.Equals(MLInputControllerTouchpadGestureType.Swipe)) {
+                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Left)) {
+                    PreviousBubbleColor();
+                }
+                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Right)) {
+                    NextBubbleColor();
+                }
+            }
         }
 
+
+        private void NextBubbleColor()
+        {
+            ChangeBubbleColor(+1);
+        }
+
+        private void PreviousBubbleColor()
+        {
+            ChangeBubbleColor(-1);
+        }
+
+        private void ChangeBubbleColor(int indexDelta)
+        {
+            _bubbleColorIndex = (_bubbleColorIndex + indexDelta) % BubbleColors.Length;
+            if (_bubbleColorIndex < 0) _bubbleColorIndex = BubbleColors.Length - 1;
+            _nozzleMaterial.color = BubbleColors[_bubbleColorIndex];
+        }
 
         private void Awake()
         {
@@ -100,6 +134,8 @@ namespace MagicBubbles.Scripts
             MLInput.OnControllerTouchpadGestureEnd += OnTouchpadGestureEnd;
 
             _audio = Nozzle.GetComponent<AudioSource>();
+            _nozzleMaterial = Nozzle.GetComponent<MeshRenderer>().material;
+            NextBubbleColor();
             ToggleTrackerVisibility(DebugOn);
         }
 
