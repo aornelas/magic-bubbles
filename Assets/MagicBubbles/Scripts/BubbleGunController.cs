@@ -44,7 +44,7 @@ namespace MagicBubbles.Scripts
             }
 
             if (Time.time > _nextFire) {
-                _nextFire = Time.time + FireRate(value);
+                _nextFire = Time.time + FireRate(value * 1.25f);
                 ShootBubbles(value);
             }
         }
@@ -85,6 +85,7 @@ namespace MagicBubbles.Scripts
             }
 
             rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
+            Controller.Buzz();
         }
 
         private void OnTriggerUp(byte controllerId, float value)

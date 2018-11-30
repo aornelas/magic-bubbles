@@ -183,7 +183,7 @@ namespace MagicLeap
                 // NOTE: Hardcoded to 0.1 since there was a bug that would make the controller vibrate max when
                 // trigger > 0.8 but < 1.0
                 MLInputControllerFeedbackIntensity intensity = (MLInputControllerFeedbackIntensity) 0.1f;
-                controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
+//                controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
             }
         }
 
