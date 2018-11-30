@@ -45,7 +45,7 @@ namespace MagicBubbles.Scripts
 
             if (Time.time > _nextFire) {
                 _nextFire = Time.time + FireRate(value);
-                ShootBubbles();
+                ShootBubbles(value);
             }
         }
 
@@ -62,7 +62,7 @@ namespace MagicBubbles.Scripts
             return (triggerValue * -1) + (MinFireRate + MaxFireRate);
         }
 
-        private void ShootBubbles()
+        private void ShootBubbles(float forceModifier)
         {
             // TODO: Use pool object instead of instantiating new object on each trigger down.
             var bubble = Instantiate(ShootingPrefab);
@@ -84,7 +84,7 @@ namespace MagicBubbles.Scripts
                 rigidBody = bubble.AddComponent<Rigidbody>();
             }
 
-            rigidBody.AddForce(Nozzle.transform.forward * ShootingForce);
+            rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
         }
 
         private void OnTriggerUp(byte controllerId, float value)
