@@ -31,11 +31,17 @@ namespace MagicLeap
         [SerializeField, Space, Tooltip("Wireframe cube to represent bounds.")]
         private GameObject _boundsWireframeCube;
 
-        [Space, SerializeField, Tooltip("Text to display number of planes.")]
+        [SerializeField, Space, Tooltip("Text to display number of planes.")]
         private Text _numberOfPlanesText;
+
+        [SerializeField, Tooltip("Text to display number of boundaries.")]
+        private Text _numberOfBoundariesText;
 
         [SerializeField, Tooltip("Text to display if planes extents are bounded or boundless.")]
         private Text _boundedExtentsText;
+
+        [Space, SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
 
         private Planes _planesComponent;
 
@@ -54,31 +60,41 @@ namespace MagicLeap
         {
             if (_numberOfPlanesText == null)
             {
-                Debug.LogError("Error PlanesExample._numberOfPlanesText is not set, disabling script.");
+                Debug.LogError("Error: PlanesExample._numberOfPlanesText is not set, disabling script.");
                 enabled = false;
                 return;
             }
+
+            if (_numberOfBoundariesText == null)
+            {
+                Debug.LogError("Error: PlanesExample._numberOfBoundariesText is not set, disabling script.");
+                enabled = false;
+                return;
+            }
+
             if (_boundedExtentsText == null)
             {
-                Debug.LogError("Error PlanesExample._boundedExtentsText is not set, disabling script.");
+                Debug.LogError("Error: PlanesExample._boundedExtentsText is not set, disabling script.");
                 enabled = false;
                 return;
             }
+
             if (_boundsWireframeCube == null)
             {
-                Debug.LogError("Error PlanesExample._boundsWireframeCube is not set, disabling script.");
+                Debug.LogError("Error: PlanesExample._boundsWireframeCube is not set, disabling script.");
                 enabled = false;
                 return;
             }
-            MLResult result = MLInput.Start();
-            if (!result.IsOk)
+
+            if (_controllerConnectionHandler == null)
             {
-                Debug.LogError("Error PlanesExample starting MLInput, disabling script.");
+                Debug.LogError("Error: PlanesExample._controllerConnectionHandler is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             MLInput.OnControllerButtonDown += OnButtonDown;
+            MagicLeapDevice.RegisterOnHeadTrackingMapEvent(OnHeadTrackingMapEvent);
 
             _planesComponent = GetComponent<Planes>();
             _camera = Camera.main;
@@ -106,11 +122,8 @@ namespace MagicLeap
         /// </summary>
         void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnControllerButtonDown -= OnButtonDown;
-                MLInput.Stop();
-            }
+            MagicLeapDevice.UnregisterOnHeadTrackingMapEvent(OnHeadTrackingMapEvent);
+            MLInput.OnControllerButtonDown -= OnButtonDown;
         }
         #endregion
 
@@ -136,23 +149,37 @@ namespace MagicLeap
         /// Callback handler, changes text when new planes are received.
         /// </summary>
         /// <param name="planes"> Array of new planes. </param>
-        public void OnPlanesUpdate(MLWorldPlane[] planes)
+        /// <param name="planes"> Array of new boundaries. </param>
+        public void OnPlanesUpdate(MLWorldPlane[] planes, MLWorldPlaneBoundaries[] boundaries)
         {
             _numberOfPlanesText.text = string.Format("Number of Planes: {0}/{1}", planes.Length, _planesComponent.MaxPlaneCount);
+            _numberOfBoundariesText.text = string.Format("Number of Boundaries: {0}/{1}", boundaries.Length, _planesComponent.MaxPlaneCount);
         }
 
         /// <summary>
         /// Handles the event for button down. Changes from bounded to boundless and viceversa
         /// when pressing home button
         /// </summary>
-        /// <param name="controller_id">The id of the controller.</param>
+        /// <param name="controllerId">The id of the controller.</param>
         /// <param name="button">The button that is being released.</param>
-        private void OnButtonDown(byte controller_id, MLInputControllerButton button)
+        private void OnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            if (button == MLInputControllerButton.HomeTap)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && button == MLInputControllerButton.HomeTap)
             {
                 _bounded = !_bounded;
                 UpdateBounds();
+            }
+        }
+
+        /// <summary>
+        /// Handle in charge of clearing all planes if map gets lost.
+        /// </summary>
+        /// <param name="mapEvents"> Map Events that happened. </param>
+        private void OnHeadTrackingMapEvent(MLHeadTrackingMapEvent mapEvents)
+        {
+            if (mapEvents.IsLost())
+            {
+                _numberOfPlanesText.text = string.Format("Number of Planes: 0/{0}", _planesComponent.MaxPlaneCount);
             }
         }
         #endregion

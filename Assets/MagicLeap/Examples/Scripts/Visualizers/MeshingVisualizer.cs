@@ -12,7 +12,6 @@
 
 #if UNITY_EDITOR || PLATFORM_LUMIN
 
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.XR;
 using UnityEngine.XR.MagicLeap;
@@ -29,10 +28,11 @@ namespace MagicLeap
         {
             None,
             Wireframe,
+            PointCloud,
             Occlusion
         }
 
-#region Private Variables
+        #region Private Variables
         [SerializeField, Tooltip("The MLSpatialMapper from which to get update on mesh types.")]
         private MLSpatialMapper _mlSpatialMapper;
 
@@ -42,10 +42,13 @@ namespace MagicLeap
         [SerializeField, Tooltip("The material to apply for wireframe rendering.")]
         private Material _wireframeMaterial;
 
-        private RenderMode _renderMode = RenderMode.Wireframe;
-#endregion
+        [SerializeField, Tooltip("The material to apply for point cloud rendering.")]
+        private Material _pointCloudMaterial;
 
-#region Unity Methods
+        private RenderMode _renderMode = RenderMode.Wireframe;
+        #endregion
+
+        #region Unity Methods
         /// <summary>
         /// Start listening for MLSpatialMapper events.
         /// </summary>
@@ -54,7 +57,25 @@ namespace MagicLeap
             // Validate all required game objects.
             if (_mlSpatialMapper == null)
             {
-                Debug.LogError("MeshingVisualizer._mlSpatialMapper is not set, disabling script!");
+                Debug.LogError("Error: MeshingVisualizer._mlSpatialMapper is not set, disabling script!");
+                enabled = false;
+                return;
+            }
+            if(_occlusionMaterial == null)
+            {
+                Debug.LogError("Error: MeshingVisualizer._occlusionMaterial is not set, disabling script!");
+                enabled = false;
+                return;
+            }
+            if (_wireframeMaterial == null)
+            {
+                Debug.LogError("Error: MeshingVisualizer._wireframeMaterial is not set, disabling script!");
+                enabled = false;
+                return;
+            }
+            if (_pointCloudMaterial == null)
+            {
+                Debug.LogError("Error: MeshingVisualizer._pointCloudMaterial is not set, disabling script!");
                 enabled = false;
                 return;
             }
@@ -77,9 +98,9 @@ namespace MagicLeap
             _mlSpatialMapper.meshAdded -= HandleOnMeshReady;
             _mlSpatialMapper.meshUpdated -= HandleOnMeshReady;
         }
-#endregion
+        #endregion
 
-#region Public Methods
+        #region Public Methods
         /// <summary>
         /// Set the render material on the meshes.
         /// </summary>
@@ -89,15 +110,39 @@ namespace MagicLeap
             // Set the render mode.
             _renderMode = mode;
 
+            // Clear existing meshes to process the new mesh type.
+            switch(_renderMode)
+            {
+                case RenderMode.Wireframe:
+                case RenderMode.Occlusion:
+                {
+                    _mlSpatialMapper.DestroyAllMeshes();
+                    _mlSpatialMapper.RefreshAllMeshes();
+
+                    _mlSpatialMapper.meshType = MLSpatialMapper.MeshType.Triangles;
+
+                    break;
+                }
+                case RenderMode.PointCloud:
+                {
+                    _mlSpatialMapper.DestroyAllMeshes();
+                    _mlSpatialMapper.RefreshAllMeshes();
+
+                    _mlSpatialMapper.meshType = MLSpatialMapper.MeshType.PointCloud;
+
+                    break;
+                }
+            }
+
             // Update the material applied to all the MeshRenderers.
             foreach (GameObject fragment in _mlSpatialMapper.meshIdToGameObjectMap.Values)
             {
                 UpdateRenderer(fragment.GetComponent<MeshRenderer>());
             }
         }
-#endregion
+        #endregion
 
-#region Private Methods
+        #region Private Methods
         /// <summary>
         /// Updates the currently selected render material on the MeshRenderer.
         /// </summary>
@@ -111,6 +156,11 @@ namespace MagicLeap
                 {
                     meshRenderer.enabled = false;
                 }
+                else if (_renderMode == RenderMode.PointCloud)
+                {
+                    meshRenderer.enabled = true;
+                    meshRenderer.material = _pointCloudMaterial;
+                }
                 else if (_renderMode == RenderMode.Wireframe)
                 {
                     meshRenderer.enabled = true;
@@ -123,9 +173,9 @@ namespace MagicLeap
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Event Handlers
+        #region Event Handlers
         /// <summary>
         /// Handles the MeshReady event, which tracks and assigns the correct mesh renderer materials.
         /// </summary>
@@ -137,7 +187,7 @@ namespace MagicLeap
                 UpdateRenderer(_mlSpatialMapper.meshIdToGameObjectMap[meshId].GetComponent<MeshRenderer>());
             }
         }
-#endregion
+        #endregion
     }
 }
 

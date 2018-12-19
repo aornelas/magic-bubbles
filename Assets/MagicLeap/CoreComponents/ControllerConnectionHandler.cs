@@ -11,6 +11,7 @@
 // %BANNER_END%
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityEngine.XR.MagicLeap
@@ -18,8 +19,9 @@ namespace UnityEngine.XR.MagicLeap
     /// <summary>
     /// Class to automatically handle connection/disconnection events of an input device. By default,
     /// all device types are allowed but it could be modified through the inspector to limit which types to
-    /// allow. This class automatically handles the disconnection/reconnection of controllers. This class
-    /// keeps only the first allowed connected controller (See public property ConnectedController)
+    /// allow. This class automatically handles the disconnection/reconnection of Control and MCA devices.
+    /// This class keeps track of all connected devices matching allowed types. If more than one allowed
+    /// device is connected, the first one connected is returned.
     /// </summary>
     public sealed class ControllerConnectionHandler : MonoBehaviour
     {
@@ -39,13 +41,21 @@ namespace UnityEngine.XR.MagicLeap
         #region Private Variables
         [SerializeField, BitMask(typeof(DeviceTypesAllowed)), Tooltip("Bitmask on which devices to allow.")]
         private DeviceTypesAllowed _devicesAllowed = (DeviceTypesAllowed)~0;
+
+        private List<MLInputController> _allowedConnectedDevices = new List<MLInputController>();
         #endregion
 
         #region Public Variables
         /// <summary>
         /// Getter for the first allowed connected device, could return null.
         /// </summary>
-        public MLInputController ConnectedController { get; private set; }
+        public MLInputController ConnectedController
+        {
+            get
+            {
+                return (_allowedConnectedDevices.Count == 0) ? null : _allowedConnectedDevices[0];
+            }
+        }
         #endregion
 
         #region Public Events
@@ -58,7 +68,7 @@ namespace UnityEngine.XR.MagicLeap
         /// <summary>
         /// Invoked only when the current controller disconnects.
         /// </summary>
-        public System.Action OnControllerDisconnected;
+        public System.Action<MLInputController> OnControllerDisconnected;
         #endregion
 
         #region Unity Methods
@@ -73,13 +83,13 @@ namespace UnityEngine.XR.MagicLeap
             MLResult result = MLInput.Start(config);
             if (!result.IsOk)
             {
-                Debug.LogError("Error ControllerConnectionHandler starting MLInput, disabling script.");
+                Debug.LogErrorFormat("Error: ControllerConnectionHandler failed starting MLInput, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
 
-            ConnectedController = GetAllowedInput();
             RegisterConnectionHandlers();
+            GetAllowedInput();
         }
 
         /// <summary>
@@ -115,20 +125,19 @@ namespace UnityEngine.XR.MagicLeap
         }
 
         /// <summary>
-        /// Gets the first input device that's connected and allowed
+        /// Fills allowed connected devices list with all the connected controllers matching
+        /// types set in _devicesAllowed.
         /// </summary>
-        /// <returns>The first connected allowed device if any, null otherwise</returns>
-        private MLInputController GetAllowedInput()
+        private void GetAllowedInput()
         {
             for (int i = 0; i < 2; ++i)
             {
                 MLInputController controller = MLInput.GetController(i);
-                if (IsDeviceAllowed(controller))
+                if (IsDeviceAllowed(controller) && !_allowedConnectedDevices.Exists((device) => device.Id == controller.Id))
                 {
-                    return controller;
+                    _allowedConnectedDevices.Add(controller);
                 }
             }
-            return null;
         }
 
         /// <summary>
@@ -151,7 +160,7 @@ namespace UnityEngine.XR.MagicLeap
 
         #region Public Methods
         /// <summary>
-        /// Checks if the controller is set and connected. This method
+        /// Checks if there is a controller in the list. This method
         /// does not check if the controller is of the allowed device type
         /// since that's handled by the connection/disconnection handlers.
         /// Should not be called from Awake() or OnEnable().
@@ -159,49 +168,53 @@ namespace UnityEngine.XR.MagicLeap
         /// <returns>True if the controller is ready for use, false otherwise</returns>
         public bool IsControllerValid()
         {
-            return (ConnectedController != null && ConnectedController.Connected);
+            return (ConnectedController != null);
+        }
+
+        /// <summary>
+        /// Checks if controller list contains controller with input id.
+        /// This method does not check if the controller is of the allowed device
+        /// type since that's handled by the connection/disconnection handlers.
+        /// Should not be called from Awake() or OnEnable().
+        /// </summary>
+        /// <param name="controllerId"> Controller id to check against </param>
+        /// <returns>True if a controller is found, false otherwise</returns>
+        public bool IsControllerValid(byte controllerId)
+        {
+            return _allowedConnectedDevices.Exists((device) => device.Id == controllerId);
         }
         #endregion
 
         #region Event Handlers
         /// <summary>
-        /// Handles the event when a controller connects. If the current controller
-        /// is not valid, this will check if the new controller is allowed and uses
-        /// it if so. Otherwise, no change will happen.
+        /// Handles the event when a controller connects. If the connected controller
+        /// is valid, we add it to the _allowedConnectedDevices list.
         /// </summary>
         /// <param name="controllerId">The id of the controller.</param>
         private void HandleOnControllerConnected(byte controllerId)
         {
-            if (!IsControllerValid())
+            MLInputController newController = MLInput.GetController(controllerId);
+            if (IsDeviceAllowed(newController))
             {
-                MLInputController newController = MLInput.GetController(controllerId);
-                if (IsDeviceAllowed(newController))
+                if(_allowedConnectedDevices.Exists((device) => device.Id == controllerId))
                 {
-                    ConnectedController = newController;
+                    Debug.LogWarning(string.Format("Connected controller with id {0} already connected.", controllerId));
+                    return;
                 }
 
-                if (OnControllerConnected != null)
-                {
-                    OnControllerConnected(ConnectedController);
-                }
+                _allowedConnectedDevices.Add(newController);
             }
         }
 
         /// <summary>
         /// Handles the event when a controller disconnects. If the disconnected
-        /// controller happens to be what we're using, we set our reference to null.
+        /// controller happens to be in the _allowedConnectedDevices list, we
+        /// remove it from the list.
         /// </summary>
         /// <param name="controllerId">The id of the controller.</param>
         private void HandleOnControllerDisconnected(byte controllerId)
         {
-            if (ConnectedController != null && ConnectedController.Id == controllerId)
-            {
-                ConnectedController = null;
-                if (OnControllerDisconnected != null)
-                {
-                    OnControllerDisconnected();
-                }
-            }
+            _allowedConnectedDevices.RemoveAll((device) => device.Id == controllerId);
         }
         #endregion
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571334, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2114,8 +2114,8 @@ MonoBehaviour:
   ShootingForce: 150
   TriggerDownThreshold: 0.1
   TriggerUpThreshold: 1
-  MinFireRate: 0.8
-  MaxFireRate: 0.1
+  MinFireRate: 0.6
+  MaxFireRate: 0.3
   BubbleColors:
   - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
   - {r: 0.4, g: 0.8, b: 1, a: 1}
@@ -2133,6 +2133,7 @@ MonoBehaviour:
   MinBallSize: 0.1
   MaxBallSize: 0.25
   DebugOn: 0
+  triggerValue: 1
 --- !u!4 &1317252551
 Transform:
   m_ObjectHideFlags: 0

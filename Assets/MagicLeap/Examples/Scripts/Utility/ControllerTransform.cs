@@ -44,13 +44,6 @@ namespace MagicLeap
         {
             _controllerConnectionHandler = GetComponent<ControllerConnectionHandler>();
 
-            if (!_controllerConnectionHandler.enabled)
-            {
-                Debug.LogWarning("Error ControllerTransform starting MLInput, disabling script.");
-                enabled = false;
-                return;
-            }
-
             _camera = Camera.main;
 
             MLInput.OnControllerButtonUp += HandleOnButtonUp;
@@ -88,10 +81,7 @@ namespace MagicLeap
 
         private void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnControllerButtonUp -= HandleOnButtonUp;
-            }
+            MLInput.OnControllerButtonUp -= HandleOnButtonUp;
         }
         #endregion
 
@@ -104,7 +94,7 @@ namespace MagicLeap
         private void HandleOnButtonUp(byte controllerId, MLInputControllerButton button)
         {
             MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId &&
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) &&
                 controller.Type == MLInputControllerType.MobileApp &&
                 button == MLInputControllerButton.HomeTap)
             {

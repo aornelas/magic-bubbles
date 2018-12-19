@@ -17,13 +17,20 @@ The examples that use these privileges demonstrate how this is done.
 -->
 
 <!--
+This manifest will contain all the privileges required for the examples. It will also work for every example
+excluding the MusicService one. MusicService requires its own custom manifest and custom setup. You can setup
+the custom manifest and properties to run the MusicService example automatically by clicking the button
+Set Up Music Service Example in the MagicLeap drop down menu in the Unity Editor.
+-->
+
+<!--
 Unity will automatically fill in areas marked as Placeholder from the Player Settings.
 -->
 <manifest xmlns:ml="magicleap" ml:package="Placeholder" ml:version_code="1" ml:version_name="">
-  <application ml:sdk_version="1.0" ml:visible_name="Placeholder">
+  <application ml:min_api_level="2" ml:sdk_version="1.0" ml:visible_name="Placeholder">
     <!--Examples using AudioCaptureMic: VideoCapture-->
     <uses-privilege ml:name="AudioCaptureMic" />
-    <!--Examples using CameraCapture: ImageCapture, ImageTracking, VideoCapture-->
+    <!--Examples using CameraCapture: ImageCapture, ImageTracking, VideoCapture, LightTracking-->
     <uses-privilege ml:name="CameraCapture" />
     <!--Examples using GesturesSubscribe: HandTracking-->
     <uses-privilege ml:name="GesturesSubscribe" />
@@ -31,11 +38,11 @@ Unity will automatically fill in areas marked as Placeholder from the Player Set
     <uses-privilege ml:name="GesturesConfig" />
     <!--Examples using Internet: MediaPlayer-->
     <uses-privilege ml:name="Internet" />
-    <!--Examples using PwFoundObjRead: StaticPersistence, DynamicPersistence-->
+    <!--Examples using PwFoundObjRead: Persistence-->
     <uses-privilege ml:name="PwFoundObjRead" />
-    <!--Examples using WorldReconstruction: Meshing, Planes, Raycast-->
+    <!--Examples using WorldReconstruction: Meshing, Planes, Raycast, Placement, LightTracking-->
     <uses-privilege ml:name="WorldReconstruction" />
-    <!--Examples using ControllerPose : Controller, StaticPersistence, DynamicPersistence, ImageCapture, VideoCapture, MediaPlayer, Raycast -->
+    <!--Examples using ControllerPose : Controller, Persistence, ImageTracking, ImageCapture, VideoCapture, MediaPlayer, Raycast, Placement -->
     <uses-privilege ml:name="ControllerPose" />
     <component ml:binary_name="bin/Player.elf" ml:name=".fullscreen" ml:type="Fullscreen" ml:visible_name="Placeholder">
       <icon ml:model_folder="Icon/Model" ml:portal_folder="Icon/Portal" />

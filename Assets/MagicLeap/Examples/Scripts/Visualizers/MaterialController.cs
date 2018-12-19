@@ -26,11 +26,14 @@ namespace MagicLeap
 
         [SerializeField, Tooltip("Helper text")]
         protected Text _statusText;
+        #endregion
+
+        #region Private Variables
         [SerializeField, Tooltip("Text to show when viewing an object with this controller")]
         private string _textOnView;
         #endregion
 
-        #region Properties
+        #region Public Properties
         public Material ReferenceMaterial
         {
             get
@@ -48,13 +51,13 @@ namespace MagicLeap
         {
             if (null == _material)
             {
-                Debug.LogError("MaterialController._material not set, disabling script", this);
+                Debug.LogError("Error: MaterialController._material is not set, disabling script");
                 enabled = false;
                 return;
             }
             if (null == _statusText)
             {
-                Debug.LogError("MaterialController._statusText not set, disabling script.", this);
+                Debug.LogError("Error: MaterialController._statusText is not set, disabling script.");
                 enabled = false;
                 return;
             }

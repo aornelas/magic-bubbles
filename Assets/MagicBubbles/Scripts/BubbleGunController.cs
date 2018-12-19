@@ -14,7 +14,7 @@ namespace MagicBubbles.Scripts
         public float ShootingForce = 300f;
         public float TriggerDownThreshold = 0.1f;
         public float TriggerUpThreshold = 1.0f;
-        public float MinFireRate = 0.8f;
+        public float MinFireRate = 1.0f;
         public float MaxFireRate = 0.1f;
         public Color[] BubbleColors = { Color.gray };
         public ControllerFeedbackExample Controller;
@@ -44,7 +44,7 @@ namespace MagicBubbles.Scripts
             }
 
             if (Time.time > _nextFire) {
-                _nextFire = Time.time + FireRate(value * 1.25f);
+                _nextFire = Time.time + FireRate(value);
                 ShootBubbles(value);
             }
         }
@@ -156,13 +156,14 @@ namespace MagicBubbles.Scripts
             MLInput.OnControllerTouchpadGestureEnd -= OnTouchpadGestureEnd;
         }
 
+        public float triggerValue = 1.0f;
         private void Update()
         {
             MLInput.TriggerDownThreshold = TriggerDownThreshold;
             MLInput.TriggerUpThreshold = TriggerUpThreshold;
 
             if (Input.GetMouseButtonDown(0)) {
-                OnTriggerDown(0,0);
+                OnTriggerDown(0,triggerValue);
             }
         }
     }

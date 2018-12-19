@@ -51,25 +51,25 @@ namespace MagicLeap
         {
             if (null == _axis)
             {
-                Debug.LogError("Error ImageTrackingVisualizer._axis not set, disabling script.");
+                Debug.LogError("Error: ImageTrackingVisualizer._axis is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (null == _trackingCube)
             {
-                Debug.LogError("Error ImageTrackingVisualizer._trackingCube not set, disabling script.");
+                Debug.LogError("Error: ImageTrackingVisualizer._trackingCube is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (null == _demo)
             {
-                Debug.LogError("Error ImageTrackingVisualizer._demo is not set, disabling script.");
+                Debug.LogError("Error: ImageTrackingVisualizer._demo is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (null == _statusLabel)
             {
-                Debug.LogError("Error ImageTrackingVisualizer._statusLabel is not set, disabling script.");
+                Debug.LogError("Error: ImageTrackingVisualizer._statusLabel is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -100,28 +100,19 @@ namespace MagicLeap
         }
         #endregion
 
-        #region Event Handlers
+        #region Public Methods
         /// <summary>
-        /// Callback for when tracked image is found
+        /// Update which objects should be visible
         /// </summary>
-        /// <param name="isReliable"> Contains if image found is reliable </param>
-        private void OnTargetFound(bool isReliable)
+        /// <param name="viewMode">Contains the mode to view</param>
+        public void UpdateViewMode(ImageTrackingExample.ViewMode viewMode)
         {
-            _statusLabel.text = String.Format("{0}Target Found ({1})", _prefix, (isReliable ? "Reliable" : "Unreliable"));
-            _targetFound = true;
+            _lastViewMode = viewMode;
             RefreshViewMode();
         }
+        #endregion
 
-        /// <summary>
-        /// Callback for when image tracked is lost
-        /// </summary>
-        private void OnTargetLost()
-        {
-            _statusLabel.text = String.Format("{0}Target Lost", _prefix);
-            _targetFound = false;
-            RefreshViewMode();
-        }
-
+        #region Private Methods
         /// <summary>
         /// De/Activate objects to be hidden/seen
         /// </summary>
@@ -153,14 +144,25 @@ namespace MagicLeap
         }
         #endregion
 
-        #region Public Methods
+        #region Event Handlers
         /// <summary>
-        /// Update which objects should be visible
+        /// Callback for when tracked image is found
         /// </summary>
-        /// <param name="viewMode">Contains the mode to view</param>
-        public void UpdateViewMode(ImageTrackingExample.ViewMode viewMode)
+        /// <param name="isReliable"> Contains if image found is reliable </param>
+        private void OnTargetFound(bool isReliable)
         {
-            _lastViewMode = viewMode;
+            _statusLabel.text = String.Format("{0}Target Found ({1})", _prefix, (isReliable ? "Reliable" : "Unreliable"));
+            _targetFound = true;
+            RefreshViewMode();
+        }
+
+        /// <summary>
+        /// Callback for when image tracked is lost
+        /// </summary>
+        private void OnTargetLost()
+        {
+            _statusLabel.text = String.Format("{0}Target Lost", _prefix);
+            _targetFound = false;
             RefreshViewMode();
         }
         #endregion

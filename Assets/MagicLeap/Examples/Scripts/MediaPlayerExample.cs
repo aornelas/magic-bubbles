@@ -16,6 +16,7 @@ using UnityEngine.XR.MagicLeap;
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace MagicLeap
 {
@@ -26,7 +27,7 @@ namespace MagicLeap
     {
         #region Private Variables
         private const float STARTING_VOLUME = 0.75f;
-        private const int SEEK_TOLERANCE = 1000; // in milliseconds
+        private const float UI_UPDATE_INTERVAL = 0.1f; //seconds
 
         [SerializeField, Tooltip("MeshRenderer to display media")]
         private MeshRenderer _screen;
@@ -73,13 +74,24 @@ namespace MagicLeap
         [SerializeField, Tooltip("Optional URL of DRM video license server")]
         private string _licenseUrl;
 
+        // Private class used to facilitate "Dictionary" inspector, since Unity can't inspect Dictionaries
+        [System.Serializable]
+        private class StringKeyValue
+        {
+            public string Key = "";
+            public string Value = "";
+        }
+        // DRM-free videos should leave this blank
+        [SerializeField, Tooltip("Optional DRM license server header parameters")]
+        private StringKeyValue[] _customLicenseHeaderData;
+
         [SerializeField, Tooltip("Status Text (can be empty)")]
         private TextMesh _statusText;
 
         private MLMediaPlayer _mediaPlayer;
         private Button _lastButtonHit;
         private bool _isSeeking = false;
-        private int _lastTimeSoughtMs;
+        private float _UIUpdateTimer;
         #endregion // Private Variables
 
         #region Unity Methods
@@ -87,61 +99,61 @@ namespace MagicLeap
         {
             if (_screen == null)
             {
-                Debug.LogError("Error MediaPlayerExample._screen is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._screen is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_pausePlayButton == null)
             {
-                Debug.LogError("Error MediaPlayerExample._pausePlay is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._pausePlay is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_playMaterial == null)
             {
-                Debug.LogError("Error MediaPlayerExample._playMaterial is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._playMaterial is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_pauseMaterial == null)
             {
-                Debug.LogError("Error MediaPlayerExample._pauseMaterial is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._pauseMaterial is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_rewindButton == null)
             {
-                Debug.LogError("Error MediaPlayerExample._rewindButton is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._rewindButton is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_forwardButton == null)
             {
-                Debug.LogError("Error MediaPlayerExample._forwardButton is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._forwardButton is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_timelineSlider == null)
             {
-                Debug.LogError("Error MediaPlayerExample._timelineSlider is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._timelineSlider is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_bufferBar == null)
             {
-                Debug.LogError("Error MediaPlayerExample._bufferBar is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._bufferBar is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_volumeSlider == null)
             {
-                Debug.LogError("Error MediaPlayerExample._volumeSlider is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._volumeSlider is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_elapsedTime == null)
             {
-                Debug.LogError("Error MediaPlayerExample._elapsedTime is not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerExample._elapsedTime is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -170,6 +182,19 @@ namespace MagicLeap
         {
             _mediaPlayer.VideoSource = _url;
             _mediaPlayer.LicenseServer = _licenseUrl;
+            if (_customLicenseHeaderData != null && _customLicenseHeaderData.Length > 0)
+            {
+                Dictionary<string, string> dict = new Dictionary<string, string>();
+                foreach (StringKeyValue pair in _customLicenseHeaderData)
+                {
+                    if (!String.IsNullOrEmpty(pair.Key) && !String.IsNullOrEmpty(pair.Value))
+                    {
+                        dict[pair.Key] = pair.Value;
+                    }
+                }
+                _mediaPlayer.CustomLicenseHeaderData = dict;
+            }
+
             MLResult result = _mediaPlayer.PrepareVideo();
             if (!result.IsOk)
             {
@@ -204,8 +229,13 @@ namespace MagicLeap
         {
             if (_mediaPlayer.IsPlaying && !_isSeeking)
             {
-                _timelineSlider.Value = _mediaPlayer.AnimationPosition;
-                UpdateElapsedTime(_mediaPlayer.GetElapsedTimeMs());
+                _UIUpdateTimer += Time.deltaTime;
+                if (_UIUpdateTimer > UI_UPDATE_INTERVAL)
+                {
+                    _timelineSlider.Value = _mediaPlayer.AnimationPosition;
+                    UpdateElapsedTime(_mediaPlayer.GetElapsedTimeMs());
+                    _UIUpdateTimer = 0.0f;
+                }
             }
         }
         #endregion // Unity Methods
@@ -283,11 +313,13 @@ namespace MagicLeap
         /// <param name="percent">Percent of whole duration (0.0f to 1.0f)</param>
         private void HandleSeekStarted(float percent)
         {
-            _lastTimeSoughtMs = Mathf.RoundToInt(percent * _mediaPlayer.GetDurationMs());
+            int lastTimeSoughtMs = Mathf.RoundToInt(percent * _mediaPlayer.GetDurationMs());
             _isSeeking = true;
-
+            _rewindButton.enabled = false;
+            _forwardButton.enabled = false;
+            _timelineSlider.enabled = false;
             _timelineSlider.Value = percent;
-            UpdateElapsedTime(_lastTimeSoughtMs);
+            UpdateElapsedTime(lastTimeSoughtMs);
         }
 
         /// <summary>
@@ -299,15 +331,10 @@ namespace MagicLeap
         /// <param name="percent">Percent of whole duration (0.0f to 1.0f)</param>
         private void HandleSeekCompleted(float percent)
         {
-            int timeSoughtMs = Mathf.RoundToInt(percent * _mediaPlayer.GetDurationMs());
-
-            // Determine if we are done seeking by computing
-            // whether the time delta between the last completed
-            // seek and this seek falls within tolerance.
-            if (Mathf.Abs(timeSoughtMs - _lastTimeSoughtMs) < SEEK_TOLERANCE)
-            {
-                _isSeeking = false;
-            }
+            _rewindButton.enabled = true;
+            _forwardButton.enabled = true;
+            _timelineSlider.enabled = true;
+            _isSeeking = false;
         }
 
         /// <summary>
@@ -368,10 +395,12 @@ namespace MagicLeap
             {
                 if (!shouldPlay && _mediaPlayer.IsPlaying)
                 {
+                    _UIUpdateTimer = float.MaxValue;
                     _mediaPlayer.Pause();
                 }
                 else if (shouldPlay && !_mediaPlayer.IsPlaying)
                 {
+                    _UIUpdateTimer = float.MaxValue;
                     _mediaPlayer.Play();
                 }
             }
@@ -382,6 +411,7 @@ namespace MagicLeap
         /// </summary>
         private void Stop()
         {
+            _UIUpdateTimer = float.MaxValue;
             _mediaPlayer.Stop();
         }
 

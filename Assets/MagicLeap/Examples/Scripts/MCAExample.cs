@@ -62,52 +62,45 @@ namespace MagicLeap
         /// </summary>
         void Awake()
         {
-            MLResult result = MLInput.Start();
-            if (!result.IsOk)
-            {
-                Debug.LogError("Error MCAExample starting MLInput, disabling script.");
-                enabled = false;
-                return;
-            }
             if (_leftButtonHighlight == null)
             {
-                Debug.LogError("Error MCAExample._moveButtonHighlight is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._moveButtonHighlight is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_rightButtonHighlight == null)
             {
-                Debug.LogError("Error MCAExample._appButtonHighlight is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._appButtonHighlight is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_homeTapIndicator == null)
             {
-                Debug.LogError("Error MCAExample._homeTapIndicator is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._homeTapIndicator is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_touch1Indicator == null)
             {
-                Debug.LogError("Error MCAExample._touch1Indicator is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._touch1Indicator is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_touch2Indicator == null)
             {
-                Debug.LogError("Error MCAExample._touch2Indicator is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._touch2Indicator is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_keyboardText == null)
             {
-                Debug.LogError("Error MCAExample._keyboardText is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._keyboardText is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (_modelRenderer == null)
             {
-                Debug.LogError("Error MCAExample._modelRenderer is not set, disabling script.");
+                Debug.LogError("Error: MCAExample._modelRenderer is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -153,14 +146,10 @@ namespace MagicLeap
         /// </summary>
         void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnTriggerUp -= HandleOnTriggerUp;
-                MLInput.OnTriggerDown -= HandleOnTriggerDown;
-                MLInput.OnControllerButtonUp -= HandleOnButtonUp;
-                MLInput.OnControllerButtonDown -= HandleOnButtonDown;
-                MLInput.Stop();
-            }
+            MLInput.OnTriggerUp -= HandleOnTriggerUp;
+            MLInput.OnTriggerDown -= HandleOnTriggerDown;
+            MLInput.OnControllerButtonUp -= HandleOnButtonUp;
+            MLInput.OnControllerButtonDown -= HandleOnButtonDown;
         }
         #endregion
 
@@ -198,9 +187,7 @@ namespace MagicLeap
         /// <param name="button">The button that is being pressed.</param>
         private void HandleOnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId &&
-                button == MLInputControllerButton.Bumper)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && button == MLInputControllerButton.Bumper)
             {
                 _leftButtonHighlight.SetActive(true);
             }
@@ -213,8 +200,7 @@ namespace MagicLeap
         /// <param name="button">The button that is being released.</param>
         private void HandleOnButtonUp(byte controllerId, MLInputControllerButton button)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId))
             {
                 if (button == MLInputControllerButton.Bumper)
                 {
@@ -235,8 +221,7 @@ namespace MagicLeap
         /// <param name="value">The trigger value</param>
         private void HandleOnTriggerDown(byte controllerId, float value)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId))
             {
                 _rightButtonHighlight.SetActive(true);
             }
@@ -249,8 +234,7 @@ namespace MagicLeap
         /// <param name="value">The trigger value</param>
         private void HandleOnTriggerUp(byte controllerId, float value)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId))
             {
                 _rightButtonHighlight.SetActive(false);
             }

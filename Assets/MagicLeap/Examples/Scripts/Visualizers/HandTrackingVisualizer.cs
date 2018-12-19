@@ -58,6 +58,7 @@ namespace MagicLeap
         private List<Transform> _wrist;
         #endregion
 
+        #region Private Properties
         /// <summary>
         /// Returns the hand based on the hand type.
         /// </summary>
@@ -75,6 +76,7 @@ namespace MagicLeap
                 }
             }
         }
+        #endregion
 
         #region Unity Methods
         /// <summary>
@@ -85,7 +87,7 @@ namespace MagicLeap
             MLResult result = MLHands.Start();
             if (!result.IsOk)
             {
-                Debug.LogError("Error HandTrackingVisualizer starting MLHands, disabling script.");
+                Debug.LogErrorFormat("Error: HandTrackingVisualizer failed starting MLHands, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }

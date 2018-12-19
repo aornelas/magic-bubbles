@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controllerIcon: {fileID: 21300000, guid: 8a0754f2766f2fd4bab30b039e7369ea, type: 3}
   _mobileAppIcon: {fileID: 21300000, guid: a08aff0c7b507c04da4da4d952ea2f1f, type: 3}
+  _controllerConnectionHandler: {fileID: 0}
 --- !u!114 &114187097447033748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23383ad1cea0b20438bdd6adc476692f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controllerConnectionHandler: {fileID: 0}
 --- !u!114 &114228876250568364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a660d62a17dddf4abe4d32b17999b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controllerConnectionHandler: {fileID: 0}
 --- !u!114 &114770920106309452
 MonoBehaviour:
   m_ObjectHideFlags: 1

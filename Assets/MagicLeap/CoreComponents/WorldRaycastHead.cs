@@ -67,7 +67,7 @@ namespace UnityEngine.XR.MagicLeap
             _camera = Camera.main;
             if (_camera == null)
             {
-                Debug.LogError("Error WorldRaycastHead._camera is null, disabling script.");
+                Debug.LogError("Error: WorldRaycastHead._camera is null, disabling script.");
                 enabled = false;
                 return;
             }

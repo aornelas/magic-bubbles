@@ -42,8 +42,14 @@ namespace MagicLeap
         [SerializeField, Tooltip("Image Tracking Visualizers to control")]
         private ImageTrackingVisualizer [] _visualizers;
 
-        [SerializeField, Tooltip("The headpose canvas for example status text.")]
-        private Text _statusLabel;
+        [SerializeField, Tooltip("The View Mode text.")]
+        private Text _viewModeLabel;
+
+        [SerializeField, Tooltip("The Tracker Status text.")]
+        private Text _trackerStatusLabel;
+
+        [Space, SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
 
         private PrivilegeRequester _privilegeRequester;
 
@@ -55,17 +61,18 @@ namespace MagicLeap
         // Using Awake so that Privileges is set before PrivilegeRequester Start
         void Awake()
         {
-            _privilegeRequester = GetComponent<PrivilegeRequester>();
-            if (_privilegeRequester == null)
+            if (_controllerConnectionHandler == null)
             {
-                Debug.LogError("Missing PrivilegeRequester component");
+                Debug.LogError("Error: ImageTrackingExample._controllerConnectionHandler is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
-            // Could have also been set via the editor.
-            _privilegeRequester.Privileges = new[] { MLRuntimeRequestPrivilegeId.CameraCapture };
+            // If not listed here, the PrivilegeRequester assumes the request for
+            // the privileges needed, CameraCapture in this case, are in the editor.
+            _privilegeRequester = GetComponent<PrivilegeRequester>();
 
+            // Before enabling the MLImageTrackerBehavior GameObjects, the scene must wait until the privilege has been granted.
             _privilegeRequester.OnPrivilegesDone += HandlePrivilegesDone;
         }
 
@@ -74,12 +81,8 @@ namespace MagicLeap
         /// </summary>
         void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnControllerButtonDown -= HandleOnButtonDown;
-                MLInput.Stop();
-            }
-
+            MLInput.OnControllerButtonDown -= HandleOnButtonDown;
+            MLInput.OnTriggerDown -= HandleOnTriggerDown;
             if (_privilegeRequester != null)
             {
                 _privilegeRequester.OnPrivilegesDone -= HandlePrivilegesDone;
@@ -97,13 +100,13 @@ namespace MagicLeap
             if (pause)
             {
                 MLInput.OnControllerButtonDown -= HandleOnButtonDown;
+                MLInput.OnTriggerDown -= HandleOnTriggerDown;
 
-                updateImageTrackerBehaviours(false);
+                UpdateImageTrackerBehaviours(false);
 
                 _hasStarted = false;
             }
         }
-
         #endregion
 
         #region Private Methods
@@ -122,11 +125,46 @@ namespace MagicLeap
         /// Control when to enable to image trackers based on
         /// if the correct privileges are given.
         /// </summary>
-        void updateImageTrackerBehaviours(bool enabled)
+        void UpdateImageTrackerBehaviours(bool enabled)
         {
             foreach (GameObject obj in TrackerBehaviours)
             {
                 obj.SetActive(enabled);
+            }
+        }
+
+        /// <summary>
+        /// Once privileges have been granted, enable the camera and callbacks.
+        /// </summary>
+        void StartCapture()
+        {
+            if (!_hasStarted)
+            {
+                UpdateImageTrackerBehaviours(true);
+
+                if (_visualizers.Length < 1)
+                {
+                    Debug.LogError("Error: ImageTrackingExample._visualizers is not set, disabling script.");
+                    enabled = false;
+                    return;
+                }
+                if (_viewModeLabel == null)
+                {
+                    Debug.LogError("Error: ImageTrackingExample._viewModeLabel is not set, disabling script.");
+                    enabled = false;
+                    return;
+                }
+                if (_trackerStatusLabel == null)
+                {
+                    Debug.LogError("Error: ImageTrackingExample._trackerStatusLabel is not set, disabling script.");
+                    enabled = false;
+                    return;
+                }
+
+                MLInput.OnControllerButtonDown += HandleOnButtonDown;
+                MLInput.OnTriggerDown += HandleOnTriggerDown;
+
+                _hasStarted = true;
             }
         }
         #endregion
@@ -140,8 +178,7 @@ namespace MagicLeap
         {
             if (!result.IsOk)
             {
-                Debug.LogError("Failed to get all requested privileges. MLResult: " + result);
-                // TODO: Cleanup?
+                Debug.LogErrorFormat("Error: ImageTrackingExample failed to get requested privileges, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
@@ -151,56 +188,40 @@ namespace MagicLeap
         }
 
         /// <summary>
+        /// Handles the event for trigger down.
+        /// </summary>
+        /// <param name="controllerId">The id of the controller.</param>
+        /// <param name="triggerValue">The value of the trigger.</param>
+        private void HandleOnTriggerDown(byte controllerId, float triggerValue)
+        {
+            if (_hasStarted && MLImageTracker.IsStarted && _controllerConnectionHandler.IsControllerValid(controllerId))
+            {
+                if (MLImageTracker.GetTrackerStatus())
+                {
+                    MLImageTracker.Disable();
+                    _trackerStatusLabel.text = "Tracker Status: Disabled";
+                }
+                else
+                {
+                    MLImageTracker.Enable();
+                    _trackerStatusLabel.text = "Tracker Status: Enabled";
+                }
+            }
+        }
+
+        /// <summary>
         /// Handles the event for button down.
         /// </summary>
-        /// <param name="controller_id">The id of the controller.</param>
+        /// <param name="controllerId">The id of the controller.</param>
         /// <param name="button">The button that is being released.</param>
-        private void HandleOnButtonDown(byte controller_id, MLInputControllerButton button)
+        private void HandleOnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            if (button == MLInputControllerButton.Bumper)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && button == MLInputControllerButton.Bumper)
             {
                 _viewMode = (ViewMode)((int)(_viewMode + 1) % Enum.GetNames(typeof(ViewMode)).Length);
-                _statusLabel.text = string.Format("View Mode: {0}", _viewMode.ToString());
+                _viewModeLabel.text = string.Format("View Mode: {0}", _viewMode.ToString());
             }
             UpdateVisualizers();
-        }
-        #endregion
-
-        #region Private Functions
-        /// <summary>
-        /// Once privileges have been granted, enable the camera and callbacks.
-        /// </summary>
-        private void StartCapture()
-        {
-            if (!_hasStarted)
-            {
-                MLResult result = MLInput.Start();
-                if (!result.IsOk)
-                {
-                    Debug.LogError("Failed to start MLInput on ImageCapture component. Disabling the script.");
-                    enabled = false;
-                    return;
-                }
-
-                updateImageTrackerBehaviours(true);
-
-                if (_visualizers.Length < 1)
-                {
-                    Debug.LogError("Error ImageTrackingExample._visualizers not set, disabling script.");
-                    enabled = false;
-                    return;
-                }
-                if (null == _statusLabel)
-                {
-                    Debug.LogError("Error ImageTrackingExample._statusLabel is not set, disabling script.");
-                    enabled = false;
-                    return;
-                }
-
-                MLInput.OnControllerButtonDown += HandleOnButtonDown;
-
-                _hasStarted = true;
-            }
         }
         #endregion
     }

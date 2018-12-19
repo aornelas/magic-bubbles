@@ -22,12 +22,12 @@ namespace MagicLeap
     [RequireComponent(typeof(Rigidbody))]
     public class PathAroundObject : MonoBehaviour
     {
-        #region Public Methods
+        #region Public Variables
         [Tooltip("Transform of the object to path around.")]
         public Transform TargetObject;
         #endregion
 
-        #region Private Methods
+        #region Private Variables
         [SerializeField, Tooltip("Maximum distance from target to go to. (Min Value: 2)")]
         private float _maxDistance = 2.0f;
 
@@ -62,7 +62,7 @@ namespace MagicLeap
         {
             if (TargetObject == null)
             {
-                Debug.Log("Error PathAroundObject.TargetObject is not set, disabling script.");
+                Debug.LogError("Error: PathAroundObject.TargetObject is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -74,7 +74,7 @@ namespace MagicLeap
         /// <summary>
         /// Set correct position and RigidBody properties.
         /// </summary>
-        private void Start()
+        void Start()
         {
             _rigid.useGravity = false;
 
@@ -90,7 +90,7 @@ namespace MagicLeap
         {
             if (TargetObject == null)
             {
-                Debug.Log("Error PathAroundObject.TargetObject is not set, disabling script.");
+                Debug.LogError("Error: PathAroundObject.TargetObject is not set, disabling script.");
                 enabled = false;
                 return;
             }

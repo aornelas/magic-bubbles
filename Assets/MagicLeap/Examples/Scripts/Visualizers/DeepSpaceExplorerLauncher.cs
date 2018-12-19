@@ -52,13 +52,13 @@ namespace MagicLeap
         {
             if (null == _planetPrefabAnimator)
             {
-                Debug.LogError("DeepSpaceExplorerPivot._planetPrefabAnimator not set, disabling script.");
+                Debug.LogError("Error: DeepSpaceExplorerLauncher._planetPrefabAnimator is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (null == _explorerPrefab)
             {
-                Debug.LogError("DeepSpaceExplorerPivot._explorerPrefab not set, disabling script");
+                Debug.LogError("Error: DeepSpaceExplorerLauncher._explorerPrefab is not set, disabling script.");
                 enabled = false;
                 return;
             }

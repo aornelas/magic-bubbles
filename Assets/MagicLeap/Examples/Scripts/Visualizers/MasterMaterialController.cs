@@ -10,7 +10,6 @@
 // ---------------------------------------------------------------------
 // %BANNER_END%
 
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.MagicLeap;
@@ -26,13 +25,17 @@ namespace MagicLeap
         [SerializeField, Tooltip("Plane Visualizer")]
         private PlaneVisualizer _visualizer;
 
+        [SerializeField, Tooltip("Status Text to show which object is currently being manipulated")]
+        private Text _statusText;
+
+        [Space, SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
+
         private MaterialController [] _materialControllers;
         private MaterialController _materialControllerInGaze;
 
-        private MLInputController _controller;
-
-        [SerializeField, Tooltip("Status Text to show which object is currently being manipulated")]
-        private Text _statusText;
+        private uint swipeRight = 0;
+        private uint swipeLeft = 0;
         #endregion
 
         #region Unity Methods
@@ -43,7 +46,7 @@ namespace MagicLeap
         {
             if (null == _visualizer)
             {
-                Debug.LogError("MasterMaterialController._visualizer not set, disabling script");
+                Debug.LogError("Error: MasterMaterialController._visualizer is not set, disabling script");
                 enabled = false;
                 return;
             }
@@ -51,21 +54,33 @@ namespace MagicLeap
             _materialControllers = GetComponents<MaterialController>();
             if (_materialControllers.Length < 1)
             {
-                Debug.LogError("MasterMaterialController._materialControllers is empty, disabling script.");
+                Debug.LogError("Error: MasterMaterialController._materialControllers is empty, disabling script.");
                 enabled = false;
                 return;
             }
-            MLResult result = MLInput.Start();
-            if (!result.IsOk)
+            if (_controllerConnectionHandler == null)
             {
-                Debug.LogError("Error MasterMaterialController starting MLInput, disabling script.");
+                Debug.LogError("Error: MasterMaterialController._controllerConnectionHandler is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             _statusText.text = "";
-            _controller = MLInput.GetController(MLInput.Hand.Left);
             MLInput.OnControllerButtonUp += HandleOnButtonUp;
+            MLInput.OnControllerTouchpadGestureStart += HandleOnTouchpadGestureStart;
+            MLInput.OnControllerTouchpadGestureEnd += HandleOnTouchpadGestureEnd;
+        }
+
+        void Update()
+        {
+            if(swipeRight > 0)
+            {
+                UpdateMaterialController(0.5f * Time.deltaTime);
+            }
+            if(swipeLeft > 0)
+            {
+                UpdateMaterialController(-0.5f * Time.deltaTime);
+            }
         }
 
         /// <summary>
@@ -73,33 +88,9 @@ namespace MagicLeap
         /// </summary>
         void OnDestroy()
         {
+            MLInput.OnControllerTouchpadGestureContinue -= HandleOnTouchpadGestureEnd;
+            MLInput.OnControllerTouchpadGestureStart -= HandleOnTouchpadGestureStart;
             MLInput.OnControllerButtonUp -= HandleOnButtonUp;
-            MLInput.Stop();
-        }
-
-        /// <summary>
-        /// Update the specific material, on the plane that the user is facing, based on controller input
-        /// </summary>
-        void Update ()
-        {
-            if (!_controller.Connected)
-            {
-                return;
-            }
-
-            // Manipulate material in view
-            if (_controller.TouchpadGesture.Type == MLInputControllerTouchpadGestureType.Swipe &&
-                _controller.TouchpadGestureState != MLInputControllerTouchpadGestureState.End)
-            {
-                if (_controller.TouchpadGesture.Direction == MLInputControllerTouchpadGestureDirection.Right)
-                {
-                    UpdateMaterialController(0.5f * Time.deltaTime);
-                }
-                else if (_controller.TouchpadGesture.Direction == MLInputControllerTouchpadGestureDirection.Left)
-                {
-                    UpdateMaterialController(-0.5f * Time.deltaTime);
-                }
-            }
         }
         #endregion
 
@@ -121,13 +112,53 @@ namespace MagicLeap
         /// <summary>
         /// Toggle viewing custom materials and plane borders on button press
         /// </summary>
-        /// <param name="controller_id">The id of the controller.</param>
+        /// <param name="controllerId">The id of the controller.</param>
         /// <param name="button">The button that is being released.</param>
-        private void HandleOnButtonUp(byte controller_id, MLInputControllerButton button)
+        private void HandleOnButtonUp(byte controllerId, MLInputControllerButton button)
         {
-            if (button == MLInputControllerButton.Bumper)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && button == MLInputControllerButton.Bumper)
             {
-                _visualizer.ToggleShowingPlanes();
+                _visualizer.CycleMode();
+            }
+        }
+
+        /// <summary>
+        /// Update swiping counters to update textures if swipe left or right.
+        /// </summary>
+        /// <param name="controllerId">The id of the controller.</param>
+        /// <param name="gesture">Touchpad gesture getting done.</param>
+        private void HandleOnTouchpadGestureStart(byte controllerId, MLInputControllerTouchpadGesture gesture)
+        {
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && gesture.Type == MLInputControllerTouchpadGestureType.Swipe)
+            {
+                if (gesture.Direction == MLInputControllerTouchpadGestureDirection.Right)
+                {
+                    ++swipeRight;
+                }
+                else if (gesture.Direction == MLInputControllerTouchpadGestureDirection.Left)
+                {
+                    ++swipeLeft;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update swiping counters to update textures if swipe left or right.
+        /// </summary>
+        /// <param name="controllerId">The id of the controller.</param>
+        /// <param name="gesture">Touchpad gesture getting done.</param>
+        private void HandleOnTouchpadGestureEnd(byte controllerId, MLInputControllerTouchpadGesture gesture)
+        {
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && gesture.Type == MLInputControllerTouchpadGestureType.Swipe)
+            {
+                if (gesture.Direction == MLInputControllerTouchpadGestureDirection.Right)
+                {
+                    --swipeRight;
+                }
+                else if (gesture.Direction == MLInputControllerTouchpadGestureDirection.Left)
+                {
+                    --swipeLeft;
+                }
             }
         }
 

@@ -22,17 +22,18 @@ namespace MagicLeap
     /// Green: Controller connected.
     /// Yellow: Controller disconnected.
     /// </summary>
-    [RequireComponent(typeof(SpriteRenderer), typeof(ControllerConnectionHandler))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class ControllerStatusIndicator : MonoBehaviour
     {
         #region Private Variables
-        private ControllerConnectionHandler _controllerConnectionHandler;
-
         [SerializeField, Tooltip("Controller Icon")]
         private Sprite _controllerIcon;
 
         [SerializeField, Tooltip("Mobile App Icon")]
         private Sprite _mobileAppIcon;
+
+        [SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
 
         private SpriteRenderer _spriteRenderer;
         #endregion
@@ -47,16 +48,23 @@ namespace MagicLeap
 
             if (_controllerIcon == null)
             {
-                Debug.LogError("Error ControllerStatusIndicator._controllerIcon not set, disabling script.");
+                Debug.LogError("Error: ControllerStatusIndicator._controllerIcon is not set, disabling script.");
+                enabled = false;
                 return;
             }
             if (_mobileAppIcon == null)
             {
-                Debug.LogError("Error ControllerStatusIndicator._mobileAppIcon not set, disabling script.");
+                Debug.LogError("Error: ControllerStatusIndicator._mobileAppIcon is not set, disabling script.");
+                enabled = false;
+                return;
+            }
+            if (_controllerConnectionHandler == null)
+            {
+                Debug.LogError("Error: ControllerStatusIndicator._controllerConnectionHandler is not set, disabling script.");
+                enabled = false;
                 return;
             }
 
-            _controllerConnectionHandler = GetComponent<ControllerConnectionHandler>();
             _controllerConnectionHandler.OnControllerConnected += HandleOnControllerConnected;
             UpdateIcon();
         }
@@ -92,19 +100,6 @@ namespace MagicLeap
         }
         #endregion
 
-        #region Event Handlers
-        /// <summary>
-        /// Handles the event for controller connected.
-        /// Assign controller to connected controller if desired hand matches
-        /// with new connected controller.
-        /// </summary>
-        /// <param name="controller">(Unused) New valid controller</param>
-        protected void HandleOnControllerConnected(MLInputController controller)
-        {
-            UpdateIcon();
-        }
-        #endregion
-
         #region Private Methods
         /// <summary>
         /// Update the icon depending on the controller connected
@@ -123,6 +118,19 @@ namespace MagicLeap
                         break;
                 }
             }
+        }
+        #endregion
+
+        #region Event Handlers
+        /// <summary>
+        /// Handles the event for controller connected.
+        /// Assign controller to connected controller if desired hand matches
+        /// with new connected controller.
+        /// </summary>
+        /// <param name="controller">(Unused) New valid controller</param>
+        protected void HandleOnControllerConnected(MLInputController controller)
+        {
+            UpdateIcon();
         }
         #endregion
     }

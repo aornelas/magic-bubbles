@@ -1,4 +1,4 @@
-﻿// %BANNER_BEGIN%
+// %BANNER_BEGIN%
 // ---------------------------------------------------------------------
 // %COPYRIGHT_BEGIN%
 //
@@ -27,7 +27,7 @@ namespace UnityEngine.XR.MagicLeap
             /// <summary>Requester has not started.</summary>
             Off,
 
-            // <summary>Failed to start because a privilege system failure.</summary>
+            /// <summary>Failed to start because a privilege system failure.</summary>
             StartFailed,
 
             /// <summary>Requester has started requesting privileges.</summary>
@@ -83,6 +83,10 @@ namespace UnityEngine.XR.MagicLeap
         readonly List<MLPrivilegeId> _privilegesToRequest = new List<MLPrivilegeId>();
         readonly List<MLPrivilegeId> _privilegesGranted = new List<MLPrivilegeId>();
 
+        #region Unity Methods
+        /// <summary>
+        /// Start the Privileges API and set the Privilege State
+        /// </summary>
         void Start()
         {
             MLResult result = MLPrivileges.Start();
@@ -93,22 +97,10 @@ namespace UnityEngine.XR.MagicLeap
             }
             else
             {
-                Debug.LogError("Privilege Error: failed to startup");
+                Debug.LogErrorFormat("Error: PrivilegeRequester failed starting MLPrivileges, disabling script. Reason: {0}", result);
                 _state = PrivilegeState.StartFailed;
                 OnPrivilegesDone(result);
                 enabled = false;
-            }
-        }
-
-        void OnDestroy()
-        {
-            if (_state != PrivilegeState.Off && _state != PrivilegeState.StartFailed)
-            {
-                MLPrivileges.Stop();
-
-                _state = PrivilegeState.Off;
-                _privilegesGranted.Clear();
-                _privilegesToRequest.Clear();
             }
         }
 
@@ -121,6 +113,17 @@ namespace UnityEngine.XR.MagicLeap
             if (_state != PrivilegeState.Succeeded)
             {
                 UpdatePrivilege();
+            }
+        }
+
+        /// <summary>
+        /// If the Privileges API is running, stop it.
+        /// </summary>
+        void OnDestroy()
+        {
+            if (MLPrivileges.IsStarted)
+            {
+                MLPrivileges.Stop();
             }
         }
 
@@ -141,11 +144,13 @@ namespace UnityEngine.XR.MagicLeap
                 _state = PrivilegeState.Started;
             }
         }
+        #endregion
 
+        #region Private Methods
         /// <summary>
         /// Handle the privilege states.
         /// </summary>
-        void UpdatePrivilege()
+        private void UpdatePrivilege()
         {
             switch (_state)
             {
@@ -182,14 +187,14 @@ namespace UnityEngine.XR.MagicLeap
         /// <summary>
         /// Request each needed privilege.
         /// </summary>
-        void RequestPrivileges()
+        private void RequestPrivileges()
         {
             foreach (MLPrivilegeId priv in _privilegesToRequest)
             {
                 MLResult result = MLPrivileges.RequestPrivilegeAsync(priv, HandlePrivilegeAsyncRequest);
                 if (!result.IsOk)
                 {
-                    Debug.LogErrorFormat("{0} Privilege Request Error: {1}", priv, result);
+                    Debug.LogErrorFormat("Error: PrivilegeRequester failed requesting {0} privilege. Reason: {1}", priv, result);
                     _state = PrivilegeState.Failed;
                     return;
                 }
@@ -197,14 +202,16 @@ namespace UnityEngine.XR.MagicLeap
 
             _state = PrivilegeState.Requested;
         }
+        #endregion
 
+        #region Event Handlers
         /// <summary>
         /// Handles the result that is received from the query to the Privilege API.
         /// If one of the required privileges are denied, set the Privilege state to Denied.
         /// <param name="result">The resulting status of the query</param>
         /// <param name="privilegeId">The privilege being queried</param>
         /// </summary>
-        void HandlePrivilegeAsyncRequest(MLResult result, MLPrivilegeId privilegeId)
+        private void HandlePrivilegeAsyncRequest(MLResult result, MLPrivilegeId privilegeId)
         {
             if ((MLPrivilegesResult) result.Code == MLPrivilegesResult.Granted)
             {
@@ -217,5 +224,6 @@ namespace UnityEngine.XR.MagicLeap
                 _state = PrivilegeState.Failed;
             }
         }
+        #endregion
     }
 }

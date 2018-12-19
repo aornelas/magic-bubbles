@@ -1,0 +1,7 @@
+KIND = program
+SRCS = example_music_provider.c media_decoder.c utility.c
+INCS =
+
+USES = ml_sdk
+
+SHLIBS = ml_musicservice ml_musicservice_provider ml_mediacodec ml_mediaextractor ml_mediaformat ml_mediacodeclist ml_mediaerror

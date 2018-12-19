@@ -31,6 +31,7 @@ namespace UnityEngine.XR.MagicLeap
         Ceiling = MLWorldPlanesQueryFlags.SemanticCeiling,
         Floor = MLWorldPlanesQueryFlags.SemanticFloor,
         Wall = MLWorldPlanesQueryFlags.SemanticWall,
+        Polygon = MLWorldPlanesQueryFlags.Polygons,
     }
 
     /// <summary>
@@ -85,7 +86,7 @@ namespace UnityEngine.XR.MagicLeap
 
         #region Events
         [System.Serializable]
-        public class PlanesUpdateEvent : UnityEvent<MLWorldPlane[]> { }
+        public class PlanesUpdateEvent : UnityEvent<MLWorldPlane[], MLWorldPlaneBoundaries[]> { }
 
         [Space]
         public PlanesUpdateEvent OnUpdateEvent;
@@ -114,7 +115,7 @@ namespace UnityEngine.XR.MagicLeap
             MLResult result = MLWorldPlanes.Start();
             if (!result.IsOk)
             {
-                Debug.LogError("Error Planes starting MLWorldPlanes, disabling script.");
+                Debug.LogErrorFormat("Error: Planes failed starting MLWorldPlanes, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
@@ -216,20 +217,21 @@ namespace UnityEngine.XR.MagicLeap
         /// Handles the result that is recieved from the query to the Planes API.
         /// <param name="result">The resulting status of the query</param>
         /// <param name="planes">The planes recieved from the query</param>
+        /// <param name="boundaries">The boundaries recieved from the query</param>
         /// </summary>
-        private void HandleOnReceivedPlanes(MLResult result, MLWorldPlane[] planes)
+        private void HandleOnReceivedPlanes(MLResult result, MLWorldPlane[] planes, MLWorldPlaneBoundaries[] boundaries)
         {
             if (result.IsOk)
             {
                 PlanesResult = planes;
                 if (OnUpdateEvent != null)
                 {
-                    OnUpdateEvent.Invoke(planes);
+                    OnUpdateEvent.Invoke(planes, boundaries);
                 }
             }
             else
             {
-                Debug.LogError(string.Format("Query to MLWorldPlanes resulted in {0}.", result));
+                Debug.LogErrorFormat("Error: Planes failed to query MLWorldPlanes. Reason: {0}", result);
             }
 
             _isQuerying = false;

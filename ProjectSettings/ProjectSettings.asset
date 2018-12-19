@@ -662,7 +662,7 @@ PlayerSettings:
     m_ModelFolderPath: 
     m_PortalFolderPath: 
   luminCert:
-    m_CertPath: /Users/andres/workspace/ar/magicleap/TempSharedCert/TempSharedCert.cert
+    m_CertPath: /Users/andres/AcrossRealities/Spatiate Magic Leap/cert/axrdev.cert
     m_PrivateKeyPath: 
   luminIsChannelApp: 0
   luminVersion:
@@ -673,6 +673,7 @@ PlayerSettings:
   - GesturesSubscribe
   - GesturesConfig
   - ControllerPose
+  luminMinimumPlatformAPILevel: 2
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 

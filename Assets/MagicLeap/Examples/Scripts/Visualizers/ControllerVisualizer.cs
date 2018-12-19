@@ -22,6 +22,16 @@ namespace MagicLeap
     [RequireComponent(typeof(ControllerConnectionHandler))]
     public class ControllerVisualizer : MonoBehaviour
     {
+        #region Public Enum
+        [System.Flags]
+        public enum DeviceTypesAllowed : byte
+        {
+            Controller = 1,
+            MobileApp = 2,
+            All = Controller | MobileApp,
+        }
+        #endregion
+
         #region Private Variables
         [SerializeField, Tooltip("The controller model.")]
         private GameObject _controllerModel;
@@ -68,45 +78,39 @@ namespace MagicLeap
         {
             _controllerConnectionHandler = GetComponent<ControllerConnectionHandler>();
 
-            if (!_controllerConnectionHandler.enabled)
-            {
-                Debug.LogWarning("Error ControllerVisualizer starting MLInput, disabling script.");
-                enabled = false;
-                return;
-            }
             if (!_controllerModel)
             {
-                Debug.LogError("Error ControllerVisualizer._controllerModel not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._controllerModel is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (!_trigger)
             {
-                Debug.LogError("Error ControllerVisualizer._trigger not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._trigger is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (!_touchpad)
             {
-                Debug.LogError("Error ControllerVisualizer._touchpad not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._touchpad is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (!_homeButton)
             {
-                Debug.LogError("Error ControllerVisualizer._homeButton not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._homeButton is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (!_bumperButton)
             {
-                Debug.LogError("Error ControllerVisualizer._bumperButton not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._bumperButton is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if (!_touchIndicatorTransform)
             {
-                Debug.LogError("Error ControllerVisualizer._touchIndicatorTransform not set, disabling script.");
+                Debug.LogError("Error: ControllerVisualizer._touchIndicatorTransform is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -141,11 +145,8 @@ namespace MagicLeap
         /// </summary>
         void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnControllerButtonDown -= HandleOnButtonDown;
-                MLInput.OnControllerButtonUp -= HandleOnButtonUp;
-            }
+            MLInput.OnControllerButtonDown -= HandleOnButtonDown;
+            MLInput.OnControllerButtonUp -= HandleOnButtonUp;
         }
         #endregion
 
@@ -274,8 +275,7 @@ namespace MagicLeap
         /// <param name="button">The button that is being pressed.</param>
         private void HandleOnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId &&
+            if (_controllerConnectionHandler.IsControllerValid() && _controllerConnectionHandler.ConnectedController.Id == controllerId &&
                 button == MLInputControllerButton.Bumper)
             {
                 // Sets the color of the Bumper to the active color.
@@ -290,8 +290,7 @@ namespace MagicLeap
         /// <param name="button">The button that is being released.</param>
         private void HandleOnButtonUp(byte controllerId, MLInputControllerButton button)
         {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId)
+            if (_controllerConnectionHandler.IsControllerValid() && _controllerConnectionHandler.ConnectedController.Id == controllerId)
             {
                 if (button == MLInputControllerButton.Bumper)
                 {

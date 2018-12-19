@@ -42,7 +42,7 @@ namespace MagicLeap
         {
             if (null == _xOffset)
             {
-                Debug.LogError("DeepSpaceExplorerController._xOffset not set, disabling script");
+                Debug.LogError("Error: DeepSpaceExplorerController._xOffset is not set, disabling script");
                 enabled = false;
                 return;
             }
