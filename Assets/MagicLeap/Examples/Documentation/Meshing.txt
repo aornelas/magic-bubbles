@@ -1,15 +1,17 @@
 # Example Scene: Meshing
 
 This example demonstrates and prescribes preferred methods for using the
-meshing functionality. The example provides a SpatialMapper script that uses
-its object transform data to drive parameters to the meshing API through
-MLSpatiaMapper.
+meshing functionality. The example provides a MeshingExample script that
+drives parameters of the meshing API through the MLSpatiaMapper.
+
+This example also provides an example use case of the MapEvents functionality,
+clearing all fragments and refreshing the mesh when the map is lost.
 
 The scene provides several examples of changing the way rendering and physics
 interact with the meshing results. You can:
 - Visualize the mesh results.
 - Use the mesh results as occlusion data for virtual objects.
-- Toggle the bounds extents between bounded and unbounded and visualize the bounds with a wire frame cube.
+- Toggle the bounds extents between bounded and unbounded (max bounds) and visualize the bounds with a wire frame cube.
 - Shoot prefab spheres into the scene for physics interaction.
 
 ## Bumper
@@ -21,7 +23,7 @@ Cycles rendering modes:
 
 ## Home Button
 Toggles the bounds extents:
-  - Switch bounds between bounded and boundless
+  - Switch bounds between bounded and boundless (max bounds)
   - Bounds are represented by a clear wireframe cube where the user is at the center.
 
 ## Trigger
@@ -29,4 +31,4 @@ Shoot ball into the scene to demonstrate occlusion and physics.
 
 ## Touchpad
 Swipe Up:
-  - Switch amount of triangles per block between 250, 1000, 5000 and 20000
+  - Switch level of detail of the mesh data to minimum, medium or maximum.

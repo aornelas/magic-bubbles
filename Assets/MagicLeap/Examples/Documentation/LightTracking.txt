@@ -1,0 +1,17 @@
+# Example Scene: Light Tracking
+
+This example demonstrates and prescribes preferred methods for using light
+tracking and observing the luminance level within a scene.
+
+Located in the top right is a luminance level indicator, and will update
+based on the light conditions in your environment.
+
+Based on the lighting conditions, the plant model will either grow
+or retracted back into the planter. You should also notice the
+ambient intensity change in the scene as well.
+
+You can use the controller (Bumper) to anchor / move the plant model
+to various locations in your environment.
+
+## Bumper
+Toggles the (anchor / movement) of the plant model.

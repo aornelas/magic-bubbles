@@ -67,7 +67,7 @@ namespace UnityEngine.XR.MagicLeap
             _camera = Camera.main;
             if (_camera == null)
             {
-                Debug.LogError("Error WorldRaycastHead._camera is null, disabling script.");
+                Debug.LogError("Error: WorldRaycastHead._camera is null, disabling script.");
                 enabled = false;
                 return;
             }
@@ -83,7 +83,7 @@ namespace UnityEngine.XR.MagicLeap
             MLResult result = MLEyes.Start();
             if (!result.IsOk)
             {
-                Debug.LogError("Error WorldRaycastEyes starting MLEyes, disabling script.");
+                Debug.LogErrorFormat("Error: WorldRaycastEyes failed starting MLEyes, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }

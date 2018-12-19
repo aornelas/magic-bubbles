@@ -20,7 +20,7 @@ namespace MagicLeap
     /// Class outputs to input UI.Text the most up to date gestures
     /// and confidence values for each of the hands.
     /// </summary>
-    [RequireComponent(typeof(UnityEngine.XR.MagicLeap.HandTracking))]
+    [RequireComponent(typeof(HandTracking))]
     public class HandTrackingExample : MonoBehaviour
     {
         #region Private Variables
@@ -36,32 +36,10 @@ namespace MagicLeap
         {
             if (_statusText == null)
             {
-                Debug.LogError("Error GestureExample._statusText is not set, disabling script.");
+                Debug.LogError("Error: HandTrackingExample._statusText is not set, disabling script.");
                 enabled = false;
                 return;
             }
-        }
-
-        /// <summary>
-        /// Initializes MLHands API.
-        /// </summary>
-        void OnEnable()
-        {
-            MLResult result = MLHands.Start();
-            if (!result.IsOk)
-            {
-                Debug.LogError("Error GesturesExample starting MLHands, disabling script.");
-                enabled = false;
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Stops the communication to the MLHands API and unregisters required events.
-        /// </summary>
-        void OnDisable()
-        {
-            MLHands.Stop();
         }
 
         /// <summary>
@@ -69,12 +47,15 @@ namespace MagicLeap
         /// </summary>
         void Update()
         {
-            _statusText.text = string.Format(
-                "Current Hand Gestures\nLeft: {0}, {2}% confidence\nRight: {1}, {3}% confidence",
-                MLHands.Left.KeyPose.ToString(),
-                MLHands.Right.KeyPose.ToString(),
-                (MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"),
-                (MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
+            if (MLHands.IsStarted)
+            {
+                _statusText.text = string.Format(
+                    "Current Hand Gestures\nLeft: {0}, {2}% confidence\nRight: {1}, {3}% confidence",
+                    MLHands.Left.KeyPose.ToString(),
+                    MLHands.Right.KeyPose.ToString(),
+                    (MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"),
+                    (MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
+            }
         }
         #endregion
     }

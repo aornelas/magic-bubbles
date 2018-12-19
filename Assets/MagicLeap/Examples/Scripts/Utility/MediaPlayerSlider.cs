@@ -69,7 +69,7 @@ namespace MagicLeap
         {
             if (_handle == null)
             {
-                Debug.LogError("Error MediaPlayerSlider._handle not set, disabling script.");
+                Debug.LogError("Error: MediaPlayerSlider._handle is not set, disabling script.");
                 enabled = false;
                 return;
             }

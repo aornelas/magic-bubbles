@@ -13,115 +13,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
+using UnityEngine.UI;
+using UnityEngine.XR.MagicLeap;
 
-namespace UnityEngine.XR.MagicLeap
+namespace MagicLeap
 {
     /// <summary>
-    ///  Shows all Persistent Points in the world around you.
+    /// Visualizes PCFs in Debug Mode
     /// </summary>
-    public class PersistentPointsVisualizer : MonoBehaviour
+    public class PCFVisualizer : MonoBehaviour
     {
-        #region Variables
+        #region Private Variables
         [SerializeField, Tooltip("Prefab to represent a PCF visually")]
-        private GameObject _representativePrefab;
+        private GameObject _prefab;
         private List<GameObject> _pcfObjs = new List<GameObject>();
+
+        [SerializeField, Tooltip("UI Text to show Good PCF Count")]
+        private Text _goodPCFCountText;
+        private uint _goodPCFCount = 0;
+
+        private int _ongoingQueriesCount = 0;
+        IEnumerator _findAllPCFs = null;
         #endregion
 
-        #region functions
+        #region Public Properties
         /// <summary>
-        /// Start this instance.
+        /// Flag to indicate debug mode
+        /// </summary>
+        public static bool IsDebugMode
+        {
+            get; private set;
+        }
+        #endregion
+
+        #region Unity Methods
+        /// <summary>
+        /// Validates variables, initializes systems, and prepares to show PCFs
         /// </summary>
         void Start()
         {
-            MLResult result = MLPersistentStore.Start();
-            if (!result.IsOk)
+            if (_prefab == null)
             {
-                SetError("Failed to start persistent store. Disabling component");
+                Debug.LogError("Error: PCFVisualizer._representativePrefab is not set, disabling script.");
                 enabled = false;
                 return;
             }
+
+            if (_goodPCFCountText == null)
+            {
+                Debug.LogError("Error: PCFVisualizer._goodPCFCountText is not set, disabling script.");
+                enabled = false;
+                return;
+            }
+            _goodPCFCountText.text = "PCFs Loaded: 0";
+            _goodPCFCountText.gameObject.SetActive(false);
+
+            MLResult result = MLPersistentStore.Start();
+            if (!result.IsOk)
+            {
+                Debug.LogErrorFormat("Error: PCFVisualizer failed starting MLPersistentStore, disabling script. Reason: {0}", result);
+                enabled = false;
+                return;
+            }
+
             result = MLPersistentCoordinateFrames.Start();
             if (!result.IsOk)
             {
                 MLPersistentStore.Stop();
-                SetError("Failed to start coordinate frames system. disabling component");
+                Debug.LogErrorFormat("Error: PCFVisualizer failed starting MLPersistentCoordinateFrames, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
 
-            if (_representativePrefab == null)
-            {
-                SetError("Error: _representativePrefab must be set");
-                enabled = false;
-                return;
-            }
-
-            List<MLPCF> pcfList;
-            result = MLPersistentCoordinateFrames.GetAllPCFs(out pcfList, int.MaxValue);
-            if (!result.IsOk)
-            {
-                MLPersistentStore.Stop();
-                MLPersistentCoordinateFrames.Stop();
-                SetError(result.ToString());
-                enabled = false;
-                return;
-            }
-
-            TryShowingAllPCFs(pcfList);
-        }
-
-        /// <summary>
-        /// Sets the error.
-        /// </summary>
-        /// <param name="errorString">Error string.</param>
-        void SetError(string errorString)
-        {
-            Debug.LogError(errorString);
-        }
-
-        /// <summary>
-        /// Tries the showing all PCF.
-        /// </summary>
-        /// <param name="pcfList">Pcf list.</param>
-        void TryShowingAllPCFs(List<MLPCF> pcfList)
-        {
-            foreach (MLPCF pcf in pcfList)
-            {
-                if (pcf.CurrentResult == MLResultCode.Pending)
-                {
-                    MLPersistentCoordinateFrames.GetPCFPosition(pcf, (r, p) =>
-                    {
-                        if (r.IsOk)
-                        {
-                            AddPCFObject(p);
-                        }
-                        else
-                        {
-                            SetError("failed to get position for pcf : " + p);
-                        }
-                    });
-                }
-                else
-                {
-                    AddPCFObject(pcf);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates the PCF game object.
-        /// </summary>
-        /// <param name="pcf">Pcf.</param>
-        void AddPCFObject(MLPCF pcf)
-        {
-            if(!_pcfObjs.Contains(pcf.GameObj))
-            {
-                GameObject repObj = Instantiate(_representativePrefab, Vector3.zero, Quaternion.identity);
-                repObj.name = pcf.GameObj.name;
-                repObj.transform.parent = pcf.GameObj.transform;
-                _pcfObjs.Add(pcf.GameObj);
-            }
+            MLPCF.OnCreate += HandleCreate;
+            _findAllPCFs = FindAllPCFs();
         }
 
         /// <summary>
@@ -129,6 +94,16 @@ namespace UnityEngine.XR.MagicLeap
         /// </summary>
         void OnDestroy()
         {
+            StopCoroutine(_findAllPCFs);
+            foreach (GameObject go in _pcfObjs)
+            {
+                if (go != null)
+                {
+                    Destroy(go);
+                }
+            }
+
+            MLPCF.OnCreate -= HandleCreate;
             if (MLPersistentStore.IsStarted)
             {
                 MLPersistentStore.Stop();
@@ -137,10 +112,130 @@ namespace UnityEngine.XR.MagicLeap
             {
                 MLPersistentCoordinateFrames.Stop();
             }
+        }
+        #endregion // Unity Methods
 
-            foreach (GameObject go in _pcfObjs)
+        #region Event Handlers
+        /// <summary>
+        /// Called once for every MLPCF successfully created.
+        /// </summary>
+        /// <param name="pcf">The PCF</param>
+        private void HandleCreate(MLPCF pcf)
+        {
+            _goodPCFCount++;
+            _goodPCFCountText.text = string.Format("PCFs Loaded: {0}", _goodPCFCount);
+
+            AddPCFObject(pcf);
+        }
+
+        /// <summary>
+        /// Handler when a PCF Position is found. Called in conjunction with MLPersistentCoordinateFrames.GetPCFPosition(...)
+        /// </summary>
+        /// <param name="result">Result of the Query</param>
+        /// <param name="pcf">PCF</param>
+        private void HandlePCFPositionQuery(MLResult result, MLPCF pcf)
+        {
+            if (result.IsOk)
             {
-                Destroy(go);
+                MLPersistentCoordinateFrames.QueueForUpdates(pcf);
+            }
+            --_ongoingQueriesCount;
+        }
+        #endregion // Event Handlers
+
+        #region Private Methods
+        /// <summary>
+        /// Creates the PCF game object.
+        /// </summary>
+        /// <param name="pcf">Pcf.</param>
+        void AddPCFObject(MLPCF pcf)
+        {
+            GameObject repObj = Instantiate(_prefab, Vector3.zero, Quaternion.identity);
+            repObj.name = pcf.GameObj.name;
+            repObj.transform.SetParent(pcf.GameObj.transform, false);
+
+            PCFStatusText statusTextBehavior = repObj.GetComponent<PCFStatusText>();
+            if (statusTextBehavior != null)
+            {
+                statusTextBehavior.PCF = pcf;
+            }
+
+            repObj.SetActive(IsDebugMode);
+            _pcfObjs.Add(repObj);
+        }
+
+        /// <summary>
+        /// Coroutine to continuously query for all PCFs and their locations in debug mode.
+        /// Note: Getting all PCFs is highly inefficient and ill-advised. We are only
+        /// doing this for demonstration/debug purposes. Do NOT do this on production code!
+        /// </summary>
+        /// <returns>IEnumerator</returns>
+        IEnumerator FindAllPCFs()
+        {
+            while (IsDebugMode)
+            {
+                List<MLPCF> allPCFs;
+                MLResult result = MLPersistentCoordinateFrames.GetAllPCFs(out allPCFs);
+                if (!result.IsOk)
+                {
+                    Debug.LogErrorFormat("Error: MLPersistentCoordinateFrames failed to get all PCFs. Reason: {0}", result);
+                    yield break;
+                }
+
+                // MLPersistentCoordinateFrames.GetAllPCFs() returns the PCFs stored in the device.
+                // We don't have their positions yet. In fact, we don't even know if they're in the
+                // same landscape as the user is loaded into.
+
+                _ongoingQueriesCount = allPCFs.Count;
+                foreach (MLPCF pcf in allPCFs)
+                {
+                    result = MLPersistentCoordinateFrames.GetPCFPosition(pcf, HandlePCFPositionQuery);
+                    // HandlePCFPositionQuery could execute immediately (when the requested PCF has been requested before)
+                    // or later (when the PCF is completely new).
+                    if (!result.IsOk)
+                    {
+                        Debug.LogErrorFormat("Error: MLPersistentCoordinateFrames failed to get PCF position. Reason: {0}", result);
+                        yield break;
+                    }
+
+                    // When MLPersistentCoordinateFrames.GetPCFPosition() successfully gets the position of the PCF,
+                    // MLPCF.OnCreate() gets triggered which will call HandleCreate()
+                }
+
+                // It is possible for _ongoingQueriesCount to be 0 at this point when no new PCFs have been found.
+                // Such a case would cause an infinite loop in the current frame. The following yield statement
+                // prevents the infinite loop in a single frame.
+                yield return null;
+
+                while (_ongoingQueriesCount > 0)
+                {
+                    yield return null;
+                }
+            }
+        }
+        #endregion // Private Methods
+
+        #region Public Methods
+        /// <summary>
+        /// Toggle Debug Mode
+        /// </summary>
+        public void ToggleDebug()
+        {
+            IsDebugMode = !IsDebugMode;
+
+            _goodPCFCountText.gameObject.SetActive(IsDebugMode);
+            foreach (GameObject pcfGO in _pcfObjs)
+            {
+                pcfGO.SetActive(IsDebugMode);
+            }
+
+            if (IsDebugMode)
+            {
+                StartCoroutine(_findAllPCFs);
+            }
+            else
+            {
+                StopCoroutine(_findAllPCFs);
             }
         }
         #endregion

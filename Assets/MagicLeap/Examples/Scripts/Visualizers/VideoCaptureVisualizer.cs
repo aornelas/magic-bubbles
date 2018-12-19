@@ -47,21 +47,21 @@ namespace MagicLeap
         {
             if(_screen == null)
             {
-                Debug.LogError("The VideoCaptureVisualizer component does not have it's _screen reference assigned. Disabling script.");
+                Debug.LogError("Error: VideoCaptureVisualizer._screen is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             if(_previewText == null)
             {
-                Debug.LogError("The VideoCaptureVisualizer component does not have it's _previewText reference assigned. Disabling script.");
+                Debug.LogError("Error: VideoCaptureVisualizer._previewText is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             if (_recordingIndicator == null)
             {
-                Debug.LogError("The VideoCaptureVisualizer component does not have it's _recordingIndicator reference assigned. Disabling script.");
+                Debug.LogError("Error: VideoCaptureVisualizer._recordingIndicator is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -72,12 +72,22 @@ namespace MagicLeap
             _screenRenderer = _screen.GetComponent<Renderer>();
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
             if (_mediaPlayer != null)
             {
                 _mediaPlayer.OnVideoPrepared -= HandleVideoPrepared;
             }
+        }
+        #endregion
+
+        #region Private Methods
+        private IEnumerator EnablePreview()
+        {
+            // delay is needed for Media Player to load the video after preparing it
+            // otherwise, the last frame from the prevous capture will show up
+            yield return new WaitForSeconds(SCREEN_PREVIEW_DELAY);
+            _screenRenderer.enabled = true;
         }
         #endregion
 
@@ -115,7 +125,7 @@ namespace MagicLeap
             MLResult result = _mediaPlayer.PrepareVideo();
             if (!result.IsOk)
             {
-                Debug.LogError(result);
+                Debug.LogErrorFormat("Error: VideoCaptureVisualizer failed to prepare video on capture end. Reason: {0}", result);
             }
         }
 
@@ -127,16 +137,6 @@ namespace MagicLeap
             _mediaPlayer.IsLooping = true;
 
             StartCoroutine(EnablePreview());
-        }
-        #endregion
-
-        #region Private Methods
-        private IEnumerator EnablePreview()
-        {
-            // delay is needed for Media Player to load the video after preparing it
-            // otherwise, the last frame from the prevous capture will show up
-            yield return new WaitForSeconds(SCREEN_PREVIEW_DELAY);
-            _screenRenderer.enabled = true;
         }
         #endregion
     }

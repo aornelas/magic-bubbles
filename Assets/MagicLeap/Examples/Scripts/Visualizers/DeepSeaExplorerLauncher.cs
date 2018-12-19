@@ -44,7 +44,7 @@ namespace MagicLeap
         {
             if (null == _explorerPrefab)
             {
-                Debug.LogError("DeepSeaExplorerLauncher._deepSeaExplorer not set, disabling script.");
+                Debug.LogError("Error: DeepSeaExplorerLauncher._deepSeaExplorer is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -65,7 +65,7 @@ namespace MagicLeap
         {
             DestroyExplorers();
         }
-        
+
         /// <summary>
         /// Update followers of the new position
         /// </summary>

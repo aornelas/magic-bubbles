@@ -79,7 +79,7 @@ namespace MagicLeap
 
             if (_raycast == null)
             {
-                Debug.LogError("Error RaycastVisualizer._raycast is not set, disabling script.");
+                Debug.LogError("Error: RaycastVisualizer._raycast is not set, disabling script.");
                 enabled = false;
                 return;
             }
@@ -87,7 +87,7 @@ namespace MagicLeap
             _render = GetComponent<Renderer>();
             if (_render == null)
             {
-                Debug.LogError("Error RaycastVisualizer._render is not set, disabling script.");
+                Debug.LogError("Error: RaycastVisualizer._render is not set, disabling script.");
                 enabled = false;
                 return;
             }

@@ -1,4 +1,4 @@
-﻿// %BANNER_BEGIN%
+// %BANNER_BEGIN%
 // ---------------------------------------------------------------------
 // %COPYRIGHT_BEGIN%
 //
@@ -10,115 +10,90 @@
 // ---------------------------------------------------------------------
 // %BANNER_END%
 
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace UnityEngine.XR.MagicLeap
 {
     /// <summary>
-    /// This is a component you can use to make a specific game object a persistent
-    /// anchor/point in space. This component would try to restore itself on Start and
-    /// will notify the listener if it's restored correctly or not. If this is the first time
-    /// it would automatically look for the right real world PCF to attach itself to. You can simply put
-    /// your content you want to persist under the game object with this behavior attached to it.
-    /// PLEASE NOTE: Once the PersistentPoint is found /restored it's transform is locked. You
-    /// cannot move this persistent object at all.
+    /// This is an obsolete component and will be removed in a future release. Please use MLPersistentBehavior.
     /// </summary>
+    [Obsolete("This component has been deprecated and is superseded with MLPersistentBehavior.")]
     public class MLPersistentPoint : MonoBehaviour
     {
-        #region public vars        
+        #region Public Variables
         /// <summary>
         /// Every persistent point in your project must have a unique Id
         /// </summary>
-
         [Tooltip("Unique id for this persistent point. If not provided the name of the GameObject would be used")]
         public string UniqueId;
 
         /// <summary>
-        /// This event is raised when the persistent point is ready and available.
-        /// </summary>
-        public event System.Action OnAvailable;
+        /// Retry timeout.
+        /// <summary/>
+        public float TimeOutInSeconds = 5.0f;
 
         /// <summary>
-        /// This event happens when there are errors.
+        /// Delay to retry when failing to restore
         /// </summary>
-        public event System.Action<MLResult> OnError;
+        public float RetryDelayInSeconds = 2.0f;
 
+        /// <summary>
+        /// Number of times to retry when failing to restore
+        /// </summary>
+        public int NumRetriesForRestore = 3;
+        #endregion
+
+        #region Public Properties
         /// <summary>
         /// Gets the binding.
         /// </summary>
         /// <value>The binding.</value>
         public MLContentBinding Binding { get; private set; }
-
-        /// <summary>
-        /// The max real world PCFs to bind to. Tweak this number to control the
-        /// number of neighboring PCfs to attach the persitent point to.
-        /// Higher the number the more resilient it gets but you pay more cost in storage space
-        /// </summary>
-        [Tooltip("The max real world PCFs to bind to. Higher the number the more resilient it gets but you pay more cost in storage space")]
-        public int MaxPCFsToBindTo = 3;
-
-        #endregion
-        #region private variables and types
-        /// <summary>
-        /// State.
-        /// </summary>
-        enum State
-        {
-            Unknown,
-            RestoreBinding,
-            BindToAllPCFs,
-            BindingComplete,
-            Locked
-        }
-
-        /// <summary>
-        /// Represents the current state or restoration/binding
-        /// </summary>
-        private State _state = State.Unknown;
-
-        /// <summary>
-        /// locked transform
-        /// </summary>
-        private Transform _lockedTransform;
-
-        private List<MLPCF> _allPCFs;
-
-        /// <summary>
-        /// Requests MLPrivilegeId.PwFoundObjRea privilege.
-        /// Must be set before MLPersistentPoint.Awake.
-        /// </summary>
-        [Tooltip("Requests persistence privilege")]
-        public PrivilegeRequester PrivilegeRequester;
         #endregion
 
-        #region functions
+        #region Public Events
+        /// <summary>
+        /// This event is raised, with true, when the content is restored or saved, on create, successfully.
+        /// This is raised, with false, when the content failed to restore or save, on create.
+        /// This event is only raised once. Event Listeners should be bound before Start().
+        /// </summary>
+        public event System.Action<bool> OnComplete;
 
-        // Using Awake so that Privileges is set before PrivilegeRequester Start
-        void Awake()
+        /// <summary>
+        /// This event happens when there are errors. The parameter indicates the specific error
+        /// that happened at the point of failure.
+        /// </summary>
+        public event System.Action<MLResult> OnError;
+        #endregion
+
+        #region Private Variables
+        bool _done = false;
+        #endregion
+
+        #region Unity Methods
+        /// <summary>
+        /// Start up
+        /// Note: This requires the privilege to be granted prior to Start()
+        /// </summary>
+        void Start()
         {
-            if (PrivilegeRequester == null)
+            MLResult result = MLPersistentStore.Start();
+            if (!result.IsOk)
             {
-                Debug.LogError("PrivilegeRequester not assigned");
+                Debug.LogErrorFormat("MLPersistentPoint failed starting MLPersistentStore, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
 
-            // Could have also been set via the editor.
-            PrivilegeRequester.Privileges = new[] { MLRuntimeRequestPrivilegeId.PwFoundObjRead };
-
-            PrivilegeRequester.OnPrivilegesDone += HandlePrivilegesDone;
-        }
-
-        /// <summary>
-        /// Tries to restore the binding or find closest PCF. Note various errors
-        /// can be shown during this step based on the state of the low level systems.
-        /// </summary>
-        void Start()
-        {
-            SetChildrenActive(false);
-            _lockedTransform = gameObject.transform;
+            result = MLPersistentCoordinateFrames.Start();
+            if (!result.IsOk)
+            {
+                MLPersistentStore.Stop();
+                Debug.LogErrorFormat("MLPersistentPoint failed starting MLPersistentCoordinateFrames, disabling script. Reason: {0}", result);
+                enabled = false;
+                return;
+            }
 
             if (string.IsNullOrEmpty(UniqueId))
             {
@@ -135,54 +110,35 @@ namespace UnityEngine.XR.MagicLeap
             {
                 gameObject.name = UniqueId;
             }
+
+            if (MLPersistentCoordinateFrames.IsReady)
+            {
+                RestoreBinding(gameObject.name);
+            }
+            else
+            {
+                MLPersistentCoordinateFrames.OnReady += HandleReady;
+            }
         }
 
-        ///<summary>
-        /// Starts the restoration process.
-        /// </summary>
-        void StartRestore()
-        {
-            MLResult result = MLPersistentStore.Start();
-            if (!result.IsOk)
-            {
-                SetError(result);
-                enabled = false;
-                return;
-            }
-
-            result = MLPersistentCoordinateFrames.Start();
-            if (!result.IsOk)
-            {
-                MLPersistentStore.Stop();
-                SetError(result);
-                enabled = false;
-                return;
-            }
-
-            result = MLPersistentCoordinateFrames.GetAllPCFs(out _allPCFs, MaxPCFsToBindTo);
-            if (!result.IsOk)
-            {
-                MLPersistentStore.Stop();
-                MLPersistentCoordinateFrames.Stop();
-                SetError(result);
-                enabled = false;
-                return;
-            }
-
-            StartCoroutine(TryRestoreBinding());
-        }
         /// <summary>
-        /// Sets the children active.
+        /// Clean Up
         /// </summary>
-        /// <param name="active">If set to <c>true</c> active.</param>
-        void SetChildrenActive(bool active)
+        private void OnDestroy()
         {
-            for (int i = 0; i < transform.childCount; ++i)
+            if (MLPersistentStore.IsStarted)
             {
-                transform.GetChild(i).gameObject.SetActive(active);
+                MLPersistentStore.Stop();
+            }
+            if (MLPersistentCoordinateFrames.IsStarted)
+            {
+                MLPersistentCoordinateFrames.Stop();
+                MLPersistentCoordinateFrames.OnReady -= HandleReady;
             }
         }
+        #endregion // Unity Methods
 
+        #region Private Methods
         /// <summary>
         /// Utility function that shows the error and also raises the OnErrorEvent
         /// </summary>
@@ -197,51 +153,10 @@ namespace UnityEngine.XR.MagicLeap
         }
 
         /// <summary>
-        /// Tries the restore binding.
+        /// Tries to restore the binding or find closest PCF.
         /// </summary>
-        /// <returns>The restore binding.</returns>
-        IEnumerator TryRestoreBinding()
+        void RestoreBinding(string objId)
         {
-            string suffix = "";
-            int count = 0;
-            string prefix = gameObject.name;
-            for (int i = 0; i < MaxPCFsToBindTo; ++i)
-            {
-                gameObject.name = prefix + suffix;
-                Debug.Log("Trying to look for persistent point attached to :" + gameObject.name);
-                yield return StartCoroutine(RestoreBinding(gameObject.name));
-                if (_state == State.BindingComplete)
-                {
-                    //in short binding wasn't found 
-                    if (Binding == null || Binding.PCF == null || Binding.PCF.CurrentResult != MLResultCode.Ok)
-                    {
-                        suffix = "-" + count;
-                        count++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            if (Binding != null && Binding.PCF != null && Binding.PCF.CurrentResult == MLResultCode.Ok)
-            {
-                SetAvailable();
-            }
-            else
-            {
-                SetError(new MLResult(MLResultCode.Pending, "Failed to find a suitable PCF"));
-            }
-        }
-
-        /// <summary>
-        /// Tries to restore the binding from persistent storage and PCF system
-        /// </summary>
-        IEnumerator RestoreBinding(string objId)
-        {
-            _state = State.RestoreBinding;
-
             if (MLPersistentStore.Contains(objId))
             {
                 MLContentBinding binding;
@@ -249,152 +164,171 @@ namespace UnityEngine.XR.MagicLeap
                 MLResult result = MLPersistentStore.Load(objId, out binding);
                 if (!result.IsOk)
                 {
-                    SetError(result);
-                    _state = State.BindingComplete;
+                    SetError(new MLResult(result.Code,
+                        string.Format("Error: MLPersistentPoint failed to load binding. Reason: {0}", result)));
+                    SetComplete(false);
                 }
                 else
                 {
                     Binding = binding;
-                    Debug.Log("binding result : " + Binding.PCF.CurrentResult);
                     Binding.GameObject = this.gameObject;
                     MLContentBinder.Restore(Binding, HandleBindingRestore);
                 }
             }
             else
             {
-                BindToAllPCFs();
-            }
-
-            while (_state != State.BindingComplete)
-            {
-                yield return null;
-            }
-            yield break;
-        }
-
-        /// <summary>
-        /// Handler for binding restore 
-        /// </summary>
-        /// <param name="contentBinding">Content binding.</param>
-        /// <param name="resultCode">Result code.</param>
-        void HandleBindingRestore(MLContentBinding contentBinding, MLResult result)
-        {
-            _state = State.BindingComplete;
-            Debug.Log("binding result : " + contentBinding.PCF.CurrentResult);
-            if (!result.IsOk)
-            {
-                MLPersistentStore.DeleteBinding(contentBinding);
-                Debug.LogFormat("Failed to restore : {0} - {1}. Result code:", gameObject.name, contentBinding.PCF.CFUID, result.Code);
+                StartCoroutine(BindToClosestPCF());
             }
         }
 
         /// <summary>
         /// Finds the closest pcf for this persistent point.
         /// </summary>
-        void BindToAllPCFs()
+        IEnumerator BindToClosestPCF()
         {
-            _state = State.BindToAllPCFs;
-            string suffix = "";
-            int count = 0;
-
-            // In the loop below we try to associate the persitent point with not only
-            // the closest but all pcfs in the surrounding. This will increase the probablilty
-            // of restoration on reboots. It's costly in terms of disk space so we will limit it to 
-            // a max
-            foreach (MLPCF pcf in _allPCFs)
+            float timeoutInSeconds = TimeOutInSeconds;
+            while (timeoutInSeconds > 0.0f)
             {
-                string objectName = gameObject.name + suffix;
-                var returnResult = MLPersistentCoordinateFrames.GetPCFPosition(pcf, (result, returnPCF) =>
+                yield return StartCoroutine(TryBindingToClosestPCF());
+                if (_done)
                 {
-                    if (result.IsOk && pcf.CurrentResult == MLResultCode.Ok)
-                    {
-                        Debug.Log("binding to PCF: " + pcf.CFUID);
-
-                        Binding = MLContentBinder.BindToPCF(objectName, gameObject, pcf);
-                        MLPersistentStore.Save(Binding);
-                    }
-                    else
-                    {
-                        Debug.LogWarningFormat("Failed to find the position for PCF {0}", returnPCF.CFUID);
-                    }
-                });
-                if (!returnResult.IsOk)
-                {
-                    Debug.LogError("Failed to GetPCF");
-                    break;
+                    yield break;
                 }
-                suffix = "-" + count;
-                count++;
+                yield return new WaitForSeconds(1.0f);
+                timeoutInSeconds -= 1.0f;
             }
 
-            _state = State.BindingComplete;
+            SetError(new MLResult(MLResultCode.Timeout, "Error: MLPersistentPoint failed to bind to closest PCF. Reason: Timeout"));
+            SetComplete(false);
         }
 
         /// <summary>
-        /// Sets the available.
+        /// Creates a binding to the closest PCF
         /// </summary>
-        void SetAvailable()
+        /// <returns>Must be executed as a Coroutine</returns>
+        IEnumerator TryBindingToClosestPCF()
         {
-            _state = State.Locked;
-            _lockedTransform.transform.position = Binding.GameObject.transform.position;
-            _lockedTransform.transform.rotation = Binding.GameObject.transform.rotation;
+            _done = false;
 
-            Debug.Log("Transform locked for Persistent point : " + gameObject.name);
-            if (OnAvailable != null)
+            MLResult returnResult = MLPersistentCoordinateFrames.FindClosestPCF(gameObject.transform.position, (result, returnPCF) =>
             {
-                OnAvailable();
+                if (result.IsOk && returnPCF.CurrentResult == MLResultCode.Ok)
+                {
+                    Debug.Log("Binding to closest found PCF: " + returnPCF.CFUID);
+                    Binding = MLContentBinder.BindToPCF(gameObject.name, gameObject, returnPCF);
+                    MLPersistentStore.Save(Binding);
+                    SetComplete(true);
+                    _done = true;
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Error: MLPersistentPoint failed to find closest PCF. Reason: {0}", result);
+                    SetComplete(false);
+                    _done = true;
+                }
+            });
+
+            if (!returnResult.IsOk)
+            {
+                // Technically, if we reach this point, the system had a problem
+                Debug.LogErrorFormat("Error: MLPersistentPoint failed to attempt to find closest PCF. Reason: {0}", returnResult);
+                SetComplete(false);
+                _done = true;
             }
-            SetChildrenActive(true);
+
+            while (!_done)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>
-        /// Update this instance.
+        /// Triggers OnComplete event with success or failure
         /// </summary>
-        void Update()
+        /// <param name="success">True if restored or saved successfully, false otherwise</param>
+        void SetComplete(bool success)
         {
-            if (_state == State.Locked)
+            if (OnComplete != null)
             {
-                transform.position = _lockedTransform.position;
-                transform.rotation = _lockedTransform.rotation;
+                OnComplete(success);
             }
         }
 
         /// <summary>
-        /// Shuts down the systems started in Start
+        /// Try to restore after a delay
         /// </summary>
-        void OnDestroy()
+        /// <returns>IEnumerator for delay</returns>
+        IEnumerator TryRestore()
         {
-            if (MLPersistentCoordinateFrames.IsStarted)
-            {
-                MLPersistentCoordinateFrames.Stop();
-            }
-
-            if (MLPersistentStore.IsStarted)
-            {
-                MLPersistentStore.Stop();
-            }
-
-            PrivilegeRequester.OnPrivilegesDone -= HandlePrivilegesDone;
+            yield return new WaitForSeconds(RetryDelayInSeconds);
+            MLContentBinder.Restore(Binding, HandleBindingRestore);
         }
-        #endregion
+        #endregion // Private Methods
 
-        #region Private Functions
+        #region Event Handlers
         /// <summary>
-        /// Responds to privilege requester result.
+        /// Handler for binding restore
         /// </summary>
-        /// <param name="result"/>
-        private void HandlePrivilegesDone(MLResult result)
+        /// <param name="contentBinding">Content binding.</param>
+        /// <param name="resultCode">Result code.</param>
+        void HandleBindingRestore(MLContentBinding contentBinding, MLResult result)
         {
             if (!result.IsOk)
             {
-                Debug.LogError("Failed to get requested privilege. MLResult: " + result);
-                // TODO: Cleanup?
-                enabled = false;
-                return;
+                if (NumRetriesForRestore > 0)
+                {
+                    NumRetriesForRestore--;
+                    Debug.LogWarningFormat("Failed to restore: {0} - {1}. Retries left: {2}. Result Code: {3}",
+                        gameObject.name, contentBinding.PCF.CFUID, NumRetriesForRestore, result);
+                    StartCoroutine(TryRestore());
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Failed to restore : {0} - {1}. Deleting Binding. Result code: {2}",
+                        gameObject.name, contentBinding.PCF.CFUID, result);
+                    MLPersistentStore.DeleteBinding(contentBinding);
+                    SetComplete(false);
+                }
             }
+            else
+            {
+                SetComplete(true);
+            }
+        }
 
-            Debug.Log("Succeeded in requesting all privileges");
-            StartRestore();
+        /// <summary>
+        /// Handler when MLPersistentCoordinateFrames becomes ready
+        /// </summary>
+        private void HandleReady()
+        {
+            MLPersistentCoordinateFrames.OnReady -= HandleReady;
+            RestoreBinding(gameObject.name);
+        }
+        #endregion // Event Handlers
+
+        #region Public Methods
+        /// <summary>
+        /// Saves the binding if transform has changed
+        /// </summary>
+        public void UpdateBinding()
+        {
+            if (transform.hasChanged)
+            {
+                // Note: this does not change the PCF bound to
+                Binding.Update();
+                MLPersistentStore.Save(Binding);
+                transform.hasChanged = false;
+            }
+        }
+
+        /// <summary>
+        /// Destroys the binding
+        /// Note: Game Object is still alive. It is the responsibility
+        /// of the caller to deal with the Game Object
+        /// </summary>
+        public void DestroyBinding()
+        {
+            MLPersistentStore.DeleteBinding(Binding);
         }
         #endregion
     }

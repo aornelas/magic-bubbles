@@ -35,9 +35,6 @@ namespace MagicLeap
         [SerializeField, Tooltip("The headpose canvas for example status text.")]
         private Text _statusLabel;
 
-        [SerializeField, Tooltip("The headpose canvas for example instruction text.")]
-        private Text _calibrationInstructionsLabel;
-
         [SerializeField, Tooltip("Raycast from controller.")]
         private WorldRaycastController _raycastController;
 
@@ -46,6 +43,9 @@ namespace MagicLeap
 
         [SerializeField, Tooltip("Raycast from eyegaze.")]
         private WorldRaycastEyes _raycastEyes;
+
+        [Space, SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
 
         private RaycastMode _raycastMode = RaycastMode.Controller;
         private int _modeCount = System.Enum.GetNames(typeof(RaycastMode)).Length;
@@ -59,45 +59,40 @@ namespace MagicLeap
         /// </summary>
         void Awake()
         {
-            MLResult result = MLInput.Start();
-            if (!result.IsOk)
-            {
-                Debug.LogError("Error RaycastExample starting MLInput, disabling script.");
-                enabled = false;
-                return;
-            }
-
             if (_statusLabel == null)
             {
-                Debug.LogError("Error RaycastExample._statusLabel is not set, disabling script.");
+                Debug.LogError("Error: RaycastExample._statusLabel is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             if (_raycastController == null)
             {
-                Debug.LogError("Error RaycastExample._raycastController is not set, disabling script.");
+                Debug.LogError("Error: RaycastExample._raycastController is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             if (_raycastHead == null)
             {
-                Debug.LogError("Error RaycastExample._raycastHead is not set, disabling script.");
+                Debug.LogError("Error: RaycastExample._raycastHead is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
             if (_raycastEyes == null)
             {
-                Debug.LogError("Error RaycastExample._raycastEyes is not set, disabling script.");
+                Debug.LogError("Error: RaycastExample._raycastEyes is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
-#if !UNITY_EDITOR // Removing calibration step from ML Remote Host builds.
-            _calibrationInstructionsLabel.text += "Home Button Tap:\n * Calibrate controller to static model.\n * Toggle back to calibration step.";
-#endif
+            if (_controllerConnectionHandler == null)
+            {
+                Debug.LogError("Error: RaycastExample._controllerConnectionHandler not set, disabling script.");
+                enabled = false;
+                return;
+            }
 
             MLInput.OnControllerButtonDown += OnButtonDown;
             UpdateRaycastMode();
@@ -109,7 +104,6 @@ namespace MagicLeap
         void OnDestroy()
         {
             MLInput.OnControllerButtonDown -= OnButtonDown;
-            MLInput.Stop();
         }
         #endregion
 
@@ -164,11 +158,11 @@ namespace MagicLeap
         /// <summary>
         /// Handles the event for button down and cycles the raycast mode.
         /// </summary>
-        /// <param name="controller_id">The id of the controller.</param>
+        /// <param name="controllerId">The id of the controller.</param>
         /// <param name="button">The button that is being pressed.</param>
-        private void OnButtonDown(byte controller_id, MLInputControllerButton button)
+        private void OnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            if (button == MLInputControllerButton.Bumper)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && button == MLInputControllerButton.Bumper)
             {
                 _raycastMode = (RaycastMode)((int)(_raycastMode + 1) % _modeCount);
                 UpdateRaycastMode();

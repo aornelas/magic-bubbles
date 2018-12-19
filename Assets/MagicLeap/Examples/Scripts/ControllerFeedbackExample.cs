@@ -49,16 +49,8 @@ namespace MagicLeap
         {
             _controllerConnectionHandler = GetComponent<ControllerConnectionHandler>();
 
-            if (!_controllerConnectionHandler.enabled)
-            {
-                Debug.LogWarning("Error ControllerFeedbackExample starting MLInput, disabling script.");
-                enabled = false;
-                return;
-            }
-
             MLInput.OnControllerButtonUp += HandleOnButtonUp;
             MLInput.OnControllerButtonDown += HandleOnButtonDown;
-            MLInput.OnTriggerUp += HandleOnTriggerUp;
             MLInput.OnTriggerDown += HandleOnTriggerDown;
         }
 
@@ -77,10 +69,9 @@ namespace MagicLeap
         {
             if (MLInput.IsStarted)
             {
+                MLInput.OnTriggerDown -= HandleOnTriggerDown;
                 MLInput.OnControllerButtonDown -= HandleOnButtonDown;
                 MLInput.OnControllerButtonUp -= HandleOnButtonUp;
-                MLInput.OnTriggerUp -= HandleOnTriggerUp;
-                MLInput.OnTriggerDown -= HandleOnTriggerDown;
             }
         }
         #endregion
@@ -127,14 +118,6 @@ namespace MagicLeap
         }
         #endregion
 
-        public void Buzz()
-        {
-            if (_controllerConnectionHandler == null) return;
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller == null) return;
-            controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.ForceDwell, MLInputControllerFeedbackIntensity.Medium);
-        }
-
         #region Event Handlers
         /// <summary>
         /// Handles the event for button down.
@@ -180,23 +163,8 @@ namespace MagicLeap
             MLInputController controller = _controllerConnectionHandler.ConnectedController;
             if (controller != null && controller.Id == controllerId)
             {
-                // NOTE: Hardcoded to 0.1 since there was a bug that would make the controller vibrate max when
-                // trigger > 0.8 but < 1.0
-                MLInputControllerFeedbackIntensity intensity = (MLInputControllerFeedbackIntensity) 0.1f;
-//                controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
-            }
-        }
-
-        /// <summary>
-        /// Handles the event for trigger up.
-        /// </summary>
-        /// <param name="controller_id">The id of the controller.</param>
-        /// <param name="value">The value of the trigger button.</param>
-        private void HandleOnTriggerUp(byte controllerId, float value)
-        {
-            MLInputController controller = _controllerConnectionHandler.ConnectedController;
-            if (controller != null && controller.Id == controllerId) {
-                controller.StopFeedbackPatternVibe();
+                MLInputControllerFeedbackIntensity intensity = (MLInputControllerFeedbackIntensity)((int)(value * 2.0f));
+                controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
             }
         }
         #endregion

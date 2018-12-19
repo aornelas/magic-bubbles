@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d97f3bfb1874341bd827a81a6bb64f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _devicesAllowed: 6
+  _devicesAllowed: 7
 --- !u!114 &114537919967921596
 MonoBehaviour:
   m_ObjectHideFlags: 1

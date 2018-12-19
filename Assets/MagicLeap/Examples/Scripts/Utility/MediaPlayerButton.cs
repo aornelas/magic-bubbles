@@ -33,12 +33,18 @@ namespace MagicLeap
         public System.Action<MLInputController> OnControllerDrag;
         #endregion
 
-        #region Public Properties
+        #region Public Variables
         public Color EnabledColor = Color.white;
         public Color DisabledColor = Color.red;
 
         public Renderer[] EnableDisableColorList;
+        #endregion
 
+        #region Private Variables
+        private Renderer _meshRenderer;
+        #endregion
+
+        #region Public Properties
         public Material Material
         {
             get
@@ -68,10 +74,6 @@ namespace MagicLeap
                 }
             }
         }
-        #endregion
-
-        #region Private Variables
-        private Renderer _meshRenderer;
         #endregion
 
         #region Unity Methods
@@ -107,7 +109,5 @@ namespace MagicLeap
             }
         }
         #endregion
-
-
     }
 }

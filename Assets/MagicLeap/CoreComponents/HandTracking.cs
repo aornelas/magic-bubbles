@@ -75,7 +75,7 @@ namespace UnityEngine.XR.MagicLeap
             MLResult result = MLHands.Start();
             if (!result.IsOk)
             {
-                Debug.LogError("Error HandTracking starting MLHands, disabling script.");
+                Debug.LogErrorFormat("Error: HandTracking failed starting MLHands, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
@@ -96,8 +96,8 @@ namespace UnityEngine.XR.MagicLeap
                 // Disable all KeyPoses if MLHands was started
                 // and is about to stop
                 UpdateKeyPoseStates(false);
+                MLHands.Stop();
             }
-            MLHands.Stop();
         }
 
         /// <summary>
@@ -183,8 +183,7 @@ namespace UnityEngine.XR.MagicLeap
             bool status = MLHands.KeyPoseManager.EnableKeyPoses(keyPoseTypes, enableState, true);
             if (!status)
             {
-                Debug.LogError("HandTracking failed during a call to enable tracked KeyPoses.\n"
-                    + "Disabling HandTracking component.");
+                Debug.LogError("Error: HandTracking failed enabling tracked KeyPoses, disabling script.");
                 enabled = false;
                 return;
             }

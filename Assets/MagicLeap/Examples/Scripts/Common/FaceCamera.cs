@@ -23,10 +23,18 @@ namespace MagicLeap
     {
         #region Private Variables
         [SerializeField, Tooltip("Rotation Offset in Euler Angles")]
-        private Vector3 _rotationOffset;
+        Vector3 _rotationOffset;
         #endregion
 
         #region Unity Methods
+        /// <summary>
+        /// Initialize rotation
+        /// </summary>
+        void Start()
+        {
+            transform.LookAt(Camera.main.transform);
+        }
+
         /// <summary>
         /// Update rotation to look at main camera
         /// </summary>

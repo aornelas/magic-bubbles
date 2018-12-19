@@ -27,7 +27,7 @@ namespace MagicLeap
         private float _timeStart;
         #endregion
 
-        #region Properties
+        #region Public Properties
         public float Duration
         {
             set

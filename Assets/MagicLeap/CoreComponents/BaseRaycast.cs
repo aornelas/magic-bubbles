@@ -109,7 +109,7 @@ namespace UnityEngine.XR.MagicLeap
             MLResult result = MLWorldRays.Start();
             if (!result.IsOk)
             {
-                Debug.LogError("Error BaseRaycast starting MLWorldRays, disabling script.");
+                Debug.LogErrorFormat("Error: BaseRaycast failed starting MLWorldRays, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
@@ -120,7 +120,10 @@ namespace UnityEngine.XR.MagicLeap
         /// </summary>
         virtual protected void OnDisable()
         {
-            MLWorldRays.Stop();
+            if (MLWorldRays.IsStarted)
+            {
+                MLWorldRays.Stop();
+            }
         }
 
         /// <summary>
@@ -145,7 +148,7 @@ namespace UnityEngine.XR.MagicLeap
         }
         #endregion
 
-        #region Private Methods
+        #region Protected Methods
         /// <summary>
         /// Returns a RaycastHit based on results from callback function HandleOnReceiveRaycast.
         /// </summary>
@@ -157,7 +160,7 @@ namespace UnityEngine.XR.MagicLeap
         protected RaycastHit GetWorldRaycastResult(MLWorldRays.MLWorldRaycastResultState state, Vector3 point, Vector3 normal, float confidence)
         {
             RaycastHit result = new RaycastHit();
-            
+
             if (state != MLWorldRays.MLWorldRaycastResultState.RequestFailed && state != MLWorldRays.MLWorldRaycastResultState.NoCollision)
             {
                 result.point = point;

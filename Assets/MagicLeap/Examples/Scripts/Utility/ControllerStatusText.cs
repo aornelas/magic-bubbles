@@ -22,11 +22,13 @@ namespace MagicLeap
     /// Green: Controller connected.
     /// Yellow: Controller disconnected.
     /// </summary>
-    [RequireComponent(typeof(Text), typeof(ControllerConnectionHandler))]
+    [RequireComponent(typeof(Text))]
     public class ControllerStatusText : MonoBehaviour
     {
         #region Private Variables
+        [SerializeField, Tooltip("ControllerConnectionHandler reference.")]
         private ControllerConnectionHandler _controllerConnectionHandler;
+
         private Text _controllerStatusText;
         #endregion
 
@@ -36,8 +38,13 @@ namespace MagicLeap
         /// </summary>
         void Awake()
         {
+            if (_controllerConnectionHandler == null)
+            {
+                Debug.LogError("Error: ControllerStatusText._controllerConnectionHandler is not set, disabling script.");
+                enabled = false;
+                return;
+            }
             _controllerStatusText = gameObject.GetComponent<Text>();
-            _controllerConnectionHandler = GetComponent<ControllerConnectionHandler>();
         }
 
         /// <summary>

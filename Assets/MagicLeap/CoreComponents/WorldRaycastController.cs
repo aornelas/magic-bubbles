@@ -67,7 +67,7 @@ namespace UnityEngine.XR.MagicLeap
         {
             if (Controller == null)
             {
-                Debug.LogError("Error WorldRaycastController.Controller is not set, disabling script.");
+                Debug.LogError("Error: WorldRaycastController.Controller is not set, disabling script.");
                 enabled = false;
                 return;
             }

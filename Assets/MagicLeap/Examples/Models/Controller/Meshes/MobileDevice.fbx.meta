@@ -12,6 +12,10 @@ ModelImporter:
     100012: Keyboard_Button_Geo
     100014: Move_Button_Geo
     100016: Settings_Button_Geo
+    100018: Bumper_Button
+    100020: Home_Button
+    100022: Leaper_Geo
+    100024: Trigger
     400000: //RootNode
     400002: App_Button_Geo
     400004: Buttons_Grp
@@ -21,9 +25,16 @@ ModelImporter:
     400012: Keyboard_Button_Geo
     400014: Move_Button_Geo
     400016: Settings_Button_Geo
+    400018: Bumper_Button
+    400020: Home_Button
+    400022: Leaper_Geo
+    400024: Trigger
     2100000: MobileDevice_Mat
     2100002: Button_MAT
     2100004: Dot_Grid_Mat
+    2100006: MobileDevice_Button_MAT
+    2100008: MobileDevice_Dot_Grid_Mat
+    2100010: MobileDevice_leaper_MAT
     2300000: //RootNode
     2300002: App_Button_Geo
     2300004: Camera_Button_Geo
@@ -32,6 +43,10 @@ ModelImporter:
     2300010: Keyboard_Button_Geo
     2300012: Move_Button_Geo
     2300014: Settings_Button_Geo
+    2300016: Bumper_Button
+    2300018: Home_Button
+    2300020: Leaper_Geo
+    2300022: Trigger
     3300000: //RootNode
     3300002: App_Button_Geo
     3300004: Camera_Button_Geo
@@ -40,6 +55,10 @@ ModelImporter:
     3300010: Keyboard_Button_Geo
     3300012: Move_Button_Geo
     3300014: Settings_Button_Geo
+    3300016: Bumper_Button
+    3300018: Home_Button
+    3300020: Leaper_Geo
+    3300022: Trigger
     4300000: MobileDevice_Geo
     4300002: Camera_Button_Geo
     4300004: Keyboard_Button_Geo
@@ -48,6 +67,10 @@ ModelImporter:
     4300010: Home_Button_Geo
     4300012: App_Button_Geo
     4300014: Dot_Grid_Geo
+    4300016: Bumper_Button
+    4300018: Home_Button
+    4300020: Trigger
+    4300022: Leaper_Geo
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -62,8 +85,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: MobileDevice_Button_MAT
+    second: {fileID: 2100000, guid: e37bbdaf5fb1fee4aac5a619d6e53a90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MobileDevice_Dot_Grid_Mat
+    second: {fileID: 2100000, guid: 13eafd56208ff3b43a7b9df3fb279794, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MobileDevice_Mat
     second: {fileID: 2100000, guid: 39518081c3690494380a8dece4faef00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MobileDevice_leaper_MAT
+    second: {fileID: 2100000, guid: 4931dee9c1bb8324ca1f58a6649eb10c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -119,7 +157,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

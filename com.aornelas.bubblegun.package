@@ -1,8 +1,13 @@
 ######### DO NOT EDIT BELOW #########
 
 
+
+######### DO NOT EDIT ABOVE #########
+######### DO NOT EDIT BELOW #########
+
+
 USES = \
-	/Users/andres/workspace/ar/magicleap/lessons/MagicBubbles/Temp/StagingArea/assets \
+	/Users/andres/workspace/Magic-Bubbles/Temp/StagingArea/assets \
 
 
 ######### DO NOT EDIT ABOVE #########

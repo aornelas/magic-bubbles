@@ -1,4 +1,4 @@
-﻿// %BANNER_BEGIN%
+// %BANNER_BEGIN%
 // ---------------------------------------------------------------------
 // %COPYRIGHT_BEGIN%
 //
@@ -26,7 +26,10 @@ namespace MagicLeap
         {}
 
         #region Private Variables
-        [SerializeField]
+        [SerializeField, Space, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
+
+        [SerializeField, Space]
         private ImageCaptureEvent OnImageReceivedEvent;
 
         private bool _isCameraConnected = false;
@@ -39,20 +42,23 @@ namespace MagicLeap
 
         #region Unity Methods
 
-        // Using Awake so that Privileges is set before PrivilegeRequester Start
+        /// <summary>
+        /// Using Awake so that Privileges is set before PrivilegeRequester Start.
+        /// </summary>
         void Awake()
         {
-            _privilegeRequester = GetComponent<PrivilegeRequester>();
-            if (_privilegeRequester == null)
+            if(_controllerConnectionHandler == null)
             {
-                Debug.LogError("Missing PrivilegeRequester component");
+                Debug.LogError("Error: ImageCaptureExample._controllerConnectionHandler is not set, disabling script.");
                 enabled = false;
                 return;
             }
 
-            // Could have also been set via the editor.
-            _privilegeRequester.Privileges = new[] { MLRuntimeRequestPrivilegeId.CameraCapture };
+            // If not listed here, the PrivilegeRequester assumes the request for
+            // the privileges needed, CameraCapture in this case, are in the editor.
+            _privilegeRequester = GetComponent<PrivilegeRequester>();
 
+            // Before enabling the Camera, the scene must wait until the privilege has been granted.
             _privilegeRequester.OnPrivilegesDone += HandlePrivilegesDone;
         }
 
@@ -61,11 +67,7 @@ namespace MagicLeap
         /// </summary>
         void OnDisable()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.OnControllerButtonDown -= OnButtonDown;
-                MLInput.Stop();
-            }
+            MLInput.OnControllerButtonDown -= OnButtonDown;
 
             if (_isCameraConnected)
             {
@@ -81,7 +83,7 @@ namespace MagicLeap
         /// requests privileges needed and clear out the list of already granted
         /// privileges. Also, disable the camera and unregister callbacks.
         /// </summary>
-        private void OnApplicationPause(bool pause)
+        void OnApplicationPause(bool pause)
         {
             if (pause)
             {
@@ -109,35 +111,6 @@ namespace MagicLeap
 
         #region Public Methods
         /// <summary>
-        /// Connects the MLCamera component and instantiates a new instance
-        /// if it was never created.
-        /// </summary>
-        /// <remarks>
-        /// TODO: Handle privilege denied for public call?
-        /// </remarks>
-        public bool EnableMLCamera()
-        {
-            MLResult result = MLCamera.Start();
-            if (result.IsOk)
-            {
-                result = MLCamera.Connect();
-                _isCameraConnected = result.IsOk;
-            }
-            return _isCameraConnected;
-        }
-
-        /// <summary>
-        /// Disconnects the MLCamera if it was ever created or connected.
-        /// </summary>
-        public void DisableMLCamera()
-        {
-            MLCamera.Disconnect();
-            // Explicitly set to false here as the disconnect was attempted.
-            _isCameraConnected = false;
-            MLCamera.Stop();
-        }
-
-        /// <summary>
         /// Captures a still image using the device's camera and returns
         /// the data path where it is saved.
         /// </summary>
@@ -155,17 +128,68 @@ namespace MagicLeap
         }
         #endregion
 
+        #region Private Functions
+        /// <summary>
+        /// Connects the MLCamera component and instantiates a new instance
+        /// if it was never created.
+        /// </summary>
+        private void EnableMLCamera()
+        {
+            MLResult result = MLCamera.Start();
+            if (result.IsOk)
+            {
+                result = MLCamera.Connect();
+                _isCameraConnected = true;
+            }
+            else
+            {
+                Debug.LogErrorFormat("Error: ImageCaptureExample failed starting MLCamera, disabling script. Reason: {0}", result);
+                enabled = false;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Disconnects the MLCamera if it was ever created or connected.
+        /// </summary>
+        private void DisableMLCamera()
+        {
+            if (MLCamera.IsStarted)
+            {
+                MLCamera.Disconnect();
+                // Explicitly set to false here as the disconnect was attempted.
+                _isCameraConnected = false;
+                MLCamera.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Once privileges have been granted, enable the camera and callbacks.
+        /// </summary>
+        private void StartCapture()
+        {
+            if (!_hasStarted)
+            {
+                EnableMLCamera();
+                MLCamera.OnRawImageAvailable += OnCaptureRawImageComplete;
+
+                MLInput.OnControllerButtonDown += OnButtonDown;
+
+                _hasStarted = true;
+            }
+        }
+        #endregion
+
         #region Event Handlers
         /// <summary>
         /// Responds to privilege requester result.
         /// </summary>
         /// <param name="result"/>
-        void HandlePrivilegesDone(MLResult result)
+        private void HandlePrivilegesDone(MLResult result)
         {
             if (!result.IsOk)
             {
-                Debug.LogError("Failed to get all requested privileges. MLResult: " + result);
-                // TODO: Cleanup?
+                Debug.LogErrorFormat("Error: ImageCaptureExample failed to get requested privileges, disabling script. Reason: {0}", result);
                 enabled = false;
                 return;
             }
@@ -181,7 +205,7 @@ namespace MagicLeap
         /// <param name="button">The button that is being pressed.</param>
         private void OnButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            if (MLInputControllerButton.Bumper == button && !_isCapturing)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && MLInputControllerButton.Bumper == button && !_isCapturing)
             {
                 TriggerAsyncCapture();
             }
@@ -203,37 +227,6 @@ namespace MagicLeap
             if (status && (texture.width != 8 && texture.height != 8))
             {
                 OnImageReceivedEvent.Invoke(texture);
-            }
-        }
-        #endregion
-
-        #region Private Functions
-        /// <summary>
-        /// Once privileges have been granted, enable the camera and callbacks.
-        /// </summary>
-        private void StartCapture()
-        {
-            if (!_hasStarted)
-            {
-                MLResult result = MLInput.Start();
-                if (!result.IsOk)
-                {
-                    Debug.LogError("Failed to start MLInput on ImageCapture component. Disabling the script.");
-                    enabled = false;
-                    return;
-                }
-
-                if (!EnableMLCamera())
-                {
-                    Debug.LogError("MLCamera failed to connect. Disabling ImageCapture component.");
-                    enabled = false;
-                    return;
-                }
-
-                MLInput.OnControllerButtonDown += OnButtonDown;
-                MLCamera.OnRawImageAvailable += OnCaptureRawImageComplete;
-
-                _hasStarted = true;
             }
         }
         #endregion

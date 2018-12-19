@@ -26,7 +26,7 @@ namespace MagicLeap
         private float _turningSpeed = 45.0f;
         #endregion
 
-        #region Properties
+        #region Public Properties
         public Vector3 TargetPosition
         {
             set

@@ -25,10 +25,11 @@ namespace MagicLeap
     /// </summary>
     public class VirtualPointer : MonoBehaviour
     {
-        #region Private Properties
-        private MLInputController _controllerInput;
+        #region Private Variables
+        [SerializeField, Tooltip("ControllerConnectionHandler reference.")]
+        private ControllerConnectionHandler _controllerConnectionHandler;
 
-        [SerializeField, Tooltip("Pointer Ray")]
+        [SerializeField, Space, Tooltip("Pointer Ray")]
         private Transform _pointerRay;
 
         [SerializeField, Tooltip("Pointer Light")]
@@ -48,15 +49,12 @@ namespace MagicLeap
         #region Unity Methods
         private void Awake()
         {
-            MLResult result = MLInput.Start();
-            if (!result.IsOk)
+            if (_controllerConnectionHandler == null)
             {
-                Debug.LogError("Error MLInput.Start() failed, disabling script.");
+                Debug.LogError("Error: VirtualPointer._controllerConnectionHandler is not set, disabling script.");
                 enabled = false;
                 return;
             }
-
-            _controllerInput = MLInput.GetController(MLInput.Hand.Left);
 
             MLInput.OnControllerButtonDown += HandleControllerButtonDown;
             MLInput.OnControllerButtonUp += HandleControllerButtonUp;
@@ -66,15 +64,10 @@ namespace MagicLeap
 
         private void OnDestroy()
         {
-            if (MLInput.IsStarted)
-            {
-                MLInput.Stop();
-
-                MLInput.OnControllerButtonDown -= HandleControllerButtonDown;
-                MLInput.OnControllerButtonUp -= HandleControllerButtonUp;
-                MLInput.OnTriggerDown -= HandleTriggerDown;
-                MLInput.OnTriggerUp -= HandleTriggerUp;
-            }
+            MLInput.OnControllerButtonDown -= HandleControllerButtonDown;
+            MLInput.OnControllerButtonUp -= HandleControllerButtonUp;
+            MLInput.OnTriggerDown -= HandleTriggerDown;
+            MLInput.OnTriggerUp -= HandleTriggerUp;
         }
 
         private void Update()
@@ -140,7 +133,7 @@ namespace MagicLeap
 
                 if (_lastButtonHit != null && _lastButtonHit.OnControllerDrag != null)
                 {
-                    _lastButtonHit.OnControllerDrag(_controllerInput);
+                    _lastButtonHit.OnControllerDrag(_controllerConnectionHandler.ConnectedController);
                 }
             }
         }
@@ -170,7 +163,7 @@ namespace MagicLeap
         #region Event Handlers
         private void HandleControllerButtonDown(byte controllerId, MLInputControllerButton button)
         {
-            if (_lastButtonHit != null && !_isGrabbing)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && _lastButtonHit != null && !_isGrabbing)
             {
                 if (_lastButtonHit.OnControllerButtonDown != null)
                 {
@@ -183,24 +176,27 @@ namespace MagicLeap
 
         private void HandleControllerButtonUp(byte controllerId, MLInputControllerButton button)
         {
-            if (_lastButtonHit != null)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId))
             {
-                if (_lastButtonHit.OnControllerButtonUp != null)
+                if (_lastButtonHit != null)
                 {
-                    _lastButtonHit.OnControllerButtonUp(button);
+                    if (_lastButtonHit.OnControllerButtonUp != null)
+                    {
+                        _lastButtonHit.OnControllerButtonUp(button);
+                    }
+                    _pointerLight.color = _pointerLightColorHit;
+                    _isGrabbing = false;
                 }
-                _pointerLight.color = _pointerLightColorHit;
-                _isGrabbing = false;
-            }
-            else
-            {
-                _pointerLight.color = _pointerLightColorNoHit;
+                else
+                {
+                    _pointerLight.color = _pointerLightColorNoHit;
+                }
             }
         }
 
         private void HandleTriggerDown(byte controllerId, float triggerValue)
         {
-            if (_lastButtonHit != null && !_isGrabbing)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId) && _lastButtonHit != null && !_isGrabbing)
             {
                 if (_lastButtonHit.OnControllerTriggerDown != null)
                 {
@@ -213,18 +209,21 @@ namespace MagicLeap
 
         private void HandleTriggerUp(byte controllerId, float triggerValue)
         {
-            if (_lastButtonHit != null)
+            if (_controllerConnectionHandler.IsControllerValid(controllerId))
             {
-                if (_lastButtonHit.OnControllerTriggerUp != null)
+                if (_lastButtonHit != null)
                 {
-                    _lastButtonHit.OnControllerTriggerUp(triggerValue);
+                    if (_lastButtonHit.OnControllerTriggerUp != null)
+                    {
+                        _lastButtonHit.OnControllerTriggerUp(triggerValue);
+                    }
+                    _pointerLight.color = _pointerLightColorHit;
+                    _isGrabbing = false;
                 }
-                _pointerLight.color = _pointerLightColorHit;
-                _isGrabbing = false;
-            }
-            else
-            {
-                _pointerLight.color = _pointerLightColorNoHit;
+                else
+                {
+                    _pointerLight.color = _pointerLightColorNoHit;
+                }
             }
         }
         #endregion // Event Handlers

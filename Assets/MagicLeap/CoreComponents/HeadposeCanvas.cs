@@ -54,13 +54,13 @@ namespace UnityEngine.XR.MagicLeap
             // it failed to initialzie properly.
             if(_canvas == null)
             {
-                Debug.LogError("Error HeadposeCanvas._canvas is not set, disabling script.");
+                Debug.LogError("Error: HeadposeCanvas._canvas is not set, disabling script.");
                 enabled = false;
                 return;
             }
             if(_camera == null)
             {
-                Debug.LogError("Error HeadposeCanvas._camera is not set, disabling script.");
+                Debug.LogError("Error: HeadposeCanvas._camera is not set, disabling script.");
                 enabled = false;
                 return;
             }
