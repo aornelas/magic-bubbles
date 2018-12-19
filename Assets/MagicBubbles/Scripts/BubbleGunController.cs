@@ -17,12 +17,15 @@ namespace MagicBubbles.Scripts
         public float MinFireRate = 1.0f;
         public float MaxFireRate = 0.1f;
         public Color[] BubbleColors = { Color.gray };
+        public ParticleSystem[] Particles;
         public ControllerFeedbackExample Controller;
 
         public float MinBallSize = 0.1f;
         public float MaxBallSize = 0.25f;
 
         private int _bubbleColorIndex = -1;
+        private int _particleColorIndex = -1;
+        private bool _particleMode;
         private Material _nozzleMaterial;
         private AudioSource _audio;
         private bool _playingAudio;
@@ -64,28 +67,32 @@ namespace MagicBubbles.Scripts
 
         private void ShootBubbles(float forceModifier)
         {
-            // TODO: Use pool object instead of instantiating new object on each trigger down.
-            var bubble = Instantiate(ShootingPrefab);
+            if (_particleMode) {
+                // TODO: Emit particles
+            } else {
+                // TODO: Use pool object instead of instantiating new object on each trigger down.
+                var bubble = Instantiate(ShootingPrefab);
 
-            // Update bubble color to match nozzle
-            var color = Nozzle.GetComponent<MeshRenderer>().material.color;
-            color.a = 0.2f;
-            bubble.GetComponent<MeshRenderer>().material.color = color;
+                // Update bubble color to match nozzle
+                var color = Nozzle.GetComponent<MeshRenderer>().material.color;
+                color.a = 0.2f;
+                bubble.GetComponent<MeshRenderer>().material.color = color;
 
-            bubble.SetActive(true);
-            var ballsize = Random.Range(MinBallSize, MaxBallSize);
-            bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
-            bubble.GetComponent<BubbleController>().RecordOriginalSize();
-            var nozPos = Nozzle.transform.position;
-            bubble.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
+                bubble.SetActive(true);
+                var ballsize = Random.Range(MinBallSize, MaxBallSize);
+                bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
+                bubble.GetComponent<BubbleController>().RecordOriginalSize();
+                var nozPos = Nozzle.transform.position;
+                bubble.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
 
-            var rigidBody = bubble.GetComponent<Rigidbody>();
-            if (rigidBody == null) {
-                rigidBody = bubble.AddComponent<Rigidbody>();
+                var rigidBody = bubble.GetComponent<Rigidbody>();
+                if (rigidBody == null) {
+                    rigidBody = bubble.AddComponent<Rigidbody>();
+                }
+
+                rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
+                Controller.Buzz();
             }
-
-            rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
-            Controller.Buzz();
         }
 
         private void OnTriggerUp(byte controllerId, float value)
@@ -109,9 +116,14 @@ namespace MagicBubbles.Scripts
                 if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Right)) {
                     NextBubbleColor();
                 }
+                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Up)) {
+                    PreviousParticle();
+                }
+                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Down)) {
+                    NextParticle();
+                }
             }
         }
-
 
         private void NextBubbleColor()
         {
@@ -125,9 +137,29 @@ namespace MagicBubbles.Scripts
 
         private void ChangeBubbleColor(int indexDelta)
         {
+            _particleMode = false;
             _bubbleColorIndex = (_bubbleColorIndex + indexDelta) % BubbleColors.Length;
             if (_bubbleColorIndex < 0) _bubbleColorIndex = BubbleColors.Length - 1;
             _nozzleMaterial.color = BubbleColors[_bubbleColorIndex];
+            Controller.Buzz();
+        }
+
+        private void NextParticle()
+        {
+            ChangeParticle(+1);
+        }
+
+        private void PreviousParticle()
+        {
+            ChangeParticle(-1);
+        }
+
+        private void ChangeParticle(int indexDelta)
+        {
+            _particleMode = true;
+            _particleColorIndex = (_particleColorIndex + indexDelta) % Particles.Length;
+            if (_particleColorIndex < 0) _particleColorIndex = Particles.Length - 1;
+//            _nozzleMaterial.color = Particles[_particleColorIndex];
             Controller.Buzz();
         }
 
