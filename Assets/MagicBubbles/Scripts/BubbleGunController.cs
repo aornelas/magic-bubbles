@@ -18,6 +18,7 @@ namespace MagicBubbles.Scripts
         public float MaxFireRate = 0.1f;
         public Color[] BubbleColors = { Color.gray };
         public ParticleSystem[] Particles;
+        public GameObject FlameThrower;
         public ControllerFeedbackExample Controller;
 
         public float MinBallSize = 0.1f;
@@ -40,6 +41,11 @@ namespace MagicBubbles.Scripts
         /// <param name="value">The amount the trigger is pulled (0-1)</param>
         private void OnTriggerDown(byte controllerId, float value)
         {
+            if (_particleMode) {
+                ToggleParticles(true);
+                return;
+            }
+
             if (!_playingAudio) {
                 _audio.pitch = 0.5f + value;
                 _audio.Play();
@@ -67,36 +73,45 @@ namespace MagicBubbles.Scripts
 
         private void ShootBubbles(float forceModifier)
         {
-            if (_particleMode) {
-                // TODO: Emit particles
-            } else {
-                // TODO: Use pool object instead of instantiating new object on each trigger down.
-                var bubble = Instantiate(ShootingPrefab);
+            // TODO: Use pool object instead of instantiating new object on each trigger down.
+            var bubble = Instantiate(ShootingPrefab);
 
-                // Update bubble color to match nozzle
-                var color = Nozzle.GetComponent<MeshRenderer>().material.color;
-                color.a = 0.2f;
-                bubble.GetComponent<MeshRenderer>().material.color = color;
+            // Update bubble color to match nozzle
+            var color = Nozzle.GetComponent<MeshRenderer>().material.color;
+            color.a = 0.2f;
+            bubble.GetComponent<MeshRenderer>().material.color = color;
 
-                bubble.SetActive(true);
-                var ballsize = Random.Range(MinBallSize, MaxBallSize);
-                bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
-                bubble.GetComponent<BubbleController>().RecordOriginalSize();
-                var nozPos = Nozzle.transform.position;
-                bubble.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
+            bubble.SetActive(true);
+            var ballsize = Random.Range(MinBallSize, MaxBallSize);
+            bubble.transform.localScale = new Vector3(ballsize, ballsize, ballsize);
+            bubble.GetComponent<BubbleController>().RecordOriginalSize();
+            var nozPos = Nozzle.transform.position;
+            bubble.transform.position = new Vector3(nozPos.x, nozPos.y, nozPos.z + Offset);
 
-                var rigidBody = bubble.GetComponent<Rigidbody>();
-                if (rigidBody == null) {
-                    rigidBody = bubble.AddComponent<Rigidbody>();
-                }
+            var rigidBody = bubble.GetComponent<Rigidbody>();
+            if (rigidBody == null) {
+                rigidBody = bubble.AddComponent<Rigidbody>();
+            }
 
-                rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
-                Controller.Buzz();
+            rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
+            Controller.Buzz();
+        }
+
+        private void ToggleParticles(bool emit)
+        {
+            foreach (var particle in Particles) {
+                var emission = particle.emission;
+                emission.enabled = emit;
             }
         }
 
         private void OnTriggerUp(byte controllerId, float value)
         {
+            if (_particleMode) {
+                ToggleParticles(false);
+                return;
+            }
+
             _audio.Pause();
             _playingAudio = false;
         }
@@ -116,12 +131,20 @@ namespace MagicBubbles.Scripts
                 if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Right)) {
                     NextBubbleColor();
                 }
-                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Up)) {
-                    PreviousParticle();
-                }
-                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Down)) {
-                    NextParticle();
-                }
+//                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Up)) {
+//                    PreviousParticle();
+//                }
+//                if (gesture.Direction.Equals(MLInputControllerTouchpadGestureDirection.Down)) {
+//                    NextParticle();
+//                }
+            }
+        }
+
+        private void OnButtonDown(byte controllerId, MLInputControllerButton button)
+        {
+            if (button.Equals(MLInputControllerButton.Bumper)) {
+                _particleMode = !_particleMode;
+                FlameThrower.SetActive(_particleMode);
             }
         }
 
@@ -142,6 +165,7 @@ namespace MagicBubbles.Scripts
             if (_bubbleColorIndex < 0) _bubbleColorIndex = BubbleColors.Length - 1;
             _nozzleMaterial.color = BubbleColors[_bubbleColorIndex];
             Controller.Buzz();
+//            FlameThrower.SetActive(false);
         }
 
         private void NextParticle()
@@ -157,10 +181,11 @@ namespace MagicBubbles.Scripts
         private void ChangeParticle(int indexDelta)
         {
             _particleMode = true;
-            _particleColorIndex = (_particleColorIndex + indexDelta) % Particles.Length;
-            if (_particleColorIndex < 0) _particleColorIndex = Particles.Length - 1;
+//            _particleColorIndex = (_particleColorIndex + indexDelta) % Particles.Length;
+//            if (_particleColorIndex < 0) _particleColorIndex = Particles.Length - 1;
 //            _nozzleMaterial.color = Particles[_particleColorIndex];
             Controller.Buzz();
+//            FlameThrower.SetActive(true);
         }
 
         private void Awake()
@@ -168,11 +193,13 @@ namespace MagicBubbles.Scripts
             MLInput.OnTriggerDown += OnTriggerDown;
             MLInput.OnTriggerUp += OnTriggerUp;
             MLInput.OnControllerTouchpadGestureEnd += OnTouchpadGestureEnd;
+            MLInput.OnControllerButtonDown += OnButtonDown;
 
             _audio = Nozzle.GetComponent<AudioSource>();
             _nozzleMaterial = Nozzle.GetComponent<MeshRenderer>().material;
             NextBubbleColor();
             ToggleTrackerVisibility(DebugOn);
+            ToggleParticles(false);
         }
 
         private void ToggleTrackerVisibility(bool show)
@@ -186,6 +213,7 @@ namespace MagicBubbles.Scripts
             MLInput.OnTriggerDown -= OnTriggerDown;
             MLInput.OnTriggerUp -= OnTriggerUp;
             MLInput.OnControllerTouchpadGestureEnd -= OnTouchpadGestureEnd;
+            MLInput.OnControllerButtonDown -= OnButtonDown;
         }
 
         public float triggerValue = 1.0f;
