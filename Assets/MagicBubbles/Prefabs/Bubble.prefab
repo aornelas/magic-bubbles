@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PopDelay: 3
+  MinTTL: 5
 --- !u!135 &135572543136182688
 SphereCollider:
   m_ObjectHideFlags: 1
