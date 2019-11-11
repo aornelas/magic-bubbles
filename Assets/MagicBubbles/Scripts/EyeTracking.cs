@@ -40,7 +40,7 @@ namespace MagicBubbles.Scripts
                 Debug.LogWarning("Ignoring null _gazeBall");
                 return;
             }
-            _gazeBall.enabled = show;
+            _gazeBall.GetComponent<MeshRenderer>().enabled = show;
         }
 
         private void Update()

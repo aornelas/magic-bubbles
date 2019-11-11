@@ -659,8 +659,8 @@ PlayerSettings:
   cloudServicesEnabled: {}
   luminIcon:
     m_Name: 
-    m_ModelFolderPath: 
-    m_PortalFolderPath: 
+    m_ModelFolderPath: Assets/Icon/Model
+    m_PortalFolderPath: Assets/Icon/Portal
   luminCert:
     m_CertPath: /Users/andres/AcrossRealities/Spatiate Magic Leap/cert/axrdev.cert
     m_PrivateKeyPath: 

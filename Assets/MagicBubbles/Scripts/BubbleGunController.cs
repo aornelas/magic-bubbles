@@ -20,6 +20,7 @@ namespace MagicBubbles.Scripts
         public ParticleSystem[] Particles;
         public GameObject FlameThrower;
         public ControllerFeedbackExample Controller;
+        public TelekinesisController Telekinesis;
 
         public float MinBallSize = 0.1f;
         public float MaxBallSize = 0.25f;
@@ -75,6 +76,7 @@ namespace MagicBubbles.Scripts
         {
             // TODO: Use pool object instead of instantiating new object on each trigger down.
             var bubble = Instantiate(ShootingPrefab);
+            bubble.GetComponent<BubbleController>().Telekinesis = Telekinesis;
 
             // Update bubble color to match nozzle
             var color = Nozzle.GetComponent<MeshRenderer>().material.color;
@@ -93,7 +95,7 @@ namespace MagicBubbles.Scripts
                 rigidBody = bubble.AddComponent<Rigidbody>();
             }
 
-            rigidBody.AddForce(Nozzle.transform.forward * ShootingForce * forceModifier);
+            rigidBody.AddForce(forceModifier * ShootingForce * Nozzle.transform.forward);
             Controller.Buzz();
         }
 

@@ -119,7 +119,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 38
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PopDelay: 3
   MinTTL: 5
+  Telekinesis: {fileID: 0}
 --- !u!135 &135572543136182688
 SphereCollider:
   m_ObjectHideFlags: 1

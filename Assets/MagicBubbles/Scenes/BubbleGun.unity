@@ -1455,7 +1455,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ac977507a3cd0417292a1cb8c639f993, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.65
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1848,9 +1848,10 @@ GameObject:
   - component: {fileID: 1088449287}
   - component: {fileID: 1088449290}
   - component: {fileID: 1088449289}
+  - component: {fileID: 1088449288}
   m_Layer: 0
   m_Name: GazeBall
-  m_TagString: Untagged
+  m_TagString: Gaze
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1868,6 +1869,18 @@ Transform:
   m_Father: {fileID: 1714028298}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!135 &1088449288
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1088449286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1088449289
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2264,7 +2277,7 @@ MonoBehaviour:
   TriggerDownThreshold: 0.1
   TriggerUpThreshold: 1
   MinFireRate: 0.6
-  MaxFireRate: 0.3
+  MaxFireRate: 0.4
   BubbleColors:
   - {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
   - {r: 0.4, g: 0.8, b: 1, a: 1}
@@ -2284,8 +2297,9 @@ MonoBehaviour:
   - {fileID: 1217984183}
   FlameThrower: {fileID: 1984634645}
   Controller: {fileID: 1558168496}
-  MinBallSize: 0.1
-  MaxBallSize: 0.25
+  Telekinesis: {fileID: 1714028297}
+  MinBallSize: 0.05
+  MaxBallSize: 0.2
   DebugOn: 0
   triggerValue: 1
 --- !u!4 &1317252551

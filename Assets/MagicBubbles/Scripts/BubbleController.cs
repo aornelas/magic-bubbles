@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Networking.Match;
-using Random = System.Random;
+﻿using UnityEngine;
 
 namespace MagicBubbles.Scripts
 {
@@ -9,6 +6,7 @@ namespace MagicBubbles.Scripts
     {
         public float PopDelay = 3.0f;
         public float MinTTL = 5.0f;
+        public TelekinesisController Telekinesis;
 
         private Vector3 _originalScale;
         private AudioSource _audio;
@@ -21,10 +19,15 @@ namespace MagicBubbles.Scripts
             ResetTTL();
         }
 
-        private void ResetTTL()
+        public void ResetTTL()
         {
             CancelInvoke();
-            Invoke("Pop", MinTTL + (new Random()).Next(1,5));
+            Invoke("Pop", MinTTL + Random.Range(1, 5));
+        }
+
+        public void CancelDeath()
+        {
+            CancelInvoke();
         }
 
         private void OnCollisionEnter(Collision other)
@@ -40,6 +43,8 @@ namespace MagicBubbles.Scripts
         {
             if (other.gameObject.CompareTag("Finger")) {
                 Pop();
+            } else if (other.gameObject.CompareTag("Gaze")) {
+                Telekinesis.GazedAtBubble(gameObject);
             }
         }
 

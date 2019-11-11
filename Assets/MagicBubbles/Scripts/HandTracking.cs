@@ -31,6 +31,8 @@ namespace MagicBubbles.Scripts
         private const float CenterOffset = -0.05f;
         private const float ConfidenceThreshold = 0.9f;
 
+        private bool _poppingBubbles;
+
         public static float GetThumbIndexDistance(MLHand hand)
         {
             if (hand == null) return NullHand;
@@ -141,17 +143,21 @@ namespace MagicBubbles.Scripts
             _renderes[5].material.color = rightPointing ? Color.red : Color.green;
             _renderes[8].material.color = rightOpen ? Color.gray : rightPinch ? Color.blue : Color.black;
 
-            TelekinesisController.Holding = leftOpen || rightOpen || leftPinch || rightPinch;
-            if (leftFist || rightFist)
+            TelekinesisController.Holding = leftOpen || rightOpen || leftPinch || rightPinch || leftFist || rightFist;
+            if (!_poppingBubbles && (leftFist || rightFist)) {
                 TelekinesisController.PopAllHeldBubbles();
-            if (!TelekinesisController.Inflating && leftPinch)
+                _poppingBubbles = true;
+            } else if (!TelekinesisController.Inflating && leftPinch)
                 TelekinesisController.StartInflatingBubble(MLHands.Left);
-            if (!TelekinesisController.Inflating && rightPinch)
+            else if (!TelekinesisController.Inflating && rightPinch)
                 TelekinesisController.StartInflatingBubble(MLHands.Right);
-            if (TelekinesisController.Inflating && leftOpen)
+            else if (TelekinesisController.Inflating && leftOpen)
                 TelekinesisController.PopInflatingBubble(MLHands.Left);
-            if (TelekinesisController.Inflating && rightOpen)
+            else if (TelekinesisController.Inflating && rightOpen)
                 TelekinesisController.PopInflatingBubble(MLHands.Right);
+
+            if (!leftFist && !rightFist)
+                _poppingBubbles = false;
         }
 
     }

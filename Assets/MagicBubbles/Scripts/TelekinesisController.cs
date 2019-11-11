@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
@@ -15,6 +16,8 @@ namespace MagicBubbles.Scripts
         private List<BubbleController> _bubbleControllers;
         private MLHand _inflatingHand;
         private BubbleController _inflatingBubble;
+        private bool _alreadyInvoked;
+        private bool _poppingBubbles;
 
         private const float ActionThreshold = 1.0f;
 
@@ -22,9 +25,8 @@ namespace MagicBubbles.Scripts
         {
             if (_bubbleControllers.Count > 0) {
                 Debug.Log("Popping held bubbles");
-                foreach (var bubble in _bubbleControllers)
-                    if (bubble != null)
-                        bubble.Pop();
+                foreach (var bubble in _bubbleControllers.Where(bubble => bubble != null))
+                    bubble.Invoke("Pop", Random.Range(0.0f, 0.2f));
             }
         }
 
@@ -49,8 +51,10 @@ namespace MagicBubbles.Scripts
 
         private void ClearBubbleControllers()
         {
-            if (!Holding && !Inflating)
+            if (!Holding && !Inflating) {
                 _bubbleControllers.Clear();
+                _alreadyInvoked = false;
+            }
         }
 
         private void ReleaseBubbles()
@@ -58,8 +62,10 @@ namespace MagicBubbles.Scripts
             if (!Holding && !Inflating) {
                 Debug.Log("Stopped holding");
                 foreach (var bubble in _frozenBubbles) {
-                    if (bubble != null)
+                    if (bubble != null) {
                         bubble.useGravity = true;
+                        bubble.GetComponent<BubbleController>().ResetTTL();
+                    }
                 }
                 _frozenBubbles.Clear();
             }
@@ -73,10 +79,19 @@ namespace MagicBubbles.Scripts
 
         private void Update()
         {
-            if (!Holding && !Inflating && _frozenBubbles.Count > 0) {
+            if (!_poppingBubbles && Input.GetKey(KeyCode.P)) {
+                PopAllHeldBubbles();
+                _poppingBubbles = true;
+            }
+
+            if (_poppingBubbles && !Input.GetKey(KeyCode.P))
+                _poppingBubbles = false;
+
+            if (!Holding && !Inflating && _frozenBubbles.Count > 0 && !_alreadyInvoked) {
                 // Give time to do other actions
                 Invoke("ReleaseBubbles", ActionThreshold);
                 Invoke("ClearBubbleControllers", ActionThreshold);
+                _alreadyInvoked = true;
             }
 
             if (Inflating) {
@@ -99,6 +114,7 @@ namespace MagicBubbles.Scripts
                 if (!_frozenBubbles.Contains(bubble)) {
                     Debug.Log("Holding another bubble");
                     bubble.useGravity = false;
+                    bubble.GetComponent<BubbleController>().CancelDeath();
                     _frozenBubbles.Add(bubble);
                     _bubbleControllers.Add(bubbleGO.GetComponent<BubbleController>());
                 }
