@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c35482e790646d782dc5d7a4886673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopDelay: 1.5
+  PopDelay: 3
 --- !u!135 &135572543136182688
 SphereCollider:
   m_ObjectHideFlags: 1
