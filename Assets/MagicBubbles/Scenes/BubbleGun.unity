@@ -1251,7 +1251,7 @@ GameObject:
   - component: {fileID: 604375898}
   m_Layer: 0
   m_Name: RightCenter
-  m_TagString: Untagged
+  m_TagString: Palm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2689,7 +2689,7 @@ GameObject:
   - component: {fileID: 1584499764}
   m_Layer: 0
   m_Name: LeftCenter
-  m_TagString: Untagged
+  m_TagString: Palm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

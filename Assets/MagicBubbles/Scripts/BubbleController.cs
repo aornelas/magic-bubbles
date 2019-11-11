@@ -18,7 +18,7 @@ namespace MagicBubbles.Scripts
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!other.gameObject.CompareTag("Bubble")) {
+            if (!other.gameObject.CompareTag("Bubble") && !other.gameObject.CompareTag("Palm")) {
                 Invoke("Pop", PopDelay);
             }
         }

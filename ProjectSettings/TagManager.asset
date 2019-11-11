@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bubble
   - Finger
+  - Palm
   layers:
   - Default
   - TransparentFX
